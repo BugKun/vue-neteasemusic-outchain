@@ -1,0 +1,47 @@
+﻿<div class="player-container" :style="openArea" ref="playerContainer"  @mouseup="pointerUp" @mousemove="pointerMove" @touchend="pointerTouchUp" @touchmove="pointerTouchMove">
+    <div class="f-cb">
+        <div class="cover">
+            <img :src="cover" onerror="this.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC'">
+        </div>
+        <div class="ctrlBox">
+            <h2 class="f-pr">
+                <a class="bg logo" :style="(paused)? '' : 'animation: rotateAround 6s infinite linear;' " :href="`//music.163.com/playlist?id=` + playlist" target="_blank" title="查看歌单详细信息"></a>
+                <div class="title">{{ musicInfo.name }}</div>
+                <div class="title f-thide">正在播放：{{ (Number.isInteger(playingIndex))? musicInfo.tracks[playingIndex].name : '无' }}</div>
+            </h2>
+            <div class="bar" @mousedown="pointerDown" @touchstart="pointerTouchDown" ref="pointerBar">
+                <div class="played j-flag" :style="process.barPlayed"></div>
+            </div>
+            <div class="oprBox">
+                <div class="time">{{ process.time }}</div>
+                <div class="btnGroup">
+                    <div class="bg prev" @click="prev"></div>
+                    <div class="bg mid pause f-hide" v-if="!paused" @click="audio.pause();isPaused()"></div>
+                    <div class="bg mid play" v-if="paused" @click="play();isPaused()"></div>
+                    <div class="bg next" @click="next"></div>
+                </div>
+                <div class="btnGroupRight">
+                    <div class="showLyrics" @click="showLyrics = (showLyrics) ? false :true" :style="(showLyrics)? 'color: #fff;background: #999;' : ''">词</div>
+                    <div class="bg open" @click="isListClosed = (isListClosed)? false : true"></div>
+                </div>
+            </div>
+            <span class="quality" v-if="Number.isInteger(playingIndex)" title="当前音质">{{ musicInfo.tracks[playingIndex].quality / 1000 }}K</span>
+        </div>
+    </div>
+    <div class="lyricsContainer" :style="(showLyrics)? 'flex: 0 0 3em;border-top: 1px solid #e6e6e6;' : ''">
+        <div v-if="lyrics.lrcText && lyrics.lrcText !== ''">{{lyrics.lrcText}}</div>
+        <div v-if="lyrics.tlyricText && lyrics.tlyricText !== ''">{{lyrics.tlyricText}}</div>
+    </div>
+    <div class="list" :style="(isListClosed)? 'opacity: 0;' : ''">
+        <div class="box">
+            <ul>
+                <li v-for="(li,i) in musicInfo.tracks" @click="playMusic(i);" :style="(i === playingIndex)? 'background: #e9e9e9;' : ''">
+                    <div class="cur" :style="(i === playingIndex)? 'display: block;' : ''"></div>
+                    <div class="index">{{ i + 1 }}</div>
+                    <div class="name f-thide" :title="li.name">{{ li.name }}</div>
+                    <div class="by f-thide" :title="li.artists">{{ li.artists }}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
