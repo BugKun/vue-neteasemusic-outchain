@@ -1,8 +1,8 @@
 ﻿<div class="player-container" :style="openArea" ref="playerContainer"  @mouseup="pointerUp" @mousemove="pointerMove" @touchend="pointerTouchUp" @touchmove="pointerTouchMove">
     <div class="f-cb">
-        <div class="cover">
-            <img :src="cover" onerror="this.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC'">
-        </div>
+        <a class="cover" :href="(musicLink) ? musicLink : 'javascript:;'" :target="(musicLink) ? '_blank' : ''" title="查看歌曲详细信息">
+            <img :src="cover" v-if="cover">
+        </a>
         <div class="ctrlBox">
             <h2 class="f-pr">
                 <a class="bg logo" :style="(paused)? '' : 'animation: rotateAround 6s infinite linear;' " :href="`//music.163.com/playlist?id=` + playlist" target="_blank" title="查看歌单详细信息"></a>
@@ -32,16 +32,5 @@
         <div v-if="lyrics.lrcText && lyrics.lrcText !== ''">{{lyrics.lrcText}}</div>
         <div v-if="lyrics.tlyricText && lyrics.tlyricText !== ''">{{lyrics.tlyricText}}</div>
     </div>
-    <div class="list" :style="(isListClosed)? 'opacity: 0;' : ''">
-        <div class="box">
-            <ul>
-                <li v-for="(li,i) in musicInfo.tracks" @click="playMusic(i);" :style="(i === playingIndex)? 'background: #e9e9e9;' : ''">
-                    <div class="cur" :style="(i === playingIndex)? 'display: block;' : ''"></div>
-                    <div class="index">{{ i + 1 }}</div>
-                    <div class="name f-thide" :title="li.name">{{ li.name }}</div>
-                    <div class="by f-thide" :title="li.artists">{{ li.artists }}</div>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <nc-list :musicInfoTracks = "(musicInfo.tracks)? musicInfo.tracks : []" :playingIndex="playingIndex" @playMusic="playMusic" @getListBox="getListBox" :style="(isListClosed)? 'opacity: 0;' : ''"></nc-list>
 </div>

@@ -2,8 +2,12 @@
 
 <script>
     import lyrics from './lyrics.js'
+    import ncList from './components/nc-list.vue'
     export default {
         name: 'neteasemusic-outchain',
+        components:{
+            ncList
+        },
         props: {
             playlist: {
                 type: Number,
@@ -33,16 +37,18 @@
                     musicUrl: "/api/musicUrl",
                     musicLyricUrl: "/api/musicLyric"
                 },
+                isIE: /(MSIE)|(rv:11.0)/.test(navigator.userAgent),
                 audio: null,
                 musicInfo: {},
                 musicUrl: {},
+                copyright: "由于版权保护，您所在的地区暂时无法使用。",
                 process:{
                     barPlayed: "",
                     time: "- 00:00"
                 },
                 paused: true,
                 isListClosed: true,
-                cover: "",
+                cover: null,
                 playingIndex: null,
                 isDrag: false,
                 showLyrics: false,
@@ -51,6 +57,7 @@
                     lrcText: "",
                     tlyricText:""
                 },
+                listbox: null,
                 windowHeight: window.innerHeight
             }
         },
@@ -89,23 +96,37 @@
         },
         computed:{
             openArea(){
-                let height = "";
+                if(!this.listbox) return;
+                let adapt = "";
                 if(this.isListClosed){
-                    height = "height: 92px; min-height: 92px;";
                     if(this.showLyrics){
-                        height = "height: calc(92px + 3em);min-height: calc(92px + 3em);";
+                        adapt = "height: calc(92px + 3em);min-height: calc(92px + 3em);";
+                    }else{
+                        adapt = "height: 92px; min-height: 92px;";
                     }
                 }else{
                     if(this.musicInfo.tracks){
-                        height = "min-height: calc(122px + 3em);";
-                        if((this.musicInfo.tracks.length * 30) > window.innerHeight){
-                            height += `height: ${ this.windowHeight / 2 }px`;
+                        let listHeight = 94 + this.listbox.offsetHeight;
+                        if(listHeight > (this.windowHeight / 2)){
+                            listHeight = this.windowHeight / 2;
+                        }
+                        if(this.showLyrics){
+                            adapt = `min-height: calc(122px + 3em);height: calc(${ listHeight }px + 3em);`;
                         }else{
-                            height += `height: ${ this.musicInfo.tracks.length * 30 }px`;
+                            adapt = `min-height: calc(122px + 3em);height: ${ listHeight }px;`;
                         }
                     }
                 }
-                return height;
+                adapt += `max-height: ${ this.windowHeight / 2 }px;`;
+                if(this.isIE || this.isDrag) adapt += "user-select: none;-ms-user-select: none;";
+                return adapt;
+            },
+            musicLink(){
+                let link = null;
+                if(Number.isInteger(this.playingIndex) && this.musicInfo && this.musicInfo.tracks && this.musicInfo.tracks[this.playingIndex]){
+                    link = "//music.163.com/song?id=" + this.musicInfo.tracks[this.playingIndex].id;
+                }
+                return link;
             }
         },
         methods: {
@@ -117,29 +138,56 @@
                     }
                 });
             },
+            getListBox(dom){
+                this.listbox = dom;
+            },
+            ajax(type, url, data = null) {
+                return new Promise(function(resolve, reject){
+                    const xhr = new XMLHttpRequest();
+                    xhr.open(type, url, true);
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState !== 4) return;
+                        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                            let res = {};
+                            try {
+                                res = JSON.parse(xhr.responseText);
+                            } catch (e) {
+                                reject(e);
+                            }
+                            resolve(res);
+                        }
+                    };
+                    xhr.onerror = reject;
+                    xhr.send((typeof(data) === "object") ? JSON.stringify(data) : data);
+                })
+            },
             getPlayList(cb){
-                this.$http.post(this.redirect.playListUrl, {id: this.playlist}).then(res => {
-                    if(res.body.code !== 200){
-                        console.log(res.body);
-                        return;
-                    }
-                    this.musicInfo = res.body;
-                    this.changeCover();
-                    if(cb) cb();
-                }).catch(error => {
-                    console.log("Oops, error", error);
-                });
+                this.ajax("POST", this.redirect.playListUrl, {id: this.playlist})
+                    .then(res => {
+                        if(res.code !== 200){
+                            console.log(res);
+                            return;
+                        }
+                        this.musicInfo = res;
+                        this.changeCover();
+                        if(cb) cb();
+                    })
+                    .catch(error =>{
+                        console.log("Oops, error", error);
+                    })
             },
             getMusic(id,cb){
-                this.$http.post(this.redirect.musicUrl, {id}).then(res => {
-                    if(res.body.code !== 200){
-                        console.log(res.body);
-                        return;
-                    }
-                    cb(res.body);
-                }).catch(error => {
-                    console.log("Oops, error", error);
-                });
+                this.ajax("POST", this.redirect.musicUrl, {id})
+                    .then(res => {
+                        if(res.code !== 200){
+                            console.log(res);
+                            return;
+                        }
+                        cb(res);
+                    })
+                    .catch(error =>{
+                        console.log("Oops, error", error);
+                    })
             },
             playMusic(i){
                 if(!this.musicInfo.tracks) return this.init();
@@ -155,6 +203,7 @@
                     };
                 }
                 const $continue = () => {
+                    if(this.musicInfo.tracks[i].disabled) return this.next(i);
                     this.audio.src = this.musicInfo.tracks[i].playUrl;
                     this.audio.load();
                     this.audio.play();
@@ -167,8 +216,13 @@
                 }else{
                     this.getMusic(this.musicInfo.tracks[i].id, (data) => {
                         this.musicUrl = data;
-                        this.musicInfo.tracks[i].playUrl = this.musicUrl.url;
-                        this.musicInfo.tracks[i].quality = this.musicUrl.br;
+                        if(this.musicUrl.url) {
+                            this.musicInfo.tracks[i].playUrl = this.musicUrl.url;
+                        }else{
+                            this.musicInfo.tracks[i].playUrl = "";
+                            this.musicInfo.tracks[i].disabled = true;
+                        }
+                        if(this.musicUrl.br) this.musicInfo.tracks[i].quality = this.musicUrl.br;
                         $continue();
                     });
                 }
@@ -187,6 +241,11 @@
                 }
                 this.paused = status;
             },
+            playingStatus(i){
+                let style = (i === this.playingIndex)? 'background: #e9e9e9;' : '';
+                if(this.musicInfo.tracks && this.musicInfo.tracks[i].disabled) style += "color: #bbb !important;";
+                return style;
+            },
             play(){
                 if(!this.audio) {
                     this.playMusic(0);
@@ -194,7 +253,8 @@
                     this.audio.play();
                 }
             },
-            next(){
+            next(i){
+                if(Number.isInteger(i)) this.playingIndex = i;
                 if(this.playingIndex === null) return;
                 let next = this.playingIndex + 1;
                 if((next + 1) > this.musicInfo.tracks.length) next = 0;
@@ -223,7 +283,8 @@
                 this.process.time = `- ${ fixLength(minute, 2) }:${ fixLength(Math.floor(second), 2) }`;
             },
             changeCover(i){
-                this.cover = (Number.isInteger(i))? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
+                let url = (Number.isInteger(i))? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
+                this.cover = (url) ? url.replace(/(http:\/\/)|(https:\/\/)/,"//") : url;
             },
             pointerDown(e){
                 if(!this.audio) return;
@@ -281,8 +342,8 @@
                 if(!Number.isInteger(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
                 if(this.musicInfo.tracks[index].lyricData){
                     let data = this.musicInfo.tracks[index].lyricData;
-                    if(data.lrc.lyric) this.lyrics.lrc = new lyrics(data.lrc.lyric);
-                    if(data.tlyric.lyric) this.lyrics.tlyric = new lyrics(data.tlyric.lyric);
+                    if(data.lrc && data.lrc.lyric) this.lyrics.lrc = new lyrics(data.lrc.lyric);
+                    if(data.tlyric && data.tlyric.lyric) this.lyrics.tlyric = new lyrics(data.tlyric.lyric);
                     this.lyrics.hasTranslate = false;
                     this.lyrics.type = 0;
                     this.lyrics.isLoad = true;
@@ -301,15 +362,17 @@
                 }
             },
             getLyric(id,cb){
-                this.$http.post(this.redirect.musicLyricUrl, {id}).then(res => {
-                    if(res.body.code !== 200){
-                        console.log(res.body);
-                        return;
-                    }
-                    cb(res.body);
-                }).catch(error => {
-                    console.log("Oops, error", error);
-                });
+                this.ajax("POST", this.redirect.musicLyricUrl, {id})
+                    .then(res => {
+                        if(res.code !== 200){
+                            console.log(res);
+                            return;
+                        }
+                        cb(res);
+                    })
+                    .catch(error =>{
+                        console.log("Oops, error", error);
+                    })
             },
             loadLyric(time){
                 if(!this.lyrics.isLoad) return;
@@ -336,27 +399,5 @@
         to{
             transform:rotate(1turn);
         }
-    }
-</style>
-<style scoped>
-    .listShow-enter-active, .listShow-leave-active{
-        transition: all .6s ease;
-    }
-    .listShow-enter, .listShow-leave-active{
-        opacity: 0;
-    }
-    *::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-        border-radius: 8px;
-    }
-
-    *::-webkit-scrollbar-thumb {
-        border-radius: 8px;
-        background: #757575;
-    }
-
-    *::-webkit-scrollbar-button {
-        display: none
     }
 </style>

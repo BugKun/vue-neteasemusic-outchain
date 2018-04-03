@@ -10,14 +10,17 @@
     flex: 0 0 92px;
     display: flex;
     .cover {
+      display: block;
       border-bottom-left-radius: 1px;
       border-top-left-radius: 1px;
       flex: 0 0 92px;
+      background: #c3c3c3;
       img {
         border-bottom-left-radius: 1px;
         width: 100%;
         height: 100%;
         border-top-left-radius: 2px;
+        border: none;
       }
     }
     .ctrlBox {
@@ -83,7 +86,7 @@
           top: -3px;
           width: 8px;
           height: 8px;
-          background: url(https://music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
+          background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
           background-position: -92px -14px;
           cursor: pointer;
         }
@@ -138,6 +141,8 @@
             padding: 2px;
             cursor: pointer;
             line-height: 11px;
+            user-select: none;
+            -ms-user-select: none;
           }
         }
         .open {
@@ -170,71 +175,13 @@
     justify-content: center;
     align-items: center;
     flex: 0;
+    overflow: hidden;
     transition: all .6s ease;
-  }
-  .list {
-    border-top: 1px solid #e6e6e6;
-    transition: all .6s ease;
-    flex: 1;
-    overflow: auto;
-    .box {
-      ul {
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        overflow: hidden;
-        li {
-          display: flex;
-          padding: 0;
-          margin: 0;
-          height: 30px;
-          position: relative;
-          line-height: 30px;
-          float: left;
-          list-style: none;
-          cursor: default;
-          .cur {
-            width: 3px;
-            height: 22px;
-            position: absolute;
-            left: 0;
-            top: 4px;
-            display: none;
-            background: #df2d2d;
-          }
-          .index {
-            width: 40px;
-            text-align: center;
-            color: #999;
-          }
-          .name {
-            margin-right: 1em;
-          }
-          .by {
-            flex: 1;
-            color: #666;
-            text-align: right;
-          }
-        }
-        li:nth-child(odd) {
-          background: #f7f7f7;
-        }
-      }
-      ul:after {
-        clear: both;
-        content: '.';
-        display: block;
-        height: 0;
-        visibility: hidden;
-      }
-    }
   }
 }
 
 .bg {
-  background: url(https://music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
+  background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
 }
 
 .f-thide {
