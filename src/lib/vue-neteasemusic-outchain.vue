@@ -3,6 +3,7 @@
 <script>
     import lyrics from './lyrics.js'
     import ncList from './components/nc-list.vue'
+
     export default {
         name: 'neteasemusic-outchain',
         components:{
@@ -138,6 +139,9 @@
                     }
                 });
             },
+            fixLength(num, length) {
+                return ('' + num).length < length ? ((new Array(length + 1)).join('0') + num).slice(-length) : '' + num;
+            },
             getListBox(dom){
                 this.listbox = dom;
             },
@@ -204,7 +208,8 @@
                 }
                 const $continue = () => {
                     if(this.musicInfo.tracks[i].disabled) return this.next(i);
-                    this.audio.src = this.musicInfo.tracks[i].playUrl;
+                    let $musicUrl = this.musicInfo.tracks[i].playUrl;
+                    this.audio.src = ($musicUrl) ? $musicUrl.replace(/(http:\/\/)|(https:\/\/)/,"//") : $musicUrl;
                     this.audio.load();
                     this.audio.play();
                     this.isPaused();
@@ -280,7 +285,7 @@
                 let range = duration - this.audio.currentTime;
                 if(!this.isDrag) this.process.barPlayed = `width:${this.audio.currentTime / duration * 100}%`;
                 let minute = Math.floor(range / 60), second = range - minute * 60;
-                this.process.time = `- ${ fixLength(minute, 2) }:${ fixLength(Math.floor(second), 2) }`;
+                this.process.time = `- ${ this.fixLength(minute, 2) }:${ this.fixLength(Math.floor(second), 2) }`;
             },
             changeCover(i){
                 let url = (Number.isInteger(i))? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
