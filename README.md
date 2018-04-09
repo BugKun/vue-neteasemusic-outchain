@@ -5,7 +5,8 @@ A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 * 由于使用了弹性盒子布局，兼容性为IE10+。
 * 此外链播放器需要服务器配合解析网易云音乐API才能正常使用。推荐使用：<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a><br>
 * 此外你可能还需要简化获取到的接口信息，以减少不必要的流量和带宽消耗，并将接口设置为POST请求。
-*默认请求地址为：
+
+默认请求地址为：
 ```JavaScript
 {
       playListUrl: "/api/musicPlayList",
