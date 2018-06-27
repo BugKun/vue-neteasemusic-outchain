@@ -5,7 +5,7 @@
         </a>
         <div class="ctrlBox">
             <h2 class="f-pr">
-                <a class="bg logo" :style="(paused)? '' : 'animation: rotateAround 6s infinite linear;' " :href="`//music.163.com/playlist?id=` + playlist" target="_blank" title="查看歌单详细信息"></a>
+                <a class="bg logo" :style="(paused)? '' : 'animation: NeteaseMusicOutchain-rotateAround 6s infinite linear;' " :href="`//music.163.com/playlist?id=` + playlist" target="_blank" title="查看歌单详细信息"></a>
                 <div class="title">{{ musicInfo.name }}</div>
                 <div class="title f-thide">正在播放：{{ (Number.isInteger(playingIndex))? musicInfo.tracks[playingIndex].name : '无' }}</div>
             </h2>

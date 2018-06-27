@@ -394,7 +394,7 @@
 
 <style lang="scss" scoped src="./style.scss"></style>
 <style>
-    @keyframes rotateAround
+    @keyframes NeteaseMusicOutchain-rotateAround
     {
         0%{
             transform:rotate(0deg);
