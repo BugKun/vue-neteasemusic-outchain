@@ -1,6 +1,6 @@
 {
     "name": "vue-neteasemusic-outchain",
-    "version": "0.8.9",
+    "version": "0.9.0",
     "description": "A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).",
     "repository": {
         "type": "git",
@@ -12,7 +12,7 @@
         "url": "https://github.com/BugKun/vue-neteasemusic-outchain/issues"
     },
     "homepage": "https://github.com/BugKun/vue-neteasemusic-outchain",
-    "main": "./dist/vue-neteasemusic-outchain.js",
+    "main": "./dist/VueNeteaseMusicOutchain.js",
     "scripts": {
         "start": "cross-env NODE_ENV=production port=80 node ./server/app",
         "dev": "cross-env NODE_ENV=development port=8080 node ./server/app",
