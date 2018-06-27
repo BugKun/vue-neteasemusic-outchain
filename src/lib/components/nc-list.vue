@@ -52,6 +52,7 @@
         transition: all .6s ease;
         flex: 1;
         overflow: auto;
+        -webkit-overflow-scrolling: touch;
         ul.box {
             display: flex;
             flex-direction: column;

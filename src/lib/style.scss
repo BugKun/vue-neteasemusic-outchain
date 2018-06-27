@@ -144,14 +144,19 @@
             user-select: none;
             -ms-user-select: none;
           }
-        }
-        .open {
-          width: 13px;
-          height: 10px;
-          background-position: -58px -14px;
-          cursor: pointer;
-          opacity: 0.8;
-          filter: alpha(opacity=80);
+          .open {
+            width: 13px;
+            height: 10px;
+            background-position: -58px -14px;
+            cursor: pointer;
+            opacity: 0.8;
+            filter: alpha(opacity=80);
+          }
+          .git{
+            width: 16px;
+            height: 16px;
+            margin-right: 1em;
+          }
         }
       }
       .quality{

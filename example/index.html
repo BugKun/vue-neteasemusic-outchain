@@ -1,0 +1,49 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-NeteaseMusic-Outchain Demo</title>
+    <script src="./js/vue.js"></script>
+    <script src="./dist/VueNeteaseMusicOutchain.js"></script>
+    <style>
+        html,body,#app{
+            height: 100%;
+            margin: 0;
+        }
+        #app{
+            margin: 0 auto;
+            max-width: 1000px;
+        }
+        @media screen and (max-width: 1000px) {
+            #app{
+                max-width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>{{message}}</h1>
+    <neteasemusic-outchain :playlist="playlist" :options="options"></neteasemusic-outchain>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        components:{
+            neteasemusicOutchain: VueNeteaseMusicOutchain
+        },
+        data: {
+            message: '在启动此实例前请先启动NeteaseCloudMusicApi ！',
+            options: {
+                lazyLoad: false,
+                autoplay: false,
+            },
+            lazyLoad: true,
+            playlist: 614245400
+        }
+    })
+</script>
+</body>
+</html>

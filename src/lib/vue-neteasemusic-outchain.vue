@@ -16,9 +16,7 @@
             },
             options: {
                 type: Object,
-                default: () => {
-                    return {}
-                }
+                default: () => []
             }
         },
         mounted() {
