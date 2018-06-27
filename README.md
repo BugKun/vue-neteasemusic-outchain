@@ -1,10 +1,10 @@
-# Vue-Netease-outchain
+﻿# Vue-Netease-outchain
 A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 
 ## 注意
 * 由于使用了弹性盒子布局，兼容性为IE10+。
 * 此外链播放器需要服务器配合解析网易云音乐API才能正常使用。推荐使用：<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a><br>
-* 此外你可能还需要简化获取到的接口信息，以减少不必要的流量和带宽消耗，并将接口设置为POST请求。
+* 此外你还需要简化获取到的接口信息，以减少不必要的流量和带宽消耗和官方的API变动导致，并将接口设置为POST请求。
 
 默认请求地址为：
 ```JavaScript
@@ -16,52 +16,48 @@ A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 ```
 你需要修改获取到的官方返回的数据：
 ```JavaScript
-request.get('http://localhost:3000/playlist/detail')
-            .query({id: postData.id})
-            .on('error', function (err) {
-                if (err) {
-                    console.log("服务器异常！", err);
-                    return false;
+http.get(`http://localhost:3000/playlist/detail?id=${postData.id}`, function (_res) {
+            var _data = "";
+            _res.setEncoding('utf8');
+            _res.on('data', function (chunk) {
+                _data += chunk;
+            });
+            _res.on("end", function(){
+                if (!_data) {
+                    console.log("服务器异常！");
                 }
-            })
-            .then(function (_res) {
-                let data = JSON.parse(_res.text);
-                if(data.code != 200){
-                    res.json(data);
-                    return;
-                }
+                let data = JSON.parse(_data);
                 let cbData = {};
                 cbData.code = data.code;
-                cbData.coverImgUrl = data.result.coverImgUrl;
-                cbData.name = data.result.name;
+                cbData.coverImgUrl = data.playlist.coverImgUrl;
+                cbData.name = data.playlist.name;
                 cbData.tracks = [];
-                for(let i in data.result.tracks){
-                    let track = data.result.tracks[i];
+                for(let i in data.playlist.tracks){
+                    let track = data.playlist.tracks[i];
                     let artistsName = "";
                     for(let j in track.artists){
                         artistsName += track.artists[j].name + " / ";
                     }
-                    cbData.tracks.push({name: track.name, id: track.id, duration: track.duration, artists: artistsName.substring(0,artistsName.length - 3), picUrl: track.album.picUrl});
+                    cbData.tracks.push({name: track.name, id: track.id, duration: track.dt, artists: artistsName.substring(0,artistsName.length - 3), picUrl: track.al.picUrl});
                 }
                 console.log(cbData);
                 res.json(cbData);
             });
+        }).on("error", function (err) {
+            console.log("服务器异常！", err.stack);
+        });
 ```
 ```JavaScript
-request.get('http://localhost:3000/music/url')
-            .query({id: postData.id})
-            .on('error', function (err) {
-                if (err) {
-                    console.log("服务器异常！", err);
-                    return false;
+http.get(`http://localhost:3000/music/url?id=${postData.id}`, function (_res) {
+            var _data = "";
+            _res.on('data', function (chunk) {
+                _data += chunk;
+            });
+            _res.on("end", function(){
+                if (!_data) {
+                    console.log("服务器异常！");
                 }
-            })
-            .then(function (_res) {
-                let data = JSON.parse(_res.text);
-                if(data.code != 200){
-                    res.json(data);
-                    return;
-                }
+                let data = JSON.parse(_data);
                 let cbData = {};
                 cbData.code = data.code;
                 cbData.id = data.data[0].id;
@@ -73,6 +69,9 @@ request.get('http://localhost:3000/music/url')
                 console.log(cbData);
                 res.json(cbData);
             });
+        }).on("error", function (err) {
+            console.log("服务器异常！", err.stack);
+        });
 ```
 http://localhost:3000/lyric 保持数据与官方一致
 
@@ -91,6 +90,12 @@ http://localhost:3000/lyric 保持数据与官方一致
 
 
 ### 使用演示
+#### 全局使用
+```JavaScript
+import neteaseOutchain from 'vue-netease-outchain'
+Vue.use(neteaseOutchain);    
+```
+#### 组件使用方式
 ```JavaScript
 import neteaseOutchain from 'vue-netease-outchain'
  export default {
