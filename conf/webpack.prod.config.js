@@ -3,7 +3,7 @@
     FileManagerPlugin = require('filemanager-webpack-plugin');
 
 
-const webpackConfig = {
+module.exports = {
     mode: "production",
     entry: webpackBaseConfig.entry,
     output: webpackBaseConfig.output,
@@ -24,5 +24,3 @@ const webpackConfig = {
         })
     ]
 };
-
-module.exports = webpackConfig;

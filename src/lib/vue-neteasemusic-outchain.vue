@@ -32,6 +32,7 @@
         data() {
             return {
                 redirect:{
+                    method: "POST",
                     playListUrl: "/api/musicPlayList",
                     musicUrl: "/api/musicUrl",
                     musicLyricUrl: "/api/musicLyric"
@@ -72,7 +73,7 @@
             },
             options:{
                 handler(curVal){
-                    if(curVal.redirect) this.redirect = curVal.redirect;
+                    if(curVal.redirect) this.redirect = {...this.redirect, ...curVal.redirect};
                     if(!curVal.lazyLoad) this.init();
                 },
                 deep:true
@@ -130,7 +131,7 @@
         },
         methods: {
             init(){
-                if(this.options.redirect)  this.redirect = this.options.redirect;
+                if(this.options.redirect)  this.redirect = this.redirect = {...this.redirect, ...this.options.redirect};
                 this.getPlayList(()=>{
                     if(this.options.autoplay){
                         this.play();
@@ -164,7 +165,7 @@
                 })
             },
             getPlayList(cb){
-                this.ajax("POST", this.redirect.playListUrl, {id: this.playlist})
+                this.ajax(this.redirect.method, this.redirect.playListUrl, {id: this.playlist})
                     .then(res => {
                         if(res.code !== 200){
                             console.log(res);
@@ -179,7 +180,7 @@
                     })
             },
             getMusic(id,cb){
-                this.ajax("POST", this.redirect.musicUrl, {id})
+                this.ajax(this.redirect.method, this.redirect.musicUrl, {id})
                     .then(res => {
                         if(res.code !== 200){
                             console.log(res);
@@ -365,7 +366,7 @@
                 }
             },
             getLyric(id,cb){
-                this.ajax("POST", this.redirect.musicLyricUrl, {id})
+                this.ajax(this.redirect.method, this.redirect.musicLyricUrl, {id})
                     .then(res => {
                         if(res.code !== 200){
                             console.log(res);

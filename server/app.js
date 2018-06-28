@@ -33,12 +33,14 @@ if(isDev){
 app.post("/api/musicPlayList", (req, res) => {
     let setlog = `\r\n${new Date().toLocaleString()}\r\n[UserAgent]:${req.headers["user-agent"]}`;
     req.setEncoding('utf-8');
-    let postData;
+    let _postData = "";
     req.addListener("data", function (postDataChunk) {
-        postData = JSON.parse(postDataChunk);
-        console.log(postData);
+        _postData += postDataChunk;
     });
     req.addListener("end", function () {
+        console.log(_postData);
+        let postData = JSON.parse(_postData);
+        console.log(postData);
         console.log('数据接收完毕');
         http.get(`http://localhost:3000/playlist/detail?id=${postData.id}`, function (_res) {
             var _data = "";
@@ -76,12 +78,13 @@ app.post("/api/musicPlayList", (req, res) => {
 app.post("/api/musicUrl", (req, res) => {
     let setlog = `\r\n${new Date().toLocaleString()}\r\n[UserAgent]:${req.headers["user-agent"]}`;
     req.setEncoding('utf-8');
-    let postData;
+    let _postData = "";
     req.addListener("data", function (postDataChunk) {
-        postData = JSON.parse(postDataChunk);
-        console.log(postData);
+        _postData += postDataChunk;
     });
     req.addListener("end", function () {
+        let postData = JSON.parse(_postData);
+        console.log(postData);
         console.log('数据接收完毕');
         http.get(`http://localhost:3000/music/url?id=${postData.id}`, function (_res) {
             var _data = "";
@@ -113,12 +116,13 @@ app.post("/api/musicUrl", (req, res) => {
 app.post("/api/musicLyric", (req, res) => {
     let setlog = `\r\n${new Date().toLocaleString()}\r\n[UserAgent]:${req.headers["user-agent"]}`;
     req.setEncoding('utf-8');
-    let postData;
+    let _postData = "";
     req.addListener("data", function (postDataChunk) {
-        postData = JSON.parse(postDataChunk);
-        console.log(postData);
+        _postData += postDataChunk;
     });
     req.addListener("end", function () {
+        let postData = JSON.parse(_postData);
+        console.log(postData);
         console.log('数据接收完毕');
         http.get(`http://localhost:3000/lyric?id=${postData.id}`, function (_res) {
             var _data = "";

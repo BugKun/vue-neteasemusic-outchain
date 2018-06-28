@@ -1,3 +1,5 @@
+import "./lib/polyfill"
+
 import NeteaseMusicOutchain from "./lib/vue-neteasemusic-outchain.vue"
 
 NeteaseMusicOutchain.install = Vue => {

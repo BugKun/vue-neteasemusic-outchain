@@ -1,17 +1,18 @@
 {
-  "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": [
-              "last 2 versions"
-          ]
-        }
-      }
+    "presets": [
+        [
+            "env",
+            {
+                "targets": {
+                    "browsers": [
+                        "last 2 versions"
+                    ]
+                }
+            }
+        ]
+    ],
+    "plugins": [
+        "add-module-exports",
+        "transform-object-rest-spread"
     ]
-  ],
-  "plugins": [
-    "add-module-exports"
-  ]
 }
