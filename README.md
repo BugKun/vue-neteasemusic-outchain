@@ -9,7 +9,7 @@ A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 默认请求地址为：（默认POST请求，支持修改成GET请求）
 ```JavaScript
 {
-      method: "POST"，
+      method: "POST",
       playListUrl: "/api/musicPlayList",
       musicUrl: "/api/musicUrl",
       musicLyricUrl: "/api/musicLyric"
