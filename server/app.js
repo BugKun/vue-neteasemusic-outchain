@@ -2,7 +2,9 @@
     child_process = require('child_process'),
     express = require('express'),
     app = express(),
-    http = require("http"),
+    musicPlayList = require("./musicPlayList"),
+    musicUrl = require("./musicUrl"),
+    loadLyrics = require("./loadLyrics"),
     path = require("path"),
     isDev = process.env.NODE_ENV === "development";
 
@@ -30,6 +32,10 @@ if(isDev){
  * Vue Netease outchain
  */
 /* 播放器获取列表 */
+app.get('/api/musicPlayList', function(req, res) {
+    musicPlayList(req.query.id, data => res.json(data))
+});
+
 app.post("/api/musicPlayList", (req, res) => {
     let setlog = `\r\n${new Date().toLocaleString()}\r\n[UserAgent]:${req.headers["user-agent"]}`;
     req.setEncoding('utf-8');
@@ -42,39 +48,14 @@ app.post("/api/musicPlayList", (req, res) => {
         let postData = JSON.parse(_postData);
         console.log(postData);
         console.log('数据接收完毕');
-        http.get(`http://localhost:3000/playlist/detail?id=${postData.id}`, function (_res) {
-            var _data = "";
-            _res.setEncoding('utf8');
-            _res.on('data', function (chunk) {
-                _data += chunk;
-            });
-            _res.on("end", function(){
-                if (!_data) {
-                    console.log("服务器异常！");
-                }
-                let data = JSON.parse(_data);
-                let cbData = {};
-                cbData.code = data.code;
-                cbData.coverImgUrl = data.playlist.coverImgUrl;
-                cbData.name = data.playlist.name;
-                cbData.tracks = [];
-                for(let i in data.playlist.tracks){
-                    let track = data.playlist.tracks[i];
-                    let artistsName = "";
-                    for(let j in track.artists){
-                        artistsName += track.artists[j].name + " / ";
-                    }
-                    cbData.tracks.push({name: track.name, id: track.id, duration: track.dt, artists: artistsName.substring(0,artistsName.length - 3), picUrl: track.al.picUrl});
-                }
-                console.log(cbData);
-                res.json(cbData);
-            });
-        }).on("error", function (err) {
-            console.log("服务器异常！", err.stack);
-        });
+        musicPlayList(postData.id, data => res.json(data))
     });
 });
 /* 播放器获取播放链接 */
+app.get('/api/musicUrl', function(req, res) {
+    musicUrl(req.query.id, data => res.json(data))
+});
+
 app.post("/api/musicUrl", (req, res) => {
     let setlog = `\r\n${new Date().toLocaleString()}\r\n[UserAgent]:${req.headers["user-agent"]}`;
     req.setEncoding('utf-8');
@@ -86,33 +67,14 @@ app.post("/api/musicUrl", (req, res) => {
         let postData = JSON.parse(_postData);
         console.log(postData);
         console.log('数据接收完毕');
-        http.get(`http://localhost:3000/music/url?id=${postData.id}`, function (_res) {
-            var _data = "";
-            _res.on('data', function (chunk) {
-                _data += chunk;
-            });
-            _res.on("end", function(){
-                if (!_data) {
-                    console.log("服务器异常！");
-                }
-                let data = JSON.parse(_data);
-                let cbData = {};
-                cbData.code = data.code;
-                cbData.id = data.data[0].id;
-                cbData.url = data.data[0].url;
-                cbData.br = data.data[0].br;
-                cbData.size = data.data[0].size;
-                cbData.md5 = data.data[0].md5;
-                cbData.type = data.data[0].type;
-                console.log(cbData);
-                res.json(cbData);
-            });
-        }).on("error", function (err) {
-            console.log("服务器异常！", err.stack);
-        });
+        musicUrl(postData.id, data => res.json(data));
     });
 });
 /* 播放器获取歌词 */
+app.get('/api/musicLyric', function(req, res) {
+    loadLyrics(req.query.id, data => res.set('Content-Type', 'application/json').end(data));
+});
+
 app.post("/api/musicLyric", (req, res) => {
     let setlog = `\r\n${new Date().toLocaleString()}\r\n[UserAgent]:${req.headers["user-agent"]}`;
     req.setEncoding('utf-8');
@@ -124,22 +86,7 @@ app.post("/api/musicLyric", (req, res) => {
         let postData = JSON.parse(_postData);
         console.log(postData);
         console.log('数据接收完毕');
-        http.get(`http://localhost:3000/lyric?id=${postData.id}`, function (_res) {
-            var _data = "";
-            _res.on('data', function (chunk) {
-                _data += chunk;
-            });
-            _res.on('end', function () {
-                if (!_data) {
-                    console.log("服务器异常！");
-                }
-                let data = JSON.parse(_data);
-                console.log(data);
-                res.json(data);
-            });
-        }).on("error", function (err) {
-            console.log("服务器异常！", err.stack);
-        });
+        loadLyrics(postData.id, data => res.set('Content-Type', 'application/json').end(data));
     });
 });
 

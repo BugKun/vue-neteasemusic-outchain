@@ -37,6 +37,7 @@
                     musicUrl: "/api/musicUrl",
                     musicLyricUrl: "/api/musicLyric"
                 },
+                isLoaded: false,
                 isIE: /(MSIE)|(rv:11.0)/.test(navigator.userAgent),
                 audio: null,
                 musicInfo: {},
@@ -74,9 +75,12 @@
             options:{
                 handler(curVal){
                     if(curVal.redirect) this.redirect = {...this.redirect, ...curVal.redirect};
-                    if(!curVal.lazyLoad) this.init();
+                    if(!curVal.lazyLoad && !this.isLoaded) {
+                        this.isLoaded = true;
+                        this.init();
+                    }
                 },
-                deep:true
+                deep: true
             },
             playlist(){
                 if(this.audio){
@@ -165,7 +169,13 @@
                 })
             },
             getPlayList(cb){
-                this.ajax(this.redirect.method, this.redirect.playListUrl, {id: this.playlist})
+                let data = {id: this.playlist},
+                    url = this.redirect.playListUrl;
+                if(this.redirect.method.toUpperCase() === "GET"){
+                    data = null;
+                    url += `?id=${this.playlist}` 
+                }
+                this.ajax(this.redirect.method, url, data)
                     .then(res => {
                         if(res.code !== 200){
                             console.log(res);
@@ -179,8 +189,33 @@
                         console.log("Oops, error", error);
                     })
             },
-            getMusic(id,cb){
-                this.ajax(this.redirect.method, this.redirect.musicUrl, {id})
+            getMusic(id, cb){
+                let data = {id},
+                    url = this.redirect.musicUrl;
+                if(this.redirect.method.toUpperCase() === "GET"){
+                    data = null;
+                    url += `?id=${id}` 
+                }
+                this.ajax(this.redirect.method, url, data)
+                    .then(res => {
+                        if(res.code !== 200){
+                            console.log(res);
+                            return;
+                        }
+                        cb(res);
+                    })
+                    .catch(error =>{
+                        console.log("Oops, error", error);
+                    })
+            },
+            getLyric(id, cb){
+                let data = {id},
+                    url = this.redirect.musicLyricUrl;
+                if(this.redirect.method.toUpperCase() === "GET"){
+                    data = null;
+                    url += `?id=${id}` 
+                }
+                this.ajax(this.redirect.method, url, data)
                     .then(res => {
                         if(res.code !== 200){
                             console.log(res);
@@ -364,19 +399,6 @@
                         this.lyrics.isLoad = true;
                     });
                 }
-            },
-            getLyric(id,cb){
-                this.ajax(this.redirect.method, this.redirect.musicLyricUrl, {id})
-                    .then(res => {
-                        if(res.code !== 200){
-                            console.log(res);
-                            return;
-                        }
-                        cb(res);
-                    })
-                    .catch(error =>{
-                        console.log("Oops, error", error);
-                    })
             },
             loadLyric(time){
                 if(!this.lyrics.isLoad) return;

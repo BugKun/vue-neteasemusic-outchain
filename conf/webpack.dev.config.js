@@ -17,7 +17,7 @@ module.exports = {
         ...webpackBaseConfig.plugins,
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,"../example/template.html"),
+            template: path.resolve(__dirname,"../src/template.html"),
             minify: {
                 collapseWhitespace: true
             },

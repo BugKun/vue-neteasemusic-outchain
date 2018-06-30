@@ -25,8 +25,15 @@
 </head>
 <body>
 <div id="app">
-    <h1>{{message}}</h1>
-    <neteasemusic-outchain :playlist="playlist" :options="options"></neteasemusic-outchain>
+    <h1>在启动此实例前请先启动<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi ！</a></h1>
+    <div style="margin: 2em 0;">
+        <label>歌单编号：<input type="number" v-model="playlist"/></label>
+        <p>请求方式：
+            <label><input type="radio" name="method" value="POST" v-model="options.redirect.method"/>POST</label>
+            <label><input type="radio" name="method" value="GET" v-model="options.redirect.method"/>GET</label>
+        </p>
+    </div>
+    <neteasemusic-outchain :playlist="Number(playlist)" :options="options"></neteasemusic-outchain>
 </div>
 <script>
     new Vue({
@@ -35,10 +42,12 @@
             neteasemusicOutchain: VueNeteaseMusicOutchain
         },
         data: {
-            message: '在启动此实例前请先启动NeteaseCloudMusicApi ！',
             options: {
                 lazyLoad: false,
                 autoplay: false,
+                redirect:{
+                    method: "GET"
+                },
             },
             lazyLoad: true,
             playlist: 614245400
