@@ -4,7 +4,7 @@ A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 ## 注意
 * 由于使用了弹性盒子布局，兼容性为IE10+。
 * 此外链播放器需要服务器配合解析网易云音乐API才能正常使用。推荐使用：<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a><br>
-* 此外你还需要简化获取到的接口信息，以减少不必要的流量和带宽消耗和官方的API变动导致，并将接口设置为POST请求。
+* 此外你还需要简化获取到的接口信息，以减少不必要的流量、带宽消耗和官方的API变动导致无法正常使用，并将接口设置为POST或GET请求（修改请求方式需要修改下面的配置）。
 
 默认请求地址为：（默认POST请求，支持修改成GET请求）
 ```JavaScript
@@ -80,7 +80,7 @@ http://localhost:3000/lyric 保持数据与官方一致
 > npm i vue-neteasemusic-outchain
 
 ### 相关参数
-> playlist ID (Type:Number)： 必须填入<br>
+> playlist ID (Type:Number)：必须填入<br>
 > options (Type:Object)：相关设置<br>
 >> lazyLoad (Type:Boolean)：懒加载（初始传入变量参数为false，当需要马上加载时传入变量改为true。注意：此设置会造成autoplay功能无法按预期执行）<br>
 >> autoplay (Type:Boolean)：自动播放（true即为自动播放）<br>
