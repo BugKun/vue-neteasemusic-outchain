@@ -113,7 +113,7 @@ import neteaseOutchain from 'vue-netease-outchain'
                     lazyLoad: true,
                     autoplay: false,
                     redirect: {
-                         method: "POST"
+                        method: "POST",
                         playListUrl: "/api/musicPlayList",
                         musicUrl: "/api/musicUrl",
                         musicLyricUrl: "/api/musicLyric"
