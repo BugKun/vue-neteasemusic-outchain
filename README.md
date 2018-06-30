@@ -81,7 +81,7 @@ http://localhost:3000/lyric 保持数据与官方一致
 
 ### 相关参数
 > playlist ID (Type:Number)： 必须填入<br>
-> options (Type:Object) ：相关设置<br>
+> options (Type:Object)：相关设置<br>
 >> lazyLoad (Type:Boolean)：懒加载（初始传入变量参数为false，当需要马上加载时传入变量改为true。注意：此设置会造成autoplay功能无法按预期执行）<br>
 >> autoplay (Type:Boolean)：自动播放（true即为自动播放）<br>
 >> redirect (Type:Object)：修改获取参数的链接<br>
