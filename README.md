@@ -107,15 +107,16 @@ import neteaseOutchain from 'vue-netease-outchain'
         },
         data(){
             return {
-                playlist: 48149387,
+                playlist: 614245400,
                 showMusicPanel: false,
                 options: {
                     lazyLoad: true,
                     autoplay: false,
-                    redirect:{
-                      playListUrl: "/api/musicPlayList",
-                      musicUrl: "/api/musicUrl",
-                      musicLyricUrl: "/api/musicLyric"
+                    redirect: {
+                         method: "POST"
+                        playListUrl: "/api/musicPlayList",
+                        musicUrl: "/api/musicUrl",
+                        musicLyricUrl: "/api/musicLyric"
                     }
                 }
             }
