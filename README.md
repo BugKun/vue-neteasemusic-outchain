@@ -1,4 +1,4 @@
-﻿# Vue-Netease-outchain
+﻿﻿# Vue-Netease-outchain
 A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 
 ## 注意
@@ -6,9 +6,10 @@ A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 * 此外链播放器需要服务器配合解析网易云音乐API才能正常使用。推荐使用：<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a><br>
 * 此外你还需要简化获取到的接口信息，以减少不必要的流量和带宽消耗和官方的API变动导致，并将接口设置为POST请求。
 
-默认请求地址为：
+默认请求地址为：（默认POST请求，支持修改成GET请求）
 ```JavaScript
 {
+      method: "POST"，
       playListUrl: "/api/musicPlayList",
       musicUrl: "/api/musicUrl",
       musicLyricUrl: "/api/musicLyric"
