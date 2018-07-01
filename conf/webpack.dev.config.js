@@ -6,7 +6,7 @@
 
 module.exports = {
     mode: "development",
-    entry: [path.resolve(__dirname, '../src/index.js?hot=true'),"webpack-hot-middleware/client?reload=true"],
+    entry: [path.resolve(__dirname, '../src/index.js?hot=true'), "webpack-hot-middleware/client?reload=true"],
     output: {
         ...webpackBaseConfig.output,
         library: 'webpackHotMiddlewareMode'
@@ -17,7 +17,7 @@ module.exports = {
         ...webpackBaseConfig.plugins,
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname,"../src/template.html"),
+            template: path.resolve(__dirname, "../src/index.html"),
             minify: {
                 collapseWhitespace: true
             },

@@ -1,5 +1,6 @@
 ﻿<!doctype html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -7,25 +8,30 @@
     <title>Vue-NeteaseMusic-Outchain Demo</title>
     <script src="./js/vue.js"></script>
     <style>
-        html,body,#app{
+        html,
+        body,
+        #app {
             height: 100%;
             margin: 0;
         }
-        #app{
+        
+        #app {
             margin: 0 auto;
             max-width: 1000px;
         }
+        
         @media screen and (max-width: 1000px) {
-            #app{
+            #app {
                 max-width: 95%;
             }
         }
     </style>
 </head>
+
 <body>
-<div id="app">
-        <h1>在启动此实例前请先启动<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi ！</a></h1>
-        <div style="margin: 2em 0;">
+    <div id="app">
+        <h1 style="margin: 0">在启动此实例前请先启动<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi ！</a></h1>
+        <div style="margin: 2em 0">
             <label>歌单编号：<input type="number" v-model="playlist"/></label>
             <p>请求方式：
                 <label><input type="radio" name="method" value="POST" v-model="options.redirect.method"/>POST</label>
@@ -33,25 +39,26 @@
             </p>
         </div>
         <neteasemusic-outchain :playlist="Number(playlist)" :options="options"></neteasemusic-outchain>
-</div>
-<script>
-    new Vue({
-        el: '#app',
-        components:{
-            neteasemusicOutchain: VueNeteaseMusicOutchain
-        },
-        data: {
-            options: {
-                lazyLoad: false,
-                autoplay: false,
-                redirect:{
-                    method: "GET"
-                },
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                neteasemusicOutchain: VueNeteaseMusicOutchain
             },
-            lazyLoad: true,
-            playlist: 614245400
-        }
-    })
-</script>
+            data: {
+                options: {
+                    lazyLoad: false,
+                    autoplay: false,
+                    redirect: {
+                        method: "GET"
+                    },
+                },
+                lazyLoad: true,
+                playlist: 614245400
+            }
+        })
+    </script>
 </body>
+
 </html>

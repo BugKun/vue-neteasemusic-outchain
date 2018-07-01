@@ -173,7 +173,7 @@
                     url = this.redirect.playListUrl;
                 if(this.redirect.method.toUpperCase() === "GET"){
                     data = null;
-                    url += `?id=${this.playlist}` 
+                    url += `?id=${this.playlist}`
                 }
                 this.ajax(this.redirect.method, url, data)
                     .then(res => {
@@ -194,7 +194,7 @@
                     url = this.redirect.musicUrl;
                 if(this.redirect.method.toUpperCase() === "GET"){
                     data = null;
-                    url += `?id=${id}` 
+                    url += `?id=${id}`
                 }
                 this.ajax(this.redirect.method, url, data)
                     .then(res => {
@@ -213,7 +213,7 @@
                     url = this.redirect.musicLyricUrl;
                 if(this.redirect.method.toUpperCase() === "GET"){
                     data = null;
-                    url += `?id=${id}` 
+                    url += `?id=${id}`
                 }
                 this.ajax(this.redirect.method, url, data)
                     .then(res => {
@@ -381,24 +381,33 @@
                 if(!Number.isInteger(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
                 if(this.musicInfo.tracks[index].lyricData){
                     let data = this.musicInfo.tracks[index].lyricData;
-                    if(data.lrc && data.lrc.lyric) this.lyrics.lrc = new lyrics(data.lrc.lyric);
-                    if(data.tlyric && data.tlyric.lyric) this.lyrics.tlyric = new lyrics(data.tlyric.lyric);
-                    this.lyrics.hasTranslate = false;
-                    this.lyrics.type = 0;
-                    this.lyrics.isLoad = true;
+                    this.initLyric(data);
                 }
                 else{
                     let id = this.musicInfo.tracks[index].id;
                     this.getLyric(id,(data) => {
                         this.lyrics.id = id;
+                        if(!data.lrc){
+                            // 没歌词
+                            data.lrc = {};
+                            if(data.sgc){
+                                data.lrc.lyric = "[00:00.00]还没有歌词哦~";
+                            }else if(data.nolyric){
+                                // 纯音乐
+                                data.lrc.lyric = "[00:00.00]纯音乐，请您欣赏";
+                            }
+                        }
                         this.musicInfo.tracks[index].lyricData = data;
-                        if(data.lrc.lyric) this.lyrics.lrc = new lyrics(data.lrc.lyric);
-                        if(data.tlyric.lyric) this.lyrics.tlyric = new lyrics(data.tlyric.lyric);
-                        this.lyrics.hasTranslate = false;
-                        this.lyrics.type = 0;
-                        this.lyrics.isLoad = true;
+                        this.initLyric(data);
                     });
                 }
+            },
+            initLyric(data){
+                if(data.lrc && data.lrc.lyric) this.lyrics.lrc = new lyrics(data.lrc.lyric);
+                if(data.tlyric && data.tlyric.lyric) this.lyrics.tlyric = new lyrics(data.tlyric.lyric);
+                this.lyrics.hasTranslate = false;
+                this.lyrics.type = 0;
+                this.lyrics.isLoad = true;
             },
             loadLyric(time){
                 if(!this.lyrics.isLoad) return;

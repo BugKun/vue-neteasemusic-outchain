@@ -27,19 +27,18 @@ http.get(`http://localhost:3000/playlist/detail?id=${postData.id}`, function (_r
                 if (!_data) {
                     console.log("服务器异常！");
                 }
-                let data = JSON.parse(_data);
                 let cbData = {};
                 cbData.code = data.code;
                 cbData.coverImgUrl = data.playlist.coverImgUrl;
                 cbData.name = data.playlist.name;
                 cbData.tracks = [];
-                for(let i in data.playlist.tracks){
+                for (let i in data.playlist.tracks) {
                     let track = data.playlist.tracks[i];
                     let artistsName = "";
-                    for(let j in track.artists){
-                        artistsName += track.artists[j].name + " / ";
+                    for (let j in track.ar) {
+                        artistsName += track.ar[j].name + " / ";
                     }
-                    cbData.tracks.push({name: track.name, id: track.id, duration: track.dt, artists: artistsName.substring(0,artistsName.length - 3), picUrl: track.al.picUrl});
+                    cbData.tracks.push({ name: track.name, id: track.id, duration: track.dt, artists: artistsName.substring(0, artistsName.length - 3), picUrl: track.al.picUrl });
                 }
                 console.log(cbData);
                 res.json(cbData);

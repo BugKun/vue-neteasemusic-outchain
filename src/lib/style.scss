@@ -26,7 +26,8 @@
         .ctrlBox {
             padding: 0 1vw 0 1vw;
             position: relative;
-            flex-grow: 1;
+            // flex-grow: 1;
+            width: calc(100% - 92px - 2vw);
             .f-pr {
                 position: relative;
                 left: 0;
@@ -106,7 +107,8 @@
                     align-items: center;
                     margin: 0 auto;
                     width: 72px;
-                    .prev, .next {
+                    .prev,
+                    .next {
                         width: 9px;
                         height: 10px;
                         cursor: pointer;
@@ -114,7 +116,8 @@
                     .prev {
                         background-position: -33px 0;
                     }
-                    .pause, .play {
+                    .pause,
+                    .play {
                         width: 14px;
                         height: 18px;
                         cursor: pointer;
@@ -130,17 +133,17 @@
                         background-position: -58px 0;
                     }
                 }
-                .btnGroupRight{
+                .btnGroupRight {
                     display: flex;
                     align-items: center;
                     width: 5em;
                     justify-content: space-between;
-                    .git{
+                    .git {
                         display: block;
                         width: 16px;
                         height: 16px;
                     }
-                    .showLyrics{
+                    .showLyrics {
                         font-size: 11px;
                         color: #999;
                         border: 1px #999 solid;
@@ -160,7 +163,7 @@
                     }
                 }
             }
-            .quality{
+            .quality {
                 position: absolute;
                 top: .2vw;
                 right: 1vw;
@@ -175,7 +178,7 @@
         height: 0;
         visibility: hidden;
     }
-    .lyricsContainer{
+    .lyricsContainer {
         display: flex;
         flex-direction: column;
         justify-content: center;
