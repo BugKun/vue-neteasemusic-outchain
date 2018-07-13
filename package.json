@@ -1,6 +1,6 @@
 {
     "name": "vue-neteasemusic-outchain",
-    "version": "0.9.9",
+    "version": "1.0.0",
     "description": "A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).",
     "repository": {
         "type": "git",
@@ -15,7 +15,7 @@
     "main": "./dist/VueNeteaseMusicOutchain.js",
     "scripts": {
         "start": "cross-env NODE_ENV=production port=80 node ./server/app",
-        "dev": "cross-env NODE_ENV=development port=8080 node ./server/app",
+        "dev": "cross-env NODE_ENV=development port=8081 node ./server/app",
         "build": "cross-env NODE_ENV=production webpack --config conf/webpack.prod.config.js -p",
         "lint": "cross-env NODE_ENV=development eslint --ext .js,.vue ./"
     },
@@ -34,6 +34,7 @@
         "babel-eslint": "^8.2.3",
         "babel-loader": "^7.1.2",
         "babel-plugin-add-module-exports": "^0.2.1",
+        "babel-plugin-transform-export-extensions": "^6.22.0",
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
         "babel-preset-env": "^1.7.0",
         "cross-env": "^5.2.0",
@@ -50,6 +51,8 @@
         "node-sass": "^4.7.2",
         "sass-loader": "^6.0.6",
         "style-loader": "^0.20.3",
+        "svg-inline-loader": "^0.8.0",
+        "url-loader": "^1.0.1",
         "vue": "^2.5.16",
         "vue-loader": "14.2.2",
         "vue-template-compiler": "^2.5.16",

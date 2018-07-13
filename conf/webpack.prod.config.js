@@ -7,6 +7,7 @@ module.exports = {
     mode: "production",
     entry: webpackBaseConfig.entry,
     output: webpackBaseConfig.output,
+    resolve: webpackBaseConfig.resolve,
     module: webpackBaseConfig.module,
     plugins: [
         ...webpackBaseConfig.plugins,

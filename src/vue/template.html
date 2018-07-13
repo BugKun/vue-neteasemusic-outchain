@@ -1,0 +1,60 @@
+﻿<div class="player-container" :style="openArea" ref="playerContainer" @mousemove="mouseMove" @mouseup="mouseUp" @mouseleave="mouseUp" @touchmove="touchMove" @touchend="touchEnd" @touchleave="touchEnd" @touchcancel="touchEnd">
+    <div class="f-cb">
+        <a class="cover" :href="(musicLink) ? musicLink : 'javascript:;'" :target="(musicLink) ? '_blank' : null" title="查看歌曲详细信息">
+            <img :src="cover" v-if="cover">
+        </a>
+        <div class="ctrlBox">
+            <h2 class="f-pr">
+                <div class="title">
+                    <a class="bg logo" :style="(paused)? null : 'animation: NeteaseMusicOutchain-rotateAround 6s infinite linear;' " :href="`//music.163.com/playlist?id=` + playlist" target="_blank" title="查看歌单详细信息"></a>
+                    {{ musicInfo.name }}
+                </div>
+                <div class="title f-thide">
+                    <div class="loading">
+                        <img v-if="musicLoading" :src="icons.loading" width="18" height="18"/>
+                    </div>
+                    正在播放：{{ (Number.isInteger(playingIndex))? musicInfo.tracks[playingIndex].name : '无' }}
+                </div>
+            </h2>
+            <div class="barContainer" @mousedown="progressPointerDown" @touchstart="progressPointerTouchDown" ref="barContainer">
+                <div class="bar">
+                    <div class="process buffered" :style="`width: ${audioBuffered / process.duration * 100}%`"></div>
+                    <div class="process played j-flag" :style="process.barPlayed"></div>
+                </div>
+            </div>
+            <div class="oprBox">
+                <div class="time">{{ process.time }}</div>
+                <div class="btnGroup">
+                    <div class="bg prev" @click="prev"></div>
+                    <div class="bg mid pause f-hide" v-if="!paused" @click="audio.pause();isPaused()"></div>
+                    <div class="bg mid play" v-if="paused" @click="play();isPaused()"></div>
+                    <div class="bg next" @click="next"></div>
+                </div>
+                <div class="btnGroupRight">
+                    <a href="//github.com/bugkun/vue-neteasemusic-outchain" target="_blank" class="icon git" :style="(isIOS)? 'display:block !important' : null" v-if="!options.hideGit" v-html="icons.github"></a>
+                    <div class="icon" :style="(isIOS)? 'display:none' : null">
+                        <div class="icon" v-html="(volumeStatus.value > 0)? icons.volume: icons.mute" @click="volumeStatus.active = (volumeStatus.active)? false : true"></div>
+                        <transition name="fade">
+                            <div class="volumeBarContainer" v-if="!isIOS && volumeStatus.active" ref="volumeBarContainer" @mousedown="volumePointerDown" @touchstart="volumePointerTouchDown">
+                                <div class="volumeBar">
+                                    <div class="volumeBarProcess" :style="`height: ${volumeStatus.value * 100}%`"></div>
+                                </div>
+                            </div>
+                        </transition>
+                    </div>
+                    <div class="showLyrics" @click="showLyrics = (showLyrics) ? false :true" :style="(showLyrics)? 'color: #fff;background: #999;' : null">词</div>
+                    <div class="bg open" @click="isListClosed = (isListClosed)? false : true"></div>
+                </div>
+            </div>
+            <span class="quality" v-if="Number.isInteger(playingIndex)" title="当前音质">{{ musicInfo.tracks[playingIndex].quality / 1000 }}K</span>
+        </div>
+    </div>
+    <div class="lyricsContainer" :style="(showLyrics)? 'flex: 0 0 3em;border-top: 1px solid #e6e6e6;' : null">
+        <transition name="slideToLeft">
+                <div class="lyricsGroup" v-for="(li, i) in lyrics.lrc.text" :key="i" v-if="i === lyrics.lrc.active">
+                    <div class="f-thide" v-html="li"></div>
+                </div>
+            </transition>
+    </div>
+    <nc-list :musicInfoTracks="(musicInfo.tracks)? musicInfo.tracks : []" :playingIndex="playingIndex" @loadMusic="loadMusic" @getListBox="getListBox" :style="(isListClosed)? 'opacity: 0;' : null"></nc-list>
+</div>

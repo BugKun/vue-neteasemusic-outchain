@@ -4,11 +4,11 @@
     os = require("os"),
     threads = os.cpus().length,
     ThreadLimit = 8, //超过8个线程后 happypack 打包速度会更慢
-    happyThreadPool = HappyPack.ThreadPool({ size: (threads > ThreadLimit)? ThreadLimit : threads });
+    happyThreadPool = HappyPack.ThreadPool({ size: (threads > ThreadLimit) ? ThreadLimit : threads });
 
 
 module.exports = {
-    entry:{
+    entry: {
         "VueNeteaseMusicOutchain": [path.resolve(__dirname, '../src/index.js')]
     },
     output: {
@@ -18,11 +18,20 @@ module.exports = {
         libraryTarget: 'umd',
         library: '[name]'
     },
+    resolve: {
+        modules: [path.resolve(__dirname, '../src'), 'node_modules'],
+        alias: {
+            libs: path.resolve(__dirname, "../src/libs")
+        }
+    },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.vue$/,
                 use: ['happypack/loader?id=vue']
+            },
+            {
+                test: /\.js$/,
+                use: ['happypack/loader?id=babel']
             },
             {
                 test: /\.css$/,
@@ -30,15 +39,32 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use:['happypack/loader?id=scss']
+                use: ['happypack/loader?id=scss']
             },
             {
-                test: /\.js$/,
-                use: ['happypack/loader?id=babel']
+                test: /\.svg$/,
+                use: ['happypack/loader?id=svg']
+            },
+            {   
+                test: /\.(png|jpg|gif)$/, 
+                use: ['happypack/loader?id=url']
             }
         ]
     },
     plugins: [
+        new HappyPack({
+            id: 'vue',
+            threadPool: happyThreadPool,
+            loaders: [{
+                loader: 'vue-loader',
+                options: {
+                    cssModules: {
+                        minimize: true
+                    },
+                    threadMode: true
+                }
+            }],
+        }),
         new HappyPack({
             id: 'babel',
             threadPool: happyThreadPool,
@@ -50,27 +76,22 @@ module.exports = {
         new HappyPack({
             id: 'scss',
             threadPool: happyThreadPool,
-            use: ['style-loader',{loader: 'css-loader',options: { minimize: true } }, 'sass-loader?outputStyle=compressed']
+            use: ['style-loader', { loader: 'css-loader', options: { minimize: true } }, 'sass-loader?outputStyle=compressed']
         }),
         new HappyPack({
             id: 'css',
             threadPool: happyThreadPool,
-            loaders: ['style-loader',{loader: 'css-loader',options: { minimize: true } }]
+            loaders: ['style-loader', { loader: 'css-loader', options: { minimize: true } }]
         }),
         new HappyPack({
-            id: 'vue',
+            id: 'svg',
             threadPool: happyThreadPool,
-            loaders: [
-                {
-                    loader: 'vue-loader',
-                    options: {
-                        cssModules: {
-                            minimize: true
-                        },
-                        threadMode: true
-                    }
-                }
-            ],
+            loaders: ['svg-inline-loader?classPrefix']
+        }),
+        new HappyPack({
+            id: 'url',
+            threadPool: happyThreadPool,
+            loaders: ['url-loader?limit=99999']
         }),
     ]
 };

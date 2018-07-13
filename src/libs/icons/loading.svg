@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <g stroke-width="0">
+        <circle fill="#898989" cx="24" cy="0" transform="translate(32,32)" r="7.48463">
+            <animate attributeName="r" dur="750ms" values="8;7;6;5;4;3;2;1;8" repeatCount="indefinite"></animate>
+        </circle>
+        <circle fill="#898989" cx="16.970562748477143" cy="16.97056274847714" transform="translate(32,32)" r="4.60759">
+            <animate attributeName="r" dur="750ms" values="1;8;7;6;5;4;3;2;1" repeatCount="indefinite"></animate>
+        </circle>
+        <circle fill="#898989" cx="1.4695761589768238e-15" cy="24" transform="translate(32,32)" r="1.48463">
+            <animate attributeName="r" dur="750ms" values="2;1;8;7;6;5;4;3;2" repeatCount="indefinite"></animate>
+        </circle>
+        <circle fill="#898989" cx="-16.97056274847714" cy="16.970562748477143" transform="translate(32,32)" r="2.48463">
+            <animate attributeName="r" dur="750ms" values="3;2;1;8;7;6;5;4;3" repeatCount="indefinite"></animate>
+        </circle>
+        <circle fill="#898989" cx="-24" cy="2.9391523179536475e-15" transform="translate(32,32)" r="3.48463">
+            <animate attributeName="r" dur="750ms" values="4;3;2;1;8;7;6;5;4" repeatCount="indefinite"></animate>
+        </circle>
+        <circle fill="#898989" cx="-16.970562748477143" cy="-16.97056274847714" transform="translate(32,32)" r="4.48463">
+            <animate attributeName="r" dur="750ms" values="5;4;3;2;1;8;7;6;5" repeatCount="indefinite"></animate>
+        </circle>
+        <circle fill="#898989" cx="-4.408728476930472e-15" cy="-24" transform="translate(32,32)" r="5.48463">
+            <animate attributeName="r" dur="750ms" values="6;5;4;3;2;1;8;7;6" repeatCount="indefinite"></animate>
+        </circle>
+        <circle fill="#898989" cx="16.970562748477136" cy="-16.970562748477143" transform="translate(32,32)" r="6.48463">
+            <animate attributeName="r" dur="750ms" values="7;6;5;4;3;2;1;8;7" repeatCount="indefinite"></animate>
+        </circle>
+    </g>
+</svg>

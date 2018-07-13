@@ -32,7 +32,7 @@
     <div id="app">
         <h1 style="margin: 0">在启动此实例前请先启动<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi ！</a></h1>
         <div style="margin: 2em 0">
-            <label>歌单编号：<input type="number" v-model="playlist"/></label>
+            <label>歌单编号：<input type="number" v-model="playlistInput"/></label><button @click="setPlaylist" style="margin-left: 2px">确定</button>
             <p>请求方式：
                 <label><input type="radio" name="method" value="POST" v-model="options.redirect.method"/>POST</label>
                 <label><input type="radio" name="method" value="GET" v-model="options.redirect.method"/>GET</label>
@@ -55,7 +55,13 @@
                     },
                 },
                 lazyLoad: true,
-                playlist: 614245400
+                playlist: 614245400,
+                playlistInput: 614245400
+            },
+            methods: {
+                setPlaylist: function() {
+                    this.playlist = this.playlistInput;
+                }
             }
         })
     </script>
