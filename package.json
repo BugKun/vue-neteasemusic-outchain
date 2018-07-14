@@ -1,6 +1,6 @@
 {
     "name": "vue-neteasemusic-outchain",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).",
     "repository": {
         "type": "git",
@@ -15,7 +15,7 @@
     "main": "./dist/VueNeteaseMusicOutchain.js",
     "scripts": {
         "start": "cross-env NODE_ENV=production port=80 node ./server/app",
-        "dev": "cross-env NODE_ENV=development port=8081 node ./server/app",
+        "dev": "cross-env NODE_ENV=development port=8080 node ./server/app",
         "build": "cross-env NODE_ENV=production webpack --config conf/webpack.prod.config.js -p",
         "lint": "cross-env NODE_ENV=development eslint --ext .js,.vue ./"
     },

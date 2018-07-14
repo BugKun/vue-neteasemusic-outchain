@@ -17,14 +17,7 @@ export default {
         this.listBox = dom;
     },
     getPlayList(cb) {
-        let data = { id: this.playlist },
-            url = this.redirect.playListUrl;
-        if (this.redirect.method.toUpperCase() === "GET") {
-            data = null;
-            url += `?id=${this.playlist}`
-        }
-        this.musicLoading = true;
-        $ajax(this.redirect.method, url, data)
+        $ajax(this.redirect.method, this.redirect.playListUrl, { id: this.playlist })
             .then(res => {
                 if (res.code !== 200) {
                     console.log(res);
@@ -43,14 +36,7 @@ export default {
             })
     },
     getMusic(id, cb) {
-        let data = { id },
-            url = this.redirect.musicUrl;
-        if (this.redirect.method.toUpperCase() === "GET") {
-            data = null;
-            url += `?id=${id}`
-        }
-        this.musicLoading = true;
-        $ajax(this.redirect.method, url, data)
+        $ajax(this.redirect.method, this.redirect.musicUrl, { id })
             .then(res => {
                 if (res.code !== 200) {
                     console.log(res);
@@ -64,13 +50,7 @@ export default {
             })
     },
     getLyric(id, cb) {
-        let data = { id },
-            url = this.redirect.musicLyricUrl;
-        if (this.redirect.method.toUpperCase() === "GET") {
-            data = null;
-            url += `?id=${id}`
-        }
-        $ajax(this.redirect.method, url, data)
+        $ajax(this.redirect.method, this.redirect.musicLyricUrl, { id })
             .then(res => {
                 if (res.code !== 200) {
                     console.log(res);
@@ -316,7 +296,7 @@ export default {
             this.lyrics.lrc.func = new lyrics(data.lrc.lyric);
             if (data.tlyric && data.tlyric.lyric) {
                 this.lyrics.tlyric.func = new lyrics(data.tlyric.lyric);
-                this.lyrics.lrc.func.lrcMerge(this.lyrics.tlyric.func.getLyrics(), 2);
+                this.lyrics.lrc.func.lrcMerge(this.lyrics.tlyric.func.getLyrics(), 2); // 合并翻译歌词
             }
             this.lyrics.lrc.text = this.lyrics.lrc.func.getLyrics().map(item => item.text);
         }
