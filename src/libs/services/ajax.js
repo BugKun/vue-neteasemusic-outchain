@@ -8,7 +8,7 @@
 const parseParam = (param, key) => {
     let paramStr = "";
     const paramType = typeof param;
-    if(paramType === "string" || paramType === "number"||paramType === "boolean"){
+    if(paramType === "string" || paramType === "number" || paramType === "boolean"){
         paramStr += `&${ key }=${ encodeURIComponent(param) }`;
     }else{
         for(let i in param){
