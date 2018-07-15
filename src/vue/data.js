@@ -51,6 +51,7 @@ export default function() {
         },
         listBox: null,
         listBoxHeight: 0,
-        windowHeight: window.innerHeight
+        windowHeight: window.innerHeight,
+        windowWidth: window.innerWidth
     }
 }

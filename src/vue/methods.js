@@ -12,6 +12,7 @@ export default {
     },
     windowResize() {
         this.windowHeight = window.innerHeight;
+        this.windowWidth = window.innerWidth;
     },
     getListBox(dom) {
         this.listBox = dom;

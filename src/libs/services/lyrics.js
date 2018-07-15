@@ -108,7 +108,8 @@ export default class Lyrics {
 
     lrcMerge(arr, limit = 2) {
         let $lyrics_all = this.lyrics_all.slice(0),
-            offset = -1;
+            offset = -1,
+            comparedCount = 0;
         target:
         for(let i in arr) {
             self:
@@ -118,7 +119,9 @@ export default class Lyrics {
                     offset = _offset;
                 }else {
                     if(offset <= limit) {
-                        this.lyrics_all[j-1].text += "<br>" + arr[i].text;
+                        this.lyrics_all[j - 1 + comparedCount].text += "<br>" + arr[i].text;
+                        $lyrics_all.splice(j - 1, 1);
+                        comparedCount++;
                     }
                     offset = -1;
                     break self;

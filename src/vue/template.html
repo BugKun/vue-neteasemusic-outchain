@@ -30,7 +30,7 @@
                     <div class="bg mid play" v-if="paused" @click="play();isPaused()"></div>
                     <div class="bg next" @click="next"></div>
                 </div>
-                <div class="btnGroupRight">
+                <div class="btnGroupRight" :style="`width:${btnGroupRightWidth}`">
                     <a href="//github.com/bugkun/vue-neteasemusic-outchain" target="_blank" class="icon git" :style="(isIOS)? 'display:block !important' : null" v-if="!options.hideGit" v-html="icons.github"></a>
                     <div class="icon" :style="(isIOS)? 'display:none' : null">
                         <div class="icon" v-html="(volumeStatus.value > 0)? icons.volume: icons.mute" @click="volumeStatus.active = (volumeStatus.active)? false : true"></div>

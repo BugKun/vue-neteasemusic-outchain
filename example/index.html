@@ -21,6 +21,10 @@
             max-width: 1000px;
         }
         
+        #app> h1{
+            word-break:break-all;
+        }
+
         @media screen and (max-width: 1000px) {
             #app {
                 max-width: 95%;
@@ -54,6 +58,7 @@
                     redirect: {
                         method: "GET"
                     },
+                    hideGit: false
                 },
                 lazyLoad: true,
                 playlist: 614245400,

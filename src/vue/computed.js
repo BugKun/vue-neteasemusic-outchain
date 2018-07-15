@@ -31,5 +31,19 @@ export default {
             link = "//music.163.com/song?id=" + this.musicInfo.tracks[this.playingIndex].id;
         }
         return link;
+    },
+    btnGroupRightWidth() {
+        let count = 2;
+        if(!this.options.hideGit) {
+            if(this.isIOS){
+                count++;
+            }else if(this.windowWidth > 350){
+                count++;
+            }
+        }
+        if(!this.isIOS) {
+            count++;
+        }
+        return `${ 1.5 * count }em`
     }
 }

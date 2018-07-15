@@ -25,7 +25,7 @@ export default function() {
         this.musicLoading = false
     }
     this.audio.onprogress = () => {
-        if (this.audio.buffered.length > 0)
+        if (this.audio && this.audio.buffered.length > 0)
             this.audioBuffered = this.audio.buffered.end(this.audio.buffered.length - 1);
     }
     this.audio.volume = this.volumeStatus.value;
