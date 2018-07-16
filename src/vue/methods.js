@@ -18,7 +18,8 @@ export default {
         this.listBox = dom;
     },
     getPlayList(cb) {
-        $ajax(this.redirect.method, this.redirect.playListUrl, { id: this.playlist })
+        $ajax(this.redirect.method, this.redirect.playListUrl)
+            .send({ id: this.playlist })
             .then(res => {
                 if (res.code !== 200) {
                     console.log(res);
@@ -37,7 +38,8 @@ export default {
             })
     },
     getMusic(id, cb) {
-        $ajax(this.redirect.method, this.redirect.musicUrl, { id })
+        $ajax(this.redirect.method, this.redirect.musicUrl)
+            .send({ id })
             .then(res => {
                 if (res.code !== 200) {
                     console.log(res);
@@ -51,7 +53,8 @@ export default {
             })
     },
     getLyric(id, cb) {
-        $ajax(this.redirect.method, this.redirect.musicLyricUrl, { id })
+        $ajax(this.redirect.method, this.redirect.musicLyricUrl)
+            .send({ id })
             .then(res => {
                 if (res.code !== 200) {
                     console.log(res);

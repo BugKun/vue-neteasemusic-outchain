@@ -33,7 +33,7 @@
                 <div class="btnGroupRight" :style="`width:${btnGroupRightWidth}`">
                     <a href="//github.com/bugkun/vue-neteasemusic-outchain" target="_blank" class="icon git" :style="(isIOS)? 'display:block !important' : null" v-if="!options.hideGit" v-html="icons.github"></a>
                     <div class="icon" :style="(isIOS)? 'display:none' : null">
-                        <div class="icon" v-html="(volumeStatus.value > 0)? icons.volume: icons.mute" @click="volumeStatus.active = (volumeStatus.active)? false : true"></div>
+                        <div class="icon" v-html="(volumeStatus.value > 0)? icons.volume: icons.mute" @click="volumeStatus.active = !volumeStatus.active"></div>
                         <transition name="fade">
                             <div class="volumeBarContainer" v-if="!isIOS && volumeStatus.active" ref="volumeBarContainer" @mousedown="volumePointerDown" @touchstart="volumePointerTouchDown">
                                 <div class="volumeBar">
@@ -42,8 +42,8 @@
                             </div>
                         </transition>
                     </div>
-                    <div class="showLyrics" @click="showLyrics = (showLyrics) ? false :true" :style="(showLyrics)? 'color: #fff;background: #999;' : null">词</div>
-                    <div class="bg open" @click="isListClosed = (isListClosed)? false : true"></div>
+                    <div class="showLyrics" @click="showLyrics = !showLyrics" :style="(showLyrics)? 'color: #fff;background: #999;' : null">词</div>
+                    <div class="bg open" @click="isListClosed = !isListClosed"></div>
                 </div>
             </div>
             <span class="quality" v-if="Number.isInteger(playingIndex)" title="当前音质">{{ musicInfo.tracks[playingIndex].quality / 1000 }}K</span>

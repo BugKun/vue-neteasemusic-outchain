@@ -1,6 +1,6 @@
 {
     "name": "vue-neteasemusic-outchain",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).",
     "repository": {
         "type": "git",
@@ -39,7 +39,6 @@
         "babel-preset-env": "^1.7.0",
         "cross-env": "^5.2.0",
         "css-loader": "^0.28.8",
-        "es6-promise": "^4.2.4",
         "eslint": "^4.19.1",
         "eslint-loader": "^2.0.0",
         "eslint-plugin-html": "^4.0.5",

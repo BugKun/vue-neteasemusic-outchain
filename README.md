@@ -124,7 +124,7 @@ import neteaseOutchain from 'vue-netease-outchain'
         },
         methods:{
             isShowMusicPanel(){
-                this.showMusicPanel = (this.showMusicPanel)? false : true;
+                this.showMusicPanel = !this.showMusicPanel;
                 this.options.lazyLoad = false;
             }
         }
@@ -132,6 +132,6 @@ import neteaseOutchain from 'vue-netease-outchain'
     
 ```
 ```HTML
-<div class="player-box" v-show="showMusicPanel"><netease-outchain :playlist="playlist" :options="options"></netease-outchain></div>
+<div class="player-box" v-show="showMusicPanel"><netease-outchain :playlist="playlist" :options="options" /></div>
 <button @click="isShowMusicPanel">加载播放器</button>
 ```

@@ -1,41 +1,52 @@
-/**
- * param 将要转为URL参数字符串的对象
- * key URL参数字符串的前缀
- * 
- * return URL参数字符串
- */
+class Ajax{
+    constructor(method, url){
+        this.xhr = new XMLHttpRequest();
+        this.method = method;
+        this.url = url;
+        this.data = null;
+        this.ended = false;
+    }
 
-const parseParam = (param, key) => {
-    let paramStr = "";
-    const paramType = typeof param;
-    if(paramType === "string" || paramType === "number" || paramType === "boolean"){
-        paramStr += `&${ key }=${ encodeURIComponent(param) }`;
-    }else{
-        for(let i in param){
-            const k = key == null? i : key + (param instanceof Array? `[${ i }]` : "." + i);
-            paramStr += `&${ parseParam(param[i], k) }`;
+    parseParam(param, key){
+        let paramStr = "";
+        const paramType = typeof param;
+        if(paramType === "string" || paramType === "number" || paramType === "boolean"){
+            paramStr += `&${ key }=${ encodeURIComponent(param) }`;
+        }else{
+            for(let i in param){
+                const k = key == null? i : key + (param instanceof Array? `[${ i }]` : "." + i);
+                paramStr += `&${ this.parseParam(param[i], k) }`;
+            }
+        }
+        return paramStr.substr(1);
+    }
+
+    query(data){
+        if(typeof data === "object"){
+            this.url += `?${this.parseParam(data)}`;
+        }else {
+            this.url += `?${data}`;
+        }
+        return this;
+    }
+
+    send(data){
+        if(this.method.toUpperCase() === "POST"){
+            if(typeof data === "object"){
+                this.data = JSON.stringify(data);
+            }else {
+                this.data = data;
+            }
+            return this;
+        }else {
+            return this.query(data);
         }
     }
-    return paramStr.substr(1);
-};
 
-
-export default (type, url, data = null) => {
-    return new Promise(function(resolve, reject) {
-        const xhr = new XMLHttpRequest();
-        const Type = type.toUpperCase();
-        switch(Type){
-            case "GET": 
-            xhr.open(type, `${ url }?${ parseParam(data) }`, true);
-            break;
-
-            case "POST": 
-            xhr.open(type, url, true);
-            break;
-
-            default: 
-            xhr.open(type, `${ url }?${ parseParam(data) }`, true);
-        }       
+    then(func){
+        if(this.ended && typeof func !== "function") return this;
+        let xhr = this.xhr;
+        xhr.open(this.method, this.url, true);
         xhr.onreadystatechange = () => {
             if (xhr.readyState !== 4) return;
             if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
@@ -43,12 +54,20 @@ export default (type, url, data = null) => {
                 try {
                     res = JSON.parse(xhr.responseText);
                 } catch (e) {
-                    reject(e);
+                    res = xhr.responseText;
                 }
-                resolve(res);
+                func(res);
             }
         };
-        xhr.onerror = reject;
-        xhr.send((typeof(data) === "object" && Type === "POST") ? JSON.stringify(data) : data);
-    })
+        xhr.send(this.data);
+        this.ended = true;
+        return this;
+    }
+
+    catch(func){
+        if(typeof func !== "function") return this;
+        this.xhr.onerror = func;
+    }
 }
+
+export default (method, url) => new Ajax(method, url)
