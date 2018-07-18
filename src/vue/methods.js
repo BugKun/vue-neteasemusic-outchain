@@ -210,9 +210,10 @@ export default {
     },
     volumePointerMove(e) {
         if (!this.volumeIsDrag) return;
-        const volumeBarContainer = this.$refs.volumeBarContainer,
-            volumeBarContainerHeight = volumeBarContainer.offsetHeight,
-            volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
+        const volumeBarContainer = this.$refs.volumeBarContainer;
+        if(!volumeBarContainer) return;
+        const volumeBarContainerHeight = volumeBarContainer.offsetHeight,
+             volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
         if (volume > 1) {
             this.volumeStatus.value = 1;
         } else if (volume < 0) {
@@ -224,8 +225,9 @@ export default {
     volumePointerUp(e) {
         if (!this.volumeIsDrag) return;
         this.volumeIsDrag = false;
-        const volumeBarContainer = this.$refs.volumeBarContainer,
-            volumeBarContainerHeight = volumeBarContainer.offsetHeight,
+        const volumeBarContainer = this.$refs.volumeBarContainer;
+        if(!volumeBarContainer) return;
+        const volumeBarContainerHeight = volumeBarContainer.offsetHeight,
             volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
         if (volume > 1) {
             this.volumeStatus.value = 1;
