@@ -3,7 +3,7 @@ A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 
 ## 注意
 * 正式版已发布(要求：Vue 2.1.8+)，组件已基本稳定。<del>以后不再做功能更新，仅进行功能维护。</del>
-* 修BUG时，忍不住加了一个功能，如要使用最近版，对应的服务器要增加热度(pop)参数的传递，参考代码可以看下面的例子或查看实例的源码。
+* 修BUG时，忍不住加了一个功能，如要使用最新版，对应的服务器要增加热度(pop)参数的传递，参考代码可以看下面的例子或查看实例的源码。
 * 由于使用了弹性盒子布局，兼容性为IE10+。
 * 此外链播放器需要服务器配合解析网易云音乐API才能正常使用。推荐使用：<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a><br>
 * 此外你还需要简化获取到的接口信息，以减少不必要的流量、带宽消耗和官方的API变动导致无法正常使用，并将接口设置为POST或GET请求（修改请求方式需要修改下面的配置）。
