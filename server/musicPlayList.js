@@ -18,14 +18,16 @@ module.exports = function(id, cb) {
         cbData.coverImgUrl = data.playlist.coverImgUrl;
         cbData.name = data.playlist.name;
         cbData.tracks = [];
-        for (let i in data.playlist.tracks) {
-            let track = data.playlist.tracks[i];
-            let artistsName = "";
-            for (let j in track.ar) {
-                artistsName += track.ar[j].name + " / ";
-            }
-            cbData.tracks.push({ name: track.name, id: track.id, duration: track.dt, artists: artistsName.substring(0, artistsName.length - 3), picUrl: track.al.picUrl, pop: track.pop });
-        }
+        data.playlist.tracks.forEach(track => {
+            cbData.tracks.push({
+                name: track.name,
+                id: track.id,
+                duration: track.dt,
+                artists: track.ar.map(item => item.name).join(" / "),
+                picUrl: track.al.picUrl,
+                pop: track.pop
+            });
+        });
         console.log(cbData);
         cb(cbData);
     }).catch(err => {
