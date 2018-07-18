@@ -6,6 +6,7 @@
     box-shadow: 0 0 10px #ccc;
     background: #fff;
     transition: all .6s ease;
+    font-family: 'Microsoft Yahei';
     .f-cb {
         flex: 0 0 92px;
         display: flex;
@@ -110,6 +111,9 @@
                 height: 20px;
                 line-height: 20px;
                 margin-bottom: 2px;
+                user-select: none;
+                -ms-user-select: none;
+                -moz-user-select: none;
                 .time {
                     font-size: 11px;
                     color: #999;
@@ -155,8 +159,6 @@
                         width: 16px;
                         height: 16px;
                         cursor: pointer;
-                        user-select: none;
-                        -ms-user-select: none;
                     }
                     .volumeBarContainer {
                         display: flex;

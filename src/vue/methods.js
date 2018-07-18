@@ -20,7 +20,7 @@ export default {
     getPlayList(cb) {
         $ajax(this.redirect.method, this.redirect.playListUrl)
             .send({ id: this.playlist })
-            .then(res => {
+            .end(res => {
                 if (res.code !== 200) {
                     console.log(res);
                     return;
@@ -40,7 +40,7 @@ export default {
     getMusic(id, cb) {
         $ajax(this.redirect.method, this.redirect.musicUrl)
             .send({ id })
-            .then(res => {
+            .end(res => {
                 if (res.code !== 200) {
                     console.log(res);
                     return;
@@ -55,7 +55,7 @@ export default {
     getLyric(id, cb) {
         $ajax(this.redirect.method, this.redirect.musicLyricUrl)
             .send({ id })
-            .then(res => {
+            .end(res => {
                 if (res.code !== 200) {
                     console.log(res);
                     return;

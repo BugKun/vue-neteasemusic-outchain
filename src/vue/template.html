@@ -32,8 +32,8 @@
                 </div>
                 <div class="btnGroupRight" :style="`width:${btnGroupRightWidth}`">
                     <a href="//github.com/bugkun/vue-neteasemusic-outchain" target="_blank" class="icon git" :style="(isIOS)? 'display:block !important' : null" v-if="!options.hideGit" v-html="icons.github"></a>
-                    <div class="icon" :style="(isIOS)? 'display:none' : null">
-                        <div class="icon" v-html="(volumeStatus.value > 0)? icons.volume: icons.mute" @click="volumeStatus.active = !volumeStatus.active"></div>
+                    <div class="icon" :style="(isIOS)? 'display:none' : null" @mouseenter="volumeStatus.active = true" @touchenter="volumeStatus.active = true" @mouseleave="volumeStatus.active = false" @touchleave="volumeStatus.active = false">
+                        <div class="icon" v-html="(volumeStatus.value > 0)? icons.volume: icons.mute" @click="volumeStatus.active = !volumeStatus.active" :title="`音量${volumeStatus.value * 100}%`"></div>
                         <transition name="fade">
                             <div class="volumeBarContainer" v-if="!isIOS && volumeStatus.active" ref="volumeBarContainer" @mousedown="volumePointerDown" @touchstart="volumePointerTouchDown">
                                 <div class="volumeBar">
@@ -51,10 +51,10 @@
     </div>
     <div class="lyricsContainer" :style="(showLyrics)? 'flex: 0 0 3em;border-top: 1px solid #e6e6e6;' : null">
         <transition name="slideToLeft">
-                <div class="lyricsGroup" v-for="(li, i) in lyrics.lrc.text" :key="i" v-if="i === lyrics.lrc.active">
-                    <div class="f-thide" v-html="li"></div>
-                </div>
-            </transition>
+            <div class="lyricsGroup" v-for="(li, i) in lyrics.lrc.text" :key="i" v-if="i === lyrics.lrc.active">
+                <div class="f-thide" v-html="li"></div>
+            </div>
+        </transition>
     </div>
     <nc-list :musicInfoTracks="(musicInfo.tracks)? musicInfo.tracks : []" :playingIndex="playingIndex" @loadMusic="loadMusic" @getListBox="getListBox" :style="(isListClosed)? 'opacity: 0;' : null"></nc-list>
 </div>

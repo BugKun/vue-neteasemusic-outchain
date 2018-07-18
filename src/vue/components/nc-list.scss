@@ -36,7 +36,16 @@
                 color: #999;
             }
             .name {
-                margin-right: 1em;
+                margin-right: .5em;
+            }
+            .pop {
+                display: flex;
+                align-items: center;
+                margin-right: .5em;
+                cursor: pointer;
+                .hot{
+                    width:1.2em
+                }
             }
             .by {
                 flex: 1;

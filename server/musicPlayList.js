@@ -24,7 +24,7 @@ module.exports = function(id, cb) {
             for (let j in track.ar) {
                 artistsName += track.ar[j].name + " / ";
             }
-            cbData.tracks.push({ name: track.name, id: track.id, duration: track.dt, artists: artistsName.substring(0, artistsName.length - 3), picUrl: track.al.picUrl });
+            cbData.tracks.push({ name: track.name, id: track.id, duration: track.dt, artists: artistsName.substring(0, artistsName.length - 3), picUrl: track.al.picUrl, pop: track.pop });
         }
         console.log(cbData);
         cb(cbData);

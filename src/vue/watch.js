@@ -15,7 +15,7 @@ export default {
     playlist() {
         if (this.audio) {
             this.audio.pause();
-            this.audio.currentTime = 0;
+            if(this.audio.currentTime !== 0) this.audio.currentTime = 0;
         }
         this.playingIndex = null;
         this.process = {

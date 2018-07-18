@@ -14,7 +14,7 @@ class Ajax{
             paramStr += `&${ key }=${ encodeURIComponent(param) }`;
         }else{
             for(let i in param){
-                const k = key == null? i : key + (param instanceof Array? `[${ i }]` : "." + i);
+                const k = key == null? i : key + (param instanceof Array? `[${ i }]` : `.${ i }`);
                 paramStr += `&${ this.parseParam(param[i], k) }`;
             }
         }
@@ -43,7 +43,7 @@ class Ajax{
         }
     }
 
-    then(func){
+    end(func){
         if(this.ended && typeof func !== "function") return this;
         let xhr = this.xhr;
         xhr.open(this.method, this.url, true);
