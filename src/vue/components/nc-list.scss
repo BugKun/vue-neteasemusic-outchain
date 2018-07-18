@@ -12,13 +12,13 @@
         height: auto;
         li {
             display: flex;
+            position: relative;
             padding: 0;
             margin: 0;
             height: 30px;
             min-height: 30px;
-            position: relative;
+            align-items: center;
             line-height: 30px;
-            float: left;
             list-style: none;
             cursor: default;
             .cur {
@@ -40,12 +40,8 @@
             }
             .pop {
                 display: flex;
-                align-items: center;
                 margin-right: .5em;
                 cursor: pointer;
-                .hot{
-                    width:1.2em
-                }
             }
             .by {
                 flex: 1;

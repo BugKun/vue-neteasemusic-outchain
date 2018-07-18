@@ -2,10 +2,14 @@
     <div class="list">
         <ul class="box" ref="box">
             <li v-for="(li,i) in musicInfoTracks" @click="loadMusic(i)" :style="playingStatus(i)" :title="(li.disabled)? copyright : null">
-                <div class="cur" :style="(i === playingIndex)? 'display: block;' : null"></div>
+                <div class="cur" :style="(i === playingIndex)? 'display: block' : null"></div>
                 <div class="index">{{ i + 1 }}</div>
                 <div class="name f-thide" :title="(li.disabled)? copyright : li.name">{{ li.name }}{{ (li.disabled)? `(${copyright})` : "" }}</div>
-                <div class="pop" v-if="typeof li.pop === 'number'"><img :src="pop(li.pop)" class="hot" :title="`热度：${li.pop}`"/></div>
+                <div class="pop" v-if="typeof li.pop === 'number'" :title="`热度：${li.pop}`">
+                    <svg width="20" height="20">
+                        <image :xlink:href="pop(li.pop)" width="20" height="20"/>
+                    </svg>
+                </div>
                 <div class="by f-thide" :title="(li.disabled)? copyright : li.artists" :style="(li.disabled)? 'color: #bbb' : null">{{ li.artists }}</div>
             </li>
         </ul>
@@ -32,7 +36,16 @@
         data() {
             return {
                 copyright: "由于版权保护，您所在的地区暂时无法使用。",
-                popIcons:[]
+                popIconSource: require('libs/icons/pop.svg'),
+                popIcons: []
+            }
+        },
+        watch:{
+            musicInfoTracks:{
+                handler(){
+                    this.popIcons = []
+                },
+                deep: true
             }
         },
         methods: {
@@ -45,10 +58,9 @@
                 this.$emit('loadMusic', i);
             },
             pop(Num){
-                const popIcon = require('libs/icons/pop.svg'),
-                    popIconContianer = document.createElement("div");
+                const popIconContianer = document.createElement("div");
 
-                popIconContianer.innerHTML = popIcon;
+                popIconContianer.innerHTML = this.popIconSource;
 
                 const popIconEL = popIconContianer.querySelector("svg"),
                     AllSteps = popIconEL.querySelectorAll("g> path"),
@@ -60,7 +72,7 @@
                     for(let i = 0; i< steps; i++){
                         AllSteps[i].setAttribute("fill", "#e12828");
                     }
-                    const svgBlob = new Blob([popIconContianer.innerHTML], {type: "image/svg+xml;charset=utf-8"});
+                    const svgBlob = new Blob([popIconContianer.innerHTML], {type: "image/svg+xml"});
                     const svgUrl = URL.createObjectURL(svgBlob);
                     this.popIcons[steps-1] = svgUrl;
                     return svgUrl;
