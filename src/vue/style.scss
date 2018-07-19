@@ -91,7 +91,7 @@
                             cursor: pointer;
                         }
                     }
-                    .played.j-flag:after {
+                    .played.j-flag::after {
                         content: "";
                         position: absolute;
                         right: -4px;
@@ -187,7 +187,7 @@
                                 border-radius: 4px;
                                 background: #e12828;
                             }
-                            .volumeBarProcess:after {
+                            .volumeBarProcess::after {
                                 content: "";
                                 position: absolute;
                                 left: -2px;
@@ -240,7 +240,7 @@
             }
         }
     }
-    .f-cb:after {
+    .f-cb::after {
         clear: both;
         content: '.';
         display: block;

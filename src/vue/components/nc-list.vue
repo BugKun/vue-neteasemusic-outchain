@@ -1,16 +1,16 @@
 <template>
     <div class="list">
+        <div class="cur" :style="Number.isInteger(playingIndex)? `transform: translateY(${30 * playingIndex}px)` : `transform: translateY(-30px)`"></div>
         <ul class="box" ref="box">
-            <li v-for="(li,i) in musicInfoTracks" @click="loadMusic(i)" :style="playingStatus(i)" :title="(li.disabled)? copyright : null">
-                <div class="cur" :style="(i === playingIndex)? 'display: block' : null"></div>
+            <li v-for="(li,i) in musicInfoTracks" @click="loadMusic(i)" :style="playingStatus(i)" :title="li.disabled? copyright : null">
                 <div class="index">{{ i + 1 }}</div>
-                <div class="name f-thide" :title="(li.disabled)? copyright : li.name">{{ li.name }}{{ (li.disabled)? `(${copyright})` : "" }}</div>
+                <div class="name f-thide" :title="li.disabled? copyright : li.name">{{ li.name }}{{ li.disabled? `(${copyright})` : "" }}</div>
                 <div class="pop" v-if="typeof li.pop === 'number'" :title="`热度：${li.pop}`">
                     <svg width="20" height="20">
                         <image :xlink:href="pop(li.pop)" width="20" height="20"/>
                     </svg>
                 </div>
-                <div class="by f-thide" :title="(li.disabled)? copyright : li.artists" :style="(li.disabled)? 'color: #bbb' : null">{{ li.artists }}</div>
+                <div class="by f-thide" :title="li.disabled? copyright : li.artists" :style="li.disabled? 'color: #bbb' : null">{{ li.artists }}</div>
             </li>
         </ul>
     </div>
@@ -50,7 +50,7 @@
         },
         methods: {
             playingStatus(i){
-                let style = (i === this.playingIndex)? 'background: #e9e9e9;' : '';
+                let style = i === this.playingIndex? 'background: #e9e9e9;' : '';
                 if(this.musicInfoTracks && this.musicInfoTracks[i].disabled) style += "color: #bbb !important;";
                 return style;
             },

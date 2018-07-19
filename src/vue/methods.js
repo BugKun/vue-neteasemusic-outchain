@@ -1,5 +1,5 @@
 import { fixLength, getOffset } from 'libs/utils'
-import { $ajax, lyrics } from 'libs/services'
+import { $ajax, Lyrics } from 'libs/services'
 
 export default {
     init() {
@@ -299,12 +299,13 @@ export default {
     },
     initLyric(data) {
         if (data.lrc && data.lrc.lyric) {
-            this.lyrics.lrc.func = new lyrics(data.lrc.lyric);
+            this.lyrics.lrc.func = new Lyrics(data.lrc.lyric);
             if (data.tlyric && data.tlyric.lyric) {
-                this.lyrics.tlyric.func = new lyrics(data.tlyric.lyric);
+                this.lyrics.tlyric.func = new Lyrics(data.tlyric.lyric);
                 this.lyrics.lrc.func.lrcMerge(this.lyrics.tlyric.func.getLyrics(), 2); // 合并翻译歌词
             }
-            this.lyrics.lrc.text = this.lyrics.lrc.func.getLyrics().map(item => item.text);
+            const lyricsArr = this.lyrics.lrc.func.getLyrics();
+            if(lyricsArr) this.lyrics.lrc.text = lyricsArr.map(item => item.text);
         }
         this.lyrics.isLoad = true;
     },

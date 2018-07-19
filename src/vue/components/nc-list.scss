@@ -1,9 +1,28 @@
 .list {
+    position: relative;
     border-top: 1px solid #e6e6e6;
     transition: all .6s ease;
     flex: 1;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+    .cur{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 6;
+        width: 3px;
+        height: 30px;
+        transition: all .15s ease-in-out;
+    }
+    .cur::after{
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: 3px;
+        height: 22px;
+        background: #df2d2d;
+    }
     ul.box {
         display: flex;
         flex-direction: column;
@@ -21,15 +40,6 @@
             line-height: 30px;
             list-style: none;
             cursor: default;
-            .cur {
-                width: 3px;
-                height: 22px;
-                position: absolute;
-                left: 0;
-                top: 4px;
-                display: none;
-                background: #df2d2d;
-            }
             .index {
                 width: 40px;
                 text-align: center;

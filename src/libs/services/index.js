@@ -1,2 +1,2 @@
 export $ajax from "./ajax"
-export lyrics from "./lyrics"
+export Lyrics from "./Lyrics"

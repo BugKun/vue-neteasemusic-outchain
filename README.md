@@ -135,6 +135,8 @@ import neteaseOutchain from 'vue-netease-outchain'
     
 ```
 ```HTML
-<div class="player-box" v-show="showMusicPanel"><netease-outchain :playlist="playlist" :options="options" /></div>
+<div class="player-box" v-show="showMusicPanel">
+    <netease-outchain :playlist="playlist" :options="options" />
+</div>
 <button @click="isShowMusicPanel">加载播放器</button>
 ```
