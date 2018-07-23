@@ -199,6 +199,8 @@ export default {
             if(currentTime < this.audio.currentTime){
                 this.process.isReverse = true;
                 this.process.isUpdate = true;
+            }else {
+                this.process.isUpdate = false;
             }
             this.audio.currentTime = currentTime;
         }
