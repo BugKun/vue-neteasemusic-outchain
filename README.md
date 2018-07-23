@@ -2,8 +2,8 @@
 A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 
 ## 预览
-![preview1](https://github.com/BugKun/vue-neteasemusic-outchain/blob/master/preview1.png)
-![preview2](https://github.com/BugKun/vue-neteasemusic-outchain/blob/master/preview2.png)
+![preview1](https://github.com/BugKun/vue-neteasemusic-outchain/blob/master/preview1.png?raw=true)
+![preview2](https://github.com/BugKun/vue-neteasemusic-outchain/blob/master/preview2.png?raw=true)
 
 ## 注意
 * 正式版已发布(要求：Vue 2.1.8+)，组件已基本稳定。以后不再做功能更新，仅进行功能维护。
