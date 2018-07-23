@@ -2,15 +2,22 @@
     <div class="list">
         <div class="cur" :style="Number.isInteger(playingIndex)? `transform: translateY(${30 * playingIndex}px)` : `transform: translateY(-30px)`"></div>
         <ul class="box" ref="box">
-            <li v-for="(li,i) in musicInfoTracks" @click="loadMusic(i)" :style="playingStatus(i)" :title="li.disabled? copyright : null">
+            <li v-for="(li,i) in musicInfoTracks"
+                @click="loadMusic(i)"
+                :style="playingStatus(i)"
+                :title="li.disabled? copyright : null">
                 <div class="index">{{ i + 1 }}</div>
                 <div class="name f-thide" :title="li.disabled? copyright : li.name">{{ li.name }}{{ li.disabled? `(${copyright})` : "" }}</div>
-                <div class="pop" v-if="typeof li.pop === 'number'" :title="`热度：${li.pop}`">
+                <div class="pop"
+                     v-if="typeof li.pop === 'number'"
+                     :title="`热度：${li.pop}`">
                     <svg width="20" height="20">
                         <image :xlink:href="pop(li.pop)" width="20" height="20"/>
                     </svg>
                 </div>
-                <div class="by f-thide" :title="li.disabled? copyright : li.artists" :style="li.disabled? 'color: #bbb' : null">{{ li.artists }}</div>
+                <div class="by f-thide"
+                     :title="li.disabled? copyright : li.artists"
+                     :style="li.disabled? 'color: #bbb' : null">{{ li.artists }}</div>
             </li>
         </ul>
     </div>
@@ -22,9 +29,7 @@
         props: {
             musicInfoTracks: {
                 type: Array,
-                default: () => {
-                    return []
-                }
+                default: () => []
             },
             playingIndex: {
                 required: true
@@ -67,7 +72,7 @@
                     steps = Math.ceil(Num / 100 * AllSteps.length);
 
                 if(this.popIcons[steps-1]) {
-                    return this.popIcons[steps-1]
+                    return this.popIcons[steps-1];
                 }else {
                     for(let i = 0; i< steps; i++){
                         AllSteps[i].setAttribute("fill", "#e12828");

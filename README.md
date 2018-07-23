@@ -2,11 +2,11 @@
 A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).
 
 ## 预览
-![preview](https://github.com/BugKun/vue-neteasemusic-outchain/blob/master/preview1.png)
-![preview](https://github.com/BugKun/vue-neteasemusic-outchain/blob/master/preview2.png)
+![preview1](https://github.com/BugKun/vue-neteasemusic-outchain/blob/master/preview1.png)
+![preview2](https://github.com/BugKun/vue-neteasemusic-outchain/blob/master/preview2.png)
 
 ## 注意
-* 正式版已发布(要求：Vue 2.1.8+)，组件已基本稳定。<del>以后不再做功能更新，仅进行功能维护。</del>
+* 正式版已发布(要求：Vue 2.1.8+)，组件已基本稳定。以后不再做功能更新，仅进行功能维护。
 * 修BUG时，忍不住加了一个功能，如要使用1.0.5+的版本，对应的服务器要增加热度(pop)参数的传递，参考代码可以看下面的例子或查看实例的源码。
 * 由于使用了弹性盒子布局，兼容性为IE10+。
 * 此外链播放器需要服务器配合解析网易云音乐API才能正常使用。推荐使用：<a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a><br>

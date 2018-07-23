@@ -289,14 +289,16 @@
 }
 
 .slideToLeft-enter-active,
-.slideToLeft-leave-active {
+.slideToLeft-leave-active,
+.slideToRight-enter-active,
+.slideToRight-leave-active {
     transition: transform .3s;
 }
 
-.slideToLeft-enter {
+.slideToLeft-enter, .slideToRight-leave-to {
     transform: translateX(100%)
 }
 
-.slideToLeft-leave-to {
+.slideToLeft-leave-to, .slideToRight-enter {
     transform: translateX(-100%)
 }

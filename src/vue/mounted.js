@@ -17,17 +17,17 @@ export default function() {
     };
     this.audio.oncanplaythrough = () => {
         this.musicLoading = false;
-    }
+    };
     this.audio.onwaiting = () => {
         this.musicLoading = true
-    }
+    };
     this.audio.onseeked = () => {
         this.musicLoading = false
-    }
+    };
     this.audio.onprogress = () => {
         if (this.audio && this.audio.buffered.length > 0)
             this.audioBuffered = this.audio.buffered.end(this.audio.buffered.length - 1);
-    }
+    };
     this.audio.volume = this.volumeStatus.value;
     if (!this.options.lazyLoad) {
         this.isLoaded = true;

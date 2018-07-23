@@ -27,6 +27,8 @@ export default function() {
         copyright: "由于版权保护，您所在的地区暂时无法使用。",
         process: {
             barPlayed: "",
+            isReverse: false,
+            isUpdate: false,
             time: "- 00:00",
             duration: 0
         },
@@ -47,7 +49,7 @@ export default function() {
             },
             tlyric: {
                 func: null,
-            },
+            }
         },
         listBox: null,
         listBoxHeight: 0,

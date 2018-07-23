@@ -1,5 +1,5 @@
-import { fixLength, getOffset } from 'libs/utils'
-import { $ajax, Lyrics } from 'libs/services'
+import { fixLength, getOffset } from 'libs/utils';
+import { $ajax, Lyrics } from 'libs/services';
 
 export default {
     init() {
@@ -132,6 +132,8 @@ export default {
         this.loadMusic(next);
         this.process.barPlayed = "";
         this.process.time = "- 00:00";
+        this.process.isReverse = false;
+        this.process.isUpdate = false;
     },
     prev() {
         if (this.playingIndex === null) return;
@@ -140,6 +142,8 @@ export default {
         this.loadMusic(prev);
         this.process.barPlayed = "";
         this.process.time = "- 00:00";
+        this.process.isReverse = false;
+        this.process.isUpdate = false;
     },
     setProcess() {
         let index = this.playingIndex;
@@ -190,8 +194,14 @@ export default {
         if (this.audio && this.audio.src !== "" && this.progressIsDrag)
             this.process.barPlayed = `width: ${ position }px`;
         this.progressIsDrag = false;
-        if (this.audio && this.audio.src !== "")
-            this.audio.currentTime = position / barContainerWidth * this.process.duration;
+        if (this.audio && this.audio.src !== ""){
+            const currentTime = position / barContainerWidth * this.process.duration;
+            if(currentTime < this.audio.currentTime){
+                this.process.isReverse = true;
+                this.process.isUpdate = true;
+            }
+            this.audio.currentTime = currentTime;
+        }
         this.setProcess("init");
     },
     volumePointerDown(e) {
@@ -213,7 +223,7 @@ export default {
         const volumeBarContainer = this.$refs.volumeBarContainer;
         if(!volumeBarContainer) return;
         const volumeBarContainerHeight = volumeBarContainer.offsetHeight,
-             volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
+            volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
         if (volume > 1) {
             this.volumeStatus.value = 1;
         } else if (volume < 0) {
@@ -320,6 +330,11 @@ export default {
             const isActive = this.lyrics.lrc.func.select(time);
             if (isActive !== this.lyrics.lrc.active){
                 this.lyrics.lrc.active = isActive;
+                if(this.process.isUpdate){
+                    this.process.isUpdate = false;
+                }else {
+                    if(this.process.isReverse) this.process.isReverse = false;
+                }
             }
         }
     }

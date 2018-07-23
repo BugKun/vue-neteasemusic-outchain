@@ -44,6 +44,6 @@ export default {
         if(!this.isIOS) {
             count++;
         }
-        return `${ 1.5 * count }em`
+        return `${ 1.5 * count }em`;
     }
 }
