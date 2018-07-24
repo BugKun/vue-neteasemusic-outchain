@@ -5,7 +5,8 @@
             <li v-for="(li,i) in musicInfoTracks"
                 @click="loadMusic(i)"
                 :style="playingStatus(i)"
-                :title="li.disabled? copyright : null">
+                :title="li.disabled? copyright : null"
+                :key="i">
                 <div class="index">{{ i + 1 }}</div>
                 <div class="name f-thide" :title="li.disabled? copyright : li.name">{{ li.name }}{{ li.disabled? `(${copyright})` : "" }}</div>
                 <div class="pop"

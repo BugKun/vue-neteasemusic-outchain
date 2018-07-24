@@ -84,7 +84,7 @@ http.get(`http://localhost:3000/music/url?id=${postData.id}`, function (_res) {
 http://localhost:3000/lyric 保持数据与官方一致
 
 ### 安装
-> npm i vue-neteasemusic-outchain
+> npm i -s vue-neteasemusic-outchain
 
 ### 相关参数
 > playlist ID (Type:Number)：必须填入<br>
