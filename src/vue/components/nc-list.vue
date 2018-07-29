@@ -49,7 +49,9 @@
         watch:{
             musicInfoTracks:{
                 handler(){
-                    this.popIcons = []
+                    for(let i in this.popIcons){
+                        if(this.popIcons[i] instanceof Object) this.popIcons[i].url = null;
+                    }
                 },
                 deep: true
             }
@@ -70,17 +72,27 @@
 
                 const popIconEL = popIconContianer.querySelector("svg"),
                     AllSteps = popIconEL.querySelectorAll("g> path"),
-                    steps = Math.ceil(Num / 100 * AllSteps.length);
+                    stepsLength = Math.ceil(Num / 100 * AllSteps.length),
+                    steps = stepsLength -1;
 
-                if(this.popIcons[steps-1]) {
-                    return this.popIcons[steps-1];
+                if(this.popIcons[steps] && this.popIcons[steps] instanceof Object) {
+                    if(this.popIcons[steps].url){
+                        return this.popIcons[steps].url;
+                    }else{
+                        const svgUrl = URL.createObjectURL(this.popIcons[steps].blob);
+                        this.popIcons[steps].url = svgUrl;
+                        return svgUrl;
+                    }
                 }else {
-                    for(let i = 0; i< steps; i++){
+                    for(let i = 0; i< stepsLength; i++){
                         AllSteps[i].setAttribute("fill", "#e12828");
                     }
                     const svgBlob = new Blob([popIconContianer.innerHTML], {type: "image/svg+xml"});
                     const svgUrl = URL.createObjectURL(svgBlob);
-                    this.popIcons[steps-1] = svgUrl;
+                    this.popIcons[steps] = { 
+                        blob: svgBlob,
+                        url: svgUrl
+                    };
                     return svgUrl;
                 }
             }
