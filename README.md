@@ -5,6 +5,8 @@ A outchain player for NeteaseCloudMusic on Vue. ( Vue上的网易云音乐外链
 ![preview1](https://raw.githubusercontent.com/BugKun/vue-neteasemusic-outchain/master/preview1.png)
 ![preview2](https://raw.githubusercontent.com/BugKun/vue-neteasemusic-outchain/master/preview2.png)
 
+<a href="http://router.189club.xyz:22333" target="_blank">Demo</a><br>
+
 ## 注意
 * 正式版已发布(要求：Vue 2.1.8+)，组件已基本稳定。以后不再做功能更新，仅进行功能维护。
 * 修BUG时，忍不住加了一个功能，如要使用1.0.5+的版本，对应的服务器要增加热度(pop)参数的传递，参考代码可以看下面的例子或查看实例的源码。
