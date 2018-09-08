@@ -4,6 +4,7 @@ class Ajax{
         this.method = method;
         this.url = url;
         this.data = null;
+        this.type = null;
         this.ended = false;
     }
 
@@ -23,9 +24,9 @@ class Ajax{
 
     query(data){
         if(typeof data === "object"){
-            this.url += `?${this.parseParam(data)}`;
+            this.url += `?${ this.parseParam(data) }`;
         }else {
-            this.url += `?${data}`;
+            this.url += `?${ data }`;
         }
         return this;
     }
@@ -34,6 +35,7 @@ class Ajax{
         if(this.method.toUpperCase() === "POST"){
             if(typeof data === "object"){
                 this.data = JSON.stringify(data);
+                this.type = "application/json";
             }else {
                 this.data = data;
             }
@@ -59,6 +61,9 @@ class Ajax{
                 func(res);
             }
         };
+        if(this.type){
+            xhr.setRequestHeader("Content-type", this.type);
+        }
         xhr.send(this.data);
         this.ended = true;
         return this;
@@ -70,4 +75,4 @@ class Ajax{
     }
 }
 
-export default (method, url) => new Ajax(method, url)
+export default (method, url) => new Ajax(method, url);

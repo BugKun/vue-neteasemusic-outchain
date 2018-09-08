@@ -1,18 +1,15 @@
 const http = require("http");
 
-const httpGet = url => {
-    return new Promise(function(resolve, reject){
-        http.get(url, function (res) {
-            var data = "";
-            res.setEncoding('utf8');
-            res.on('data', function (chunk) {
+module.exports = url =>
+    new Promise((resolve, reject) => {
+        http.get(url, res => {
+            let data = "";
+            res.setEncoding("utf8");
+            res.on("data", chunk => {
                 data += chunk;
             });
-            res.on("end", function(){
+            res.on("end", () => {
                 resolve(data);
             });
         }).on("error", reject);
-    })
-}
-
-module.exports = httpGet;
+    });
