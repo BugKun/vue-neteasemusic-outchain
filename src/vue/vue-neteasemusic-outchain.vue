@@ -1,12 +1,18 @@
 <template src="./template.html"></template>
 
 <script>
-    import ncList from './components/nc-list.vue'
+    import PlayList from './components/PlayList/index.vue';
+    import Lyrics from './components/Lyrics/index.vue';
+    import VolumeControl from './components/VolumeControl/index.vue';
+    import Tracker from './components/Tracker/index.vue';
 
     export default {
         name: 'neteasemusic-outchain',
         components:{
-            ncList
+            VolumeControl,
+            PlayList,
+            Lyrics,
+            Tracker
         },
         props: {
             playlist: {
@@ -24,7 +30,7 @@
         computed: require("./computed"),
         watch: require("./watch"),
         methods: require("./methods")
-    }
+    };
 </script>
 
 <style lang="scss" scoped src="./style.scss"></style>
@@ -32,10 +38,10 @@
     @keyframes NeteaseMusicOutchain-rotateAround
     {
         0%{
-            transform:rotate(0deg);
+            transform: rotate(0deg) translateZ(0);
         }
         to{
-            transform:rotate(1turn);
+            transform: rotate(1turn) translateZ(0);
         }
     }
 </style>

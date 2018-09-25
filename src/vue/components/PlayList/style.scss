@@ -1,0 +1,30 @@
+.list {
+    position: relative;
+    border-top: 1px solid #e6e6e6;
+    transition: all .6s ease;
+    flex: 1;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    ul.box {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        height: auto;
+        li.list-item:nth-child(odd) {
+            background: #f7f7f7;
+        }
+    }
+}
+.list::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+}
+.list::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #757575;
+}
+.list::-webkit-scrollbar-button {
+    display: none;
+}

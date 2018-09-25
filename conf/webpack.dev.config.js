@@ -6,7 +6,10 @@
 
 module.exports = {
     mode: "development",
-    entry: [path.resolve(__dirname, '../src/index.js?hot=true'), "webpack-hot-middleware/client?reload=true"],
+    entry: [
+        path.resolve(__dirname, '../src/index.js?hot=true'),
+        "webpack-hot-middleware/client?reload=true"
+    ],
     output: {
         ...webpackBaseConfig.output,
         library: 'webpackHotMiddlewareMode'

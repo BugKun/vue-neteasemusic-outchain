@@ -1,0 +1,22 @@
+<div class="icon"
+     :style="isIOS? 'display:none' : null"
+     @mouseenter="active = true"
+     @touchenter="active = true"
+     @mouseleave="active = false"
+     @touchleave="active = false">
+    <div class="icon"
+         v-html="value > 0? icons.volume: icons.mute"
+         @click="active = !active"
+         :title="`音量${Math.floor(value * 100)}%`"></div>
+    <transition name="fade">
+        <div class="volumeBarContainer"
+             v-if="active"
+             ref="volumeBarContainer"
+             @mousedown="volumePointerDown"
+             @touchstart="volumePointerTouchDown">
+            <div class="volumeBar">
+                <div class="volumeBarProcess" :style="`transform: translate3d(0, ${(1 - value) * 100}%, 0)`"></div>
+            </div>
+        </div>
+    </transition>
+</div>

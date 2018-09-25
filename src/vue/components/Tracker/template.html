@@ -1,0 +1,9 @@
+<div class="barContainer"
+     @mousedown="progressPointerDown"
+     @touchstart="progressPointerTouchDown"
+     ref="barContainer">
+    <div class="bar">
+        <div class="process buffered" :style="`width: ${audioBuffered / duration * 100}%`"></div>
+        <div class="process played j-flag" :style="barPlayed"></div>
+    </div>
+</div>

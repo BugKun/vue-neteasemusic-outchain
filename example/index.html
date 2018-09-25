@@ -39,8 +39,12 @@
         <div style="margin: 2em 0">
             <label>歌单编号：<input type="number" v-model="playlistInput"/></label><button @click="setPlaylist" style="margin-left: 2px">确定</button>
             <p>请求方式：
-                <label><input type="radio" name="method" value="POST" v-model="options.redirect.method"/>POST</label>
-                <label><input type="radio" name="method" value="GET" v-model="options.redirect.method"/>GET</label>
+                <label>
+                    <input type="radio" name="method" value="POST" v-model="options.redirect.method"/>POST
+                </label>
+                <label>
+                    <input type="radio" name="method" value="GET" v-model="options.redirect.method"/>GET
+                </label>
             </p>
         </div>
         <neteasemusic-outchain :playlist="Number(playlist)" :options="options"></neteasemusic-outchain>

@@ -76,7 +76,7 @@
                     .buffered{
                         z-index: 2;
                         background: #cdcdcd;
-                    }  
+                    }
                     .played {
                         z-index: 3;
                         background: #e12828;
@@ -160,47 +160,6 @@
                         height: 16px;
                         cursor: pointer;
                     }
-                    .volumeBarContainer {
-                        display: flex;
-                        position: absolute;
-                        width: 16px;
-                        height: 70px;
-                        left: 0;
-                        bottom: 18px;
-                        z-index: 5;
-                        align-items: center;
-                        border-radius: 2px;
-                        background: #fff;
-                        box-shadow: 0 0 10px #ccc;
-                        .volumeBar {
-                            position: relative;
-                            width: 4px;
-                            height: 60px;
-                            border-radius: 4px;
-                            margin: 0 auto;
-                            background: #cdcdcd;
-                            .volumeBarProcess {
-                                position: absolute;
-                                left: 0;
-                                bottom: 0;
-                                width: 4px;
-                                border-radius: 4px;
-                                background: #e12828;
-                            }
-                            .volumeBarProcess::after {
-                                content: "";
-                                position: absolute;
-                                left: -2px;
-                                top: -5px;
-                                width: 8px;
-                                height: 8px;
-                                border-radius: 4px;
-                                background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
-                                background-position: -92px -14px;
-                                cursor: pointer;
-                            }
-                        }
-                    }
                     @media screen and (max-width: 350px) {
                         .git {
                             display: none;
@@ -247,24 +206,6 @@
         height: 0;
         visibility: hidden;
     }
-    .lyricsContainer {
-        position: relative;
-        flex: 0;
-        overflow: hidden;
-        transition: all .6s ease-in-out;
-        .lyricsGroup {
-            display: flex;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            flex: 0;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-        }
-    }
 }
 
 .bg {
@@ -288,17 +229,14 @@
     opacity: 0;
 }
 
-.slideToLeft-enter-active,
-.slideToLeft-leave-active,
-.slideToRight-enter-active,
-.slideToRight-leave-active {
-    transition: transform .3s;
-}
-
-.slideToLeft-enter, .slideToRight-leave-to {
-    transform: translateX(100%)
-}
-
-.slideToLeft-leave-to, .slideToRight-enter {
-    transform: translateX(-100%)
+:global{
+    @keyframes NeteaseMusicOutchain-rotateAround
+    {
+        0%{
+            transform: rotate(0deg) translateZ(0);
+        }
+        to{
+            transform: rotate(1turn) translateZ(0);
+        }
+    }
 }

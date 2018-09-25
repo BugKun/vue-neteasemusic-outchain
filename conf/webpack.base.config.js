@@ -25,7 +25,8 @@ module.exports = {
         }
     },
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.vue$/,
                 use: ['happypack/loader?id=vue']
             },

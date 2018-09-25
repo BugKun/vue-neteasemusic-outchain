@@ -1,0 +1,48 @@
+.barContainer {
+    padding: 10px 0;
+    cursor: pointer;
+    .bar {
+        position: relative;
+        left: 0;
+        top: 0;
+        height: 2px;
+        background: #e5e9ef;
+        .process{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 2px;
+            width: 0;
+        }
+        .buffered{
+            z-index: 2;
+            background: #cdcdcd;
+        }
+        .played {
+            z-index: 3;
+            background: #e12828;
+            .thumb {
+                position: absolute;
+                right: -4px;
+                left: auto;
+                top: -3px;
+                width: 8px;
+                height: 8px;
+                background-position: -92px -14px;
+                cursor: pointer;
+            }
+        }
+        .played.j-flag::after {
+            content: "";
+            position: absolute;
+            right: -4px;
+            left: auto;
+            top: -3px;
+            width: 8px;
+            height: 8px;
+            background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
+            background-position: -92px -14px;
+            cursor: pointer;
+        }
+    }
+}

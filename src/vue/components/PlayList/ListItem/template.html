@@ -1,0 +1,13 @@
+<li class="list-item"
+    :class="listItemState"
+    :title="disabled? copyright : null">
+    <div class="index">{{ index + 1 }}</div>
+    <div class="name f-thide">{{ musicInfoName }}</div>
+    <div class="pop"
+         :title="`热度：${musicInfo.pop}`">
+        <svg width="20" height="20">
+            <image :xlink:href="pop" width="20" height="20"/>
+        </svg>
+    </div>
+    <div class="by f-thide">{{ musicInfo.artists }}</div>
+</li>

@@ -8,8 +8,6 @@ export default function() {
         },
         icons: {
             github: require('libs/icons/github.svg'),
-            volume: require('libs/icons/volume.svg'),
-            mute: require('libs/icons/mute.svg'),
             loading: require('!url-loader?limit=999999!libs/icons/loading.gif')
         },
         isLoaded: false,
@@ -18,6 +16,7 @@ export default function() {
         isIE: /(MSIE)|(rv:11.0)/.test(navigator.userAgent),
         isIOS: /iPhone|iPad|iPod/.test(navigator.userAgent),
         audio: null,
+        volume: 0.5,
         volumeStatus: {
             value: .5,
             active: false
@@ -37,8 +36,9 @@ export default function() {
         cover: null,
         playingIndex: null,
         progressIsDrag: false,
-        volumeIsDrag: false,
         showLyrics: false,
+        lyricID: 0,
+        currentTime: 0,
         lyrics: {
             id: 0,
             isLoad: false,

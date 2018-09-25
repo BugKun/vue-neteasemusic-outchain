@@ -52,20 +52,6 @@ export default {
                 console.log("Oops, error", error);
             })
     },
-    getLyric(id, cb) {
-        $ajax(this.redirect.method, this.redirect.musicLyricUrl)
-            .send({ id })
-            .end(res => {
-                if (res.code !== 200) {
-                    console.log(res);
-                    return;
-                }
-                cb(res);
-            })
-            .catch(error => {
-                console.log("Oops, error", error);
-            })
-    },
     loadMusic(i, errorTime = null) {
         if (!this.musicInfo.tracks) return this.init();
 
@@ -85,8 +71,7 @@ export default {
             });
         }
         this.lyrics.isLoad = false;
-        this.removeAllLyric();
-        if (this.showLyrics) this.setLyric(i);
+        this.lyricID = this.musicInfo.tracks[i].id;
     },
     playMusic(i, errorTime) {
         if (this.musicInfo.tracks[i].disabled) return this.next(i);
@@ -196,148 +181,25 @@ export default {
         this.progressIsDrag = false;
         if (this.audio && this.audio.src !== ""){
             const currentTime = position / barContainerWidth * this.process.duration;
-            if(currentTime < this.audio.currentTime){
-                this.process.isReverse = true;
-                this.process.isUpdate = true;
-            }else {
-                this.process.isUpdate = false;
-            }
             this.audio.currentTime = currentTime;
         }
         this.setProcess("init");
     },
-    volumePointerDown(e) {
-        if (!this.audio) return;
-        this.volumeIsDrag = true;
-        const volumeBarContainer = this.$refs.volumeBarContainer,
-            volumeBarContainerHeight = volumeBarContainer.offsetHeight,
-            volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
-        if (volume > 1) {
-            this.volumeStatus.value = 1;
-        } else if (volume < 0) {
-            this.volumeStatus.value = 0;
-        } else {
-            this.volumeStatus.value = volume;
-        }
-    },
-    volumePointerMove(e) {
-        if (!this.volumeIsDrag) return;
-        const volumeBarContainer = this.$refs.volumeBarContainer;
-        if(!volumeBarContainer) return;
-        const volumeBarContainerHeight = volumeBarContainer.offsetHeight,
-            volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
-        if (volume > 1) {
-            this.volumeStatus.value = 1;
-        } else if (volume < 0) {
-            this.volumeStatus.value = 0;
-        } else {
-            this.volumeStatus.value = volume;
-        }
-    },
-    volumePointerUp(e) {
-        if (!this.volumeIsDrag) return;
-        this.volumeIsDrag = false;
-        const volumeBarContainer = this.$refs.volumeBarContainer;
-        if(!volumeBarContainer) return;
-        const volumeBarContainerHeight = volumeBarContainer.offsetHeight,
-            volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
-        if (volume > 1) {
-            this.volumeStatus.value = 1;
-        } else if (volume < 0) {
-            this.volumeStatus.value = 0;
-        } else {
-            this.volumeStatus.value = volume;
-        }
-    },
     progressPointerTouchDown(e) {
         this.progressPointerDown(e.changedTouches[0]);
     },
-    progressPointerTouchMove(e) {
-        this.progressPointerMove(e.changedTouches[0]);
-    },
-    progressPointerTouchEnd(e) {
-        this.progressPointerUp(e.changedTouches[0]);
-    },
-    volumePointerTouchDown(e) {
-        this.volumePointerDown(e.changedTouches[0]);
-    },
-    volumePointerTouchMove(e) {
-        this.volumePointerMove(e.changedTouches[0]);
-    },
-    volumePointerTouchEnd(e) {
-        this.volumePointerUp(e.changedTouches[0]);
-    },
     mouseMove(e) {
         this.progressPointerMove(e);
-        this.volumePointerMove(e);
+        this.$refs.VolumeControl.volumePointerMove(e);
     },
     mouseUp(e) {
         this.progressPointerUp(e);
-        this.volumePointerUp(e);
+        this.$refs.VolumeControl.volumePointerUp(e);
     },
     touchMove(e) {
-        this.progressPointerTouchMove(e);
-        this.volumePointerTouchMove(e);
+        this.mouseMove(e.changedTouches[0]);
     },
     touchEnd(e) {
-        this.progressPointerTouchEnd(e);
-        this.volumePointerTouchEnd(e);
-    },
-    setLyric(index) {
-        if (!Number.isInteger(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
-        if (this.musicInfo.tracks[index].lyricData) {
-            let data = this.musicInfo.tracks[index].lyricData;
-            this.initLyric(data);
-        } else {
-            let id = this.musicInfo.tracks[index].id;
-            this.getLyric(id, (data) => {
-                this.lyrics.id = id;
-                if (!data.lrc) {
-                    // 没歌词
-                    data.lrc = {};
-                    if (data.sgc) {
-                        data.lrc.lyric = "[00:00.00]还没有歌词哦~";
-                    } else if (data.nolyric) {
-                        // 纯音乐
-                        data.lrc.lyric = "[00:00.00]纯音乐，请您欣赏";
-                    }
-                } else {
-                    data.lrc.lyric += "[offset:300]";
-                }
-                this.musicInfo.tracks[index].lyricData = data;
-                this.initLyric(data);
-            });
-        }
-    },
-    initLyric(data) {
-        if (data.lrc && data.lrc.lyric) {
-            this.lyrics.lrc.func = new Lyrics(data.lrc.lyric);
-            if (data.tlyric && data.tlyric.lyric) {
-                this.lyrics.tlyric.func = new Lyrics(data.tlyric.lyric);
-                this.lyrics.lrc.func.lrcMerge(this.lyrics.tlyric.func.getLyrics(), 2); // 合并翻译歌词
-            }
-            const lyricsArr = this.lyrics.lrc.func.getLyrics();
-            if(lyricsArr) this.lyrics.lrc.text = lyricsArr.map(item => item.text);
-        }
-        this.lyrics.isLoad = true;
-    },
-    removeAllLyric() {
-        this.lyrics.lrc.func = this.lyrics.tlyric.func = null;
-        this.lyrics.lrc.text = [];
-        this.lyrics.lrc.active = -1;
-    },
-    loadLyric(time) {
-        if (!this.lyrics.isLoad) return;
-        if (this.lyrics.lrc.text.length > 0) {
-            const isActive = this.lyrics.lrc.func.select(time);
-            if (isActive !== this.lyrics.lrc.active){
-                this.lyrics.lrc.active = isActive;
-                if(this.process.isUpdate){
-                    this.process.isUpdate = false;
-                }else {
-                    if(this.process.isReverse) this.process.isReverse = false;
-                }
-            }
-        }
+        this.mouseUp(e.changedTouches[0]);
     }
 }

@@ -6,7 +6,7 @@ export default function() {
     this.audio.ontimeupdate = () => {
         if (!this.audio || !this.audio.currentTime) return;
         this.setProcess();
-        this.loadLyric(this.audio.currentTime);
+        this.currentTime = this.audio.currentTime;
     };
     this.audio.onerror = () => {
         if (this.musicInfo.tracks[this.playingIndex]) this.musicInfo.tracks[this.playingIndex].playUrl = null;

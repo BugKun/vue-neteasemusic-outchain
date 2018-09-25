@@ -9,7 +9,7 @@ export default {
         },
         deep: true
     },
-    "volumeStatus.value" (curVal) {
+    volume(curVal) {
         if (this.audio && !isNaN(curVal)) this.audio.volume = curVal;
     },
     playlist() {
@@ -23,12 +23,6 @@ export default {
             time: "- 00:00"
         };
         this.paused = true;
-        this.removeAllLyric();
         this.getPlayList();
-    },
-    showLyrics(curVal) {
-        if (curVal) {
-            this.setLyric(this.playingIndex);
-        }
     }
 }

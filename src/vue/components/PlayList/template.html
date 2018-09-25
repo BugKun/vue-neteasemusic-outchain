@@ -1,0 +1,16 @@
+<div class="list">
+    <CurrentPointer :playingIndex="playingIndex"/>
+    <ul class="box" ref="box">
+        <ListItem
+            v-if="musicInfoTracks"
+            v-for="(li,i) in musicInfoTracks"
+            :key="i"
+            :index="i"
+            :musicInfo="li"
+            :disabled="li.disabled"
+            @click.native="loadMusic(i)"
+            :isPlaying="i === playingIndex"
+            :pop="pop(li.pop)"
+        />
+    </ul>
+</div>

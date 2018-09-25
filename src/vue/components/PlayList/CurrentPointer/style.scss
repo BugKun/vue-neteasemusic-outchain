@@ -1,0 +1,18 @@
+.cur{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 6;
+    width: 3px;
+    height: 30px;
+    transition: all .15s ease-in-out;
+}
+.cur::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 3px;
+    height: 22px;
+    background: #df2d2d;
+}
