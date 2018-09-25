@@ -25,12 +25,12 @@ export default {
         if (this.isIE || this.progressIsDrag) adapt += "user-select: none;-ms-user-select: none;";
         return adapt;
     },
-    musicLink() {
-        let link = null;
+    songID() {
+        let ID = 0;
         if (Number.isInteger(this.playingIndex) && this.musicInfo && this.musicInfo.tracks && this.musicInfo.tracks[this.playingIndex]) {
-            link = "//music.163.com/song?id=" + this.musicInfo.tracks[this.playingIndex].id;
+            ID = this.musicInfo.tracks[this.playingIndex].id;
         }
-        return link;
+        return ID;
     },
     btnGroupRightWidth() {
         let count = 2;
@@ -45,5 +45,11 @@ export default {
             count++;
         }
         return `${ 1.5 * count }em`;
+    },
+    currentTrackDuration(){
+        if(!this.musicInfo.tracks) return 0;
+        const playingIndex = this.playingIndex || 0,
+            duration = this.musicInfo.tracks[playingIndex].duration / 1000;
+        return duration || 0;
     }
 }

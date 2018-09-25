@@ -1766,7 +1766,7 @@ function flushCallbacks () {
 // microtasks have too high a priority and fire in between supposedly
 // sequential events (e.g. #4521, #6690) or even between bubbling of the same
 // event (#6566). However, using (macro) tasks everywhere also has subtle problems
-// when state is changed right before repaint (e.g. #6813, out-in transitions).
+// when State is changed right before repaint (e.g. #6813, out-in transitions).
 // Here we use microtask by default, but expose a way to force (macro) task when
 // needed (e.g. in event handlers attached by v-on).
 var microTimerFunc;
@@ -1807,7 +1807,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
   microTimerFunc = function () {
     p.then(flushCallbacks);
     // in problematic UIWebViews, Promise.then doesn't completely break, but
-    // it can get stuck in a weird state where callbacks are pushed into the
+    // it can get stuck in a weird State where callbacks are pushed into the
     // microtask queue but the queue isn't being flushed, until the browser
     // needs to do some other work, e.g. handle a timer. Therefore we can
     // "force" the microtask queue to be flushed by adding an empty timer.
@@ -1819,7 +1819,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
 }
 
 /**
- * Wrap a function so that if any code inside triggers state change,
+ * Wrap a function so that if any code inside triggers State change,
  * the changes are queued using a (macro) task instead of a microtask.
  */
 function withMacroTask (fn) {
@@ -2944,7 +2944,7 @@ var flushing = false;
 var index = 0;
 
 /**
- * Reset the scheduler's state.
+ * Reset the scheduler's State.
  */
 function resetSchedulerState () {
   index = queue.length = activatedChildren.length = 0;
@@ -2996,7 +2996,7 @@ function flushSchedulerQueue () {
     }
   }
 
-  // keep copies of post queues before resetting state
+  // keep copies of post queues before resetting State
   var activatedQueue = activatedChildren.slice();
   var updatedQueue = queue.slice();
 
@@ -4093,7 +4093,7 @@ function mergeProps (to, from) {
 // The hook will be triggered by native, not javascript.
 
 
-// Updates the state of the component to weex native render engine.
+// Updates the State of the component to weex native render engine.
 
 /*  */
 
@@ -4284,7 +4284,7 @@ function createComponent (
 
 function createComponentInstanceForVnode (
   vnode, // we know it's MountedComponentVNode but flow doesn't
-  parent, // activeInstance in lifecycle state
+  parent, // activeInstance in lifecycle State
   parentElm,
   refElm
 ) {
@@ -8338,7 +8338,7 @@ var Transition = {
 // we force transition-group to update its children into two passes:
 // in the first pass, we remove all nodes that need to be removed,
 // triggering their leaving transition; in the second pass, we insert/move
-// into the final desired state. This way in the second pass removed
+// into the final desired State. This way in the second pass removed
 // nodes will remain where they should be.
 
 var props = extend({
@@ -9050,7 +9050,7 @@ var modifierRE = /\.[^.]+/g;
 
 var decodeHTMLCached = cached(he.decode);
 
-// configurable state
+// configurable State
 var warn$2;
 var delimiters;
 var transforms;
@@ -9112,7 +9112,7 @@ function parse (
   }
 
   function closeElement (element) {
-    // check pre state
+    // check pre State
     if (element.pre) {
       inVPre = false;
     }
@@ -9152,7 +9152,7 @@ function parse (
       if (isForbiddenTag(element) && !isServerRendering()) {
         element.forbidden = true;
         "development" !== 'production' && warn$2(
-          'Templates should only be responsible for mapping the state to the ' +
+          'Templates should only be responsible for mapping the State to the ' +
           'UI. Avoid placing tags with side-effects in your templates, such as ' +
           "<" + tag + ">" + ', as they will not be parsed.'
         );
@@ -9595,7 +9595,7 @@ function processAttrs (el) {
         }
       }
       addAttr(el, name, JSON.stringify(value));
-      // #6887 firefox doesn't update muted state if set via attribute
+      // #6887 firefox doesn't update muted State if set via attribute
       // even immediately after element creation
       if (!el.component &&
           name === 'muted' &&

@@ -145,56 +145,13 @@ export default {
         let url = (Number.isInteger(i)) ? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
         this.cover = (url) ? url.replace(/(http:\/\/)|(https:\/\/)/, "//") : url;
     },
-    progressPointerDown(e) {
-        if (!this.audio) return;
-        const barContainer = this.$refs.barContainer;
-        this.progressIsDrag = true;
-        this.setProcess("paused");
-        if (this.audio && this.audio.src !== "")
-            this.process.barPlayed = `width: ${e.clientX - getOffset(barContainer).left}px`;
-    },
-    progressPointerMove(e) {
-        if (!this.progressIsDrag) return;
-        const barContainer = this.$refs.barContainer,
-            barContainerWidth = barContainer.offsetWidth;
-        let position = e.clientX - getOffset(barContainer).left;
-        if (position < 0) {
-            position = 0;
-        } else if (position > barContainerWidth) {
-            position = barContainerWidth;
-        }
-        if (this.audio && this.audio.src !== "" && this.progressIsDrag)
-            this.process.barPlayed = `width: ${ position }px`;
-    },
-    progressPointerUp(e) {
-        if (!this.progressIsDrag) return;
-        const barContainer = this.$refs.barContainer,
-            barContainerWidth = barContainer.offsetWidth;
-        let position = e.clientX - getOffset(barContainer).left;
-        if (position < 0) {
-            position = 0;
-        } else if (position > barContainerWidth) {
-            position = barContainerWidth;
-        }
-        if (this.audio && this.audio.src !== "" && this.progressIsDrag)
-            this.process.barPlayed = `width: ${ position }px`;
-        this.progressIsDrag = false;
-        if (this.audio && this.audio.src !== ""){
-            const currentTime = position / barContainerWidth * this.process.duration;
-            this.audio.currentTime = currentTime;
-        }
-        this.setProcess("init");
-    },
-    progressPointerTouchDown(e) {
-        this.progressPointerDown(e.changedTouches[0]);
-    },
     mouseMove(e) {
-        this.progressPointerMove(e);
         this.$refs.VolumeControl.volumePointerMove(e);
+        if(this.$refs.Tracker) this.$refs.Tracker.progressPointerMove(e);
     },
     mouseUp(e) {
-        this.progressPointerUp(e);
         this.$refs.VolumeControl.volumePointerUp(e);
+        if(this.$refs.Tracker) this.$refs.Tracker.progressPointerUp(e);
     },
     touchMove(e) {
         this.mouseMove(e.changedTouches[0]);

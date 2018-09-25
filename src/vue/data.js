@@ -12,24 +12,15 @@ export default function() {
         },
         isLoaded: false,
         musicLoading: false,
-        audioBuffered: 0,
         isIE: /(MSIE)|(rv:11.0)/.test(navigator.userAgent),
         isIOS: /iPhone|iPad|iPod/.test(navigator.userAgent),
         audio: null,
         volume: 0.5,
-        volumeStatus: {
-            value: .5,
-            active: false
-        },
         musicInfo: {},
         musicUrl: {},
         copyright: "由于版权保护，您所在的地区暂时无法使用。",
         process: {
-            barPlayed: "",
-            isReverse: false,
-            isUpdate: false,
-            time: "- 00:00",
-            duration: 0
+            time: "- 00:00"
         },
         paused: true,
         isListClosed: true,
@@ -39,18 +30,6 @@ export default function() {
         showLyrics: false,
         lyricID: 0,
         currentTime: 0,
-        lyrics: {
-            id: 0,
-            isLoad: false,
-            lrc: {
-                func: null,
-                text: [],
-                active: -1
-            },
-            tlyric: {
-                func: null,
-            }
-        },
         listBox: null,
         listBoxHeight: 0,
         windowHeight: window.innerHeight,

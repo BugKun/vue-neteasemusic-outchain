@@ -16,37 +16,49 @@
             index:{
                 type: Number,
                 default: 0
+            },
+            duration:{
+                type: Number,
+                default: 0
             }
         },
         data() {
             return {
                 isDrag: false,
                 barPlayed: "",
-                duration: 0,
                 audioBuffered: 0,
+                currentTime: 0
             }
         },
         mounted(){
-            console.log(this.audio)
-
+            this.audio.addEventListener("loadstart", this.onloadstart);
+            this.audio.addEventListener("progress", this.onprogress);
+            this.audio.addEventListener("timeupdate", this.ontimeupdate);
+        },
+        beforeDestroy(){
+            this.audio.removeEventListener("loadstart", this.onloadstart);
+            this.audio.removeEventListener("progress", this.onprogress);
+            this.audio.addEventListener("timeupdate", this.ontimeupdate);
         },
         methods:{
+            onloadstart(){
+                this.audioBuffered = 0
+            },
+            onprogress(){
+                if (this.audio.buffered.length > 0)
+                    this.audioBuffered = this.audio.buffered.end(this.audio.buffered.length - 1);
+            },
+            ontimeupdate(){
+                this.currentTime = this.audio.currentTime;
+                this.setProcess();
+            },
             setProcess() {
-                let index = this.playingIndex;
-                if (!Number.isInteger(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
-                let duration = this.musicInfo.tracks[index].duration / 1000;
-                this.duration = duration;
-                let range = duration - this.audio.currentTime;
-                if (!this.isDrag) this.barPlayed = `width:${this.audio.currentTime / duration * 100}%`;
-                let minute = Math.floor(range / 60),
-                    second = range - minute * 60;
-                this.process.time = `- ${ fixLength(minute, 2) }:${ fixLength(Math.floor(second), 2) }`;
+                if (!this.isDrag) this.barPlayed = `width:${this.audio.currentTime / this.duration * 100}%`;
             },
             progressPointerDown(e) {
                 if (!this.audio) return;
                 const barContainer = this.$refs.barContainer;
                 this.isDrag = true;
-                this.setProcess("paused");
                 if (this.audio && this.audio.src !== "")
                     this.barPlayed = `width: ${e.clientX - getOffset(barContainer).left}px`;
             },
@@ -83,8 +95,7 @@
                     const currentTime = position / barContainerWidth * this.duration;
                     this.audio.currentTime = currentTime;
                 }
-                this.setProcess("init");
-            },
+            }
         }
     }
 </script>

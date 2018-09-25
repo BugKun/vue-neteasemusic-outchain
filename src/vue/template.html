@@ -9,9 +9,12 @@
      @touchleave="touchEnd"
      @touchcancel="touchEnd">
     <div class="f-cb">
-        <a class="cover" :href="(musicLink) ? musicLink : 'javascript:;'" :target="(musicLink) ? '_blank' : null" title="查看歌曲详细信息">
-            <img :src="cover" v-if="cover">
-        </a>
+        <Cover
+            v-if="cover"
+            :src="cover"
+            :songID="songID"
+            :playListID="playlist"
+        />
         <div class="ctrlBox">
             <h2 class="f-pr">
                 <div class="title">
@@ -29,18 +32,11 @@
                     正在播放：{{ Number.isInteger(playingIndex)? musicInfo.tracks[playingIndex].name : '无' }}
                 </div>
             </h2>
-            <!--<div class="barContainer"
-                 @mousedown="progressPointerDown"
-                 @touchstart="progressPointerTouchDown"
-                 ref="barContainer">
-                <div class="bar">
-                    <div class="process buffered" :style="`width: ${audioBuffered / process.duration * 100}%`"></div>
-                    <div class="process played j-flag" :style="process.barPlayed"></div>
-                </div>
-            </div>-->
             <Tracker
                 v-if="audio"
+                ref="Tracker"
                 :audio="audio"
+                :duration="currentTrackDuration"
             />
             <div class="oprBox">
                 <div class="time">{{ process.time }}</div>

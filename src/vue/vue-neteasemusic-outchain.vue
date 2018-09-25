@@ -5,6 +5,7 @@
     import Lyrics from './components/Lyrics/index.vue';
     import VolumeControl from './components/VolumeControl/index.vue';
     import Tracker from './components/Tracker/index.vue';
+    import Cover from './components/Cover/index.vue';
 
     export default {
         name: 'neteasemusic-outchain',
@@ -12,7 +13,8 @@
             VolumeControl,
             PlayList,
             Lyrics,
-            Tracker
+            Tracker,
+            Cover
         },
         props: {
             playlist: {
