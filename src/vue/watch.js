@@ -1,16 +1,15 @@
 export default {
-    options: {
+    lazyLoad(curVal){
+        if (!curVal && !this.isLoaded) {
+            this.isLoaded = true;
+            this.init();
+        }
+    },
+    redirect:{
         handler(curVal) {
-            if (curVal.redirect) this.redirect = {...this.redirect, ...curVal.redirect };
-            if (!curVal.lazyLoad && !this.isLoaded) {
-                this.isLoaded = true;
-                this.init();
-            }
+            this.MyRedirect = {...this.MyRedirect, ...curVal };
         },
         deep: true
-    },
-    volume(curVal) {
-        if (this.audio && !isNaN(curVal)) this.audio.volume = curVal;
     },
     playlist() {
         if (this.audio) {

@@ -1,24 +1,26 @@
-import { fixLength, getOffset } from 'libs/utils';
+import { fixLength, getOffset, isNumber } from 'libs/utils';
 import { $ajax, Lyrics } from 'libs/services';
 
+
 export default {
+    isNumber,
     init() {
-        if (this.options.redirect) this.redirect = this.redirect = {...this.redirect, ...this.options.redirect };
+        if (this.redirect.length > 1) this.MyRedirect = {...this.MyRedirect, ...this.redirect };
         this.getPlayList(() => {
-            if (this.options.autoplay) {
+            if (this.autoplay) {
                 this.play();
             }
         });
     },
-    windowResize() {
+   /* windowResize() {
         this.windowHeight = window.innerHeight;
         this.windowWidth = window.innerWidth;
-    },
+    },*/
     getListBox(dom) {
         this.listBox = dom;
     },
     getPlayList(cb) {
-        $ajax(this.redirect.method, this.redirect.playListUrl)
+        $ajax(this.MyRedirect.method, this.MyRedirect.playListUrl)
             .send({ id: this.playlist })
             .end(res => {
                 if (res.code !== 200) {
@@ -38,7 +40,7 @@ export default {
             })
     },
     getMusic(id, cb) {
-        $ajax(this.redirect.method, this.redirect.musicUrl)
+        $ajax(this.MyRedirect.method, this.MyRedirect.musicUrl)
             .send({ id })
             .end(res => {
                 if (res.code !== 200) {
@@ -70,7 +72,6 @@ export default {
                 this.playMusic(i, errorTime);
             });
         }
-        this.lyrics.isLoad = false;
         this.lyricID = this.musicInfo.tracks[i].id;
     },
     playMusic(i, errorTime) {
@@ -81,7 +82,7 @@ export default {
         this.audio.play();
         if (errorTime) this.audio.currentTime = errorTime;
         this.isPaused();
-        this.playingIndex = (Number.isInteger(i)) ? i : null;
+        this.playingIndex = isNumber(i) ? i : null;
         this.changeCover(i);
     },
     isPaused() {
@@ -110,29 +111,21 @@ export default {
         }
     },
     next(i) {
-        if (Number.isInteger(i)) this.playingIndex = i;
+        if (isNumber(i)) this.playingIndex = i;
         if (this.playingIndex === null) return;
         let next = this.playingIndex + 1;
         if ((next + 1) > this.musicInfo.tracks.length) next = 0;
         this.loadMusic(next);
-        this.process.barPlayed = "";
-        this.process.time = "- 00:00";
-        this.process.isReverse = false;
-        this.process.isUpdate = false;
     },
     prev() {
         if (this.playingIndex === null) return;
         let prev = this.playingIndex - 1;
         if (prev < 0) prev = this.musicInfo.tracks.length - 1;
         this.loadMusic(prev);
-        this.process.barPlayed = "";
-        this.process.time = "- 00:00";
-        this.process.isReverse = false;
-        this.process.isUpdate = false;
     },
     setProcess() {
         let index = this.playingIndex;
-        if (!Number.isInteger(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
+        if (!isNumber(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
         let duration = this.musicInfo.tracks[index].duration / 1000;
         this.process.duration = duration;
         let range = duration - this.audio.currentTime;
@@ -142,15 +135,15 @@ export default {
         this.process.time = `- ${ fixLength(minute, 2) }:${ fixLength(Math.floor(second), 2) }`;
     },
     changeCover(i) {
-        let url = (Number.isInteger(i)) ? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
+        let url = (isNumber(i)) ? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
         this.cover = (url) ? url.replace(/(http:\/\/)|(https:\/\/)/, "//") : url;
     },
     mouseMove(e) {
-        this.$refs.VolumeControl.volumePointerMove(e);
+        if(this.$refs.VolumeControl) this.$refs.VolumeControl.volumePointerMove(e);
         if(this.$refs.Tracker) this.$refs.Tracker.progressPointerMove(e);
     },
     mouseUp(e) {
-        this.$refs.VolumeControl.volumePointerUp(e);
+        if(this.$refs.VolumeControl) this.$refs.VolumeControl.volumePointerUp(e);
         if(this.$refs.Tracker) this.$refs.Tracker.progressPointerUp(e);
     },
     touchMove(e) {

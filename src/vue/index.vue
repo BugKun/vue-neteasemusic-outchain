@@ -1,4 +1,5 @@
 <template src="./template.html"></template>
+<style lang="scss" scoped src="./style.scss"></style>
 
 <script>
     import PlayList from './components/PlayList/index.vue';
@@ -6,6 +7,8 @@
     import VolumeControl from './components/VolumeControl/index.vue';
     import Tracker from './components/Tracker/index.vue';
     import Cover from './components/Cover/index.vue';
+    import RemainingTime from './components/RemainingTime/index.vue';
+    import State from './components/State/index.vue';
 
     export default {
         name: 'neteasemusic-outchain',
@@ -14,16 +17,38 @@
             PlayList,
             Lyrics,
             Tracker,
-            Cover
+            Cover,
+            RemainingTime,
+            State
         },
         props: {
             playlist: {
                 type: Number,
                 required: true
             },
-            options: {
+            redirect:{
                 type: Object,
-                default: () => []
+                default: () => {}
+            },
+            lazyLoad:{
+                type: Boolean,
+                default: false
+            },
+            autoplay:{
+                type: Boolean,
+                default: false
+            },
+            hideGit:{
+                type: Boolean,
+                default: false
+            },
+            maxWidth:{
+                type: Number,
+                default: window.innerWidth
+            },
+            maxHeight:{
+                type: Number,
+                default: window.innerHeight / 2
             }
         },
         mounted: require("./mounted"),
@@ -34,16 +59,3 @@
         methods: require("./methods")
     };
 </script>
-
-<style lang="scss" scoped src="./style.scss"></style>
-<style>
-    @keyframes NeteaseMusicOutchain-rotateAround
-    {
-        0%{
-            transform: rotate(0deg) translateZ(0);
-        }
-        to{
-            transform: rotate(1turn) translateZ(0);
-        }
-    }
-</style>

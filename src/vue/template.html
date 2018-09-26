@@ -16,22 +16,14 @@
             :playListID="playlist"
         />
         <div class="ctrlBox">
-            <h2 class="f-pr">
-                <div class="title">
-                    <a class="bg logo"
-                       :style="paused? null : 'animation: NeteaseMusicOutchain-rotateAround 6s infinite linear;'"
-                       :href="`//music.163.com/playlist?id=` + playlist"
-                       target="_blank"
-                       title="查看歌单详细信息"></a>
-                    {{ musicInfo.name }}
-                </div>
-                <div class="title f-thide">
-                    <div class="loading">
-                        <img v-if="musicLoading" :src="icons.loading" width="18" height="18"/>
-                    </div>
-                    正在播放：{{ Number.isInteger(playingIndex)? musicInfo.tracks[playingIndex].name : '无' }}
-                </div>
-            </h2>
+            <State
+                v-if="audio"
+                :audio="audio"
+                :playList="playlist"
+                :loading="musicLoading"
+                :playListName="musicInfo.name"
+                :trackName="(typeof playingIndex === 'number'? musicInfo.tracks[playingIndex].name : '无')"
+            />
             <Tracker
                 v-if="audio"
                 ref="Tracker"
@@ -39,7 +31,11 @@
                 :duration="currentTrackDuration"
             />
             <div class="oprBox">
-                <div class="time">{{ process.time }}</div>
+                <RemainingTime
+                    v-if="audio"
+                    :audio="audio"
+                    :duration="currentTrackDuration"
+                />
                 <div class="btnGroup">
                     <div class="bg prev" @click="prev"></div>
                     <div class="bg mid pause f-hide" v-if="!paused" @click="audio.pause();isPaused()"></div>
@@ -50,21 +46,25 @@
                     <a href="//github.com/bugkun/vue-neteasemusic-outchain"
                        target="_blank"
                        class="icon git"
-                       v-if="!options.hideGit" v-html="icons.github"
+                       v-if="!hideGit" v-html="icons.github"
                        :style="isIOS? 'display:block !important' : null"></a>
-                    <VolumeControl v-model="volume" ref="VolumeControl"/>
+                    <VolumeControl
+                        v-if="!isIOS && audio"
+                        ref="VolumeControl"
+                        :audio="audio"
+                    />
                     <div class="showLyrics" @click="showLyrics = !showLyrics" :style="showLyrics? 'color: #fff;background: #999;' : null">词</div>
                     <div class="bg open" @click="isListClosed = !isListClosed"></div>
                 </div>
             </div>
-            <span class="quality" v-if="Number.isInteger(playingIndex)" title="当前音质">{{ musicInfo.tracks[playingIndex].quality / 1000 }}K</span>
+            <span class="quality" v-if="isNumber(playingIndex)" title="当前音质">{{ musicInfo.tracks[playingIndex].quality / 1000 }}K</span>
         </div>
     </div>
     <Lyrics
         :showLyrics="showLyrics"
         :id="lyricID"
         :currentTime="Math.floor(currentTime)"
-        :redirect="redirect"
+        :redirect="MyRedirect"
     />
     <PlayList
         :musicInfoTracks="musicInfo.tracks? musicInfo.tracks : []"

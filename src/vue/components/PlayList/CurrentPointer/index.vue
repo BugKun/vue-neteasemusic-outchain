@@ -2,6 +2,8 @@
 <style lang="scss" scoped src="./style.scss" />
 
 <script>
+    import { isNumber } from 'libs/utils';
+
     export default {
         name: "CurrentPointer",
         props: {
@@ -13,7 +15,7 @@
         computed:{
             CurrentPosition(){
                 const playingIndex = this.playingIndex;
-                const style = `transform: translate3d(0, ${ (typeof playingIndex === "number")? 30 * playingIndex : -30 }px, 0)`;
+                const style = `transform: translate3d(0, ${ isNumber(playingIndex)? 30 * playingIndex : -30 }px, 0)`;
                 return style;
             }
         }

@@ -6,6 +6,7 @@
     box-shadow: 0 0 10px #ccc;
     background: #fff;
     transition: all .6s ease;
+    transform: translateZ(0);
     font-family: 'Microsoft Yahei';
     .f-cb {
         flex: 0 0 92px;
@@ -15,34 +16,6 @@
             position: relative;
             flex-grow: 1;
             width: calc(100% - 92px - 2vw);
-            .f-pr {
-                position: relative;
-                left: 0;
-                top: 0;
-                height: 36px;
-                line-height: 36px;
-                margin-bottom: 0;
-                font-size: 14px;
-                font-weight: normal;
-                zoom: 1;
-                .title {
-                    display: flex;
-                    align-items: center;
-                    line-height: 18px;
-                    .logo, .loading {
-                        display: inline-block;
-                        width: 18px;
-                        height: 18px;
-                        margin-right: 6px;
-                    }
-                    .logo{
-                        background-position: 0 -132px;
-                    }
-                    .loading{
-                        flex: 0 0 18px;
-                    }
-                }
-            }
             .oprBox {
                 display: flex;
                 align-items: center;
@@ -52,10 +25,6 @@
                 user-select: none;
                 -ms-user-select: none;
                 -moz-user-select: none;
-                .time {
-                    font-size: 11px;
-                    color: #999;
-                }
                 .btnGroup {
                     display: flex;
                     align-items: center;
@@ -165,16 +134,4 @@
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
-}
-
-:global{
-    @keyframes NeteaseMusicOutchain-rotateAround
-    {
-        0%{
-            transform: rotate(0deg) translateZ(0);
-        }
-        to{
-            transform: rotate(1turn) translateZ(0);
-        }
-    }
 }

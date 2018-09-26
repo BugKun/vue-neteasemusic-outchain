@@ -14,12 +14,12 @@
             height: 100%;
             margin: 0;
         }
-        
+
         #app {
             margin: 0 auto;
             max-width: 1000px;
         }
-        
+
         #app> h1{
             word-break:break-all;
         }
@@ -38,11 +38,21 @@
         <div style="margin: 2em 0">
             <label>歌单编号：<input type="number" v-model="playlistInput"/></label><button @click="setPlaylist" style="margin-left: 2px">确定</button>
             <p>请求方式：
-                <label><input type="radio" name="method" value="POST" v-model="options.redirect.method"/>POST</label>
-                <label><input type="radio" name="method" value="GET" v-model="options.redirect.method"/>GET</label>
+                <label><input type="radio" name="method" value="POST" v-model="redirect.method"/>POST</label>
+                <label><input type="radio" name="method" value="GET" v-model="redirect.method"/>GET</label>
             </p>
+            <button @click="init=!init">test</button>
         </div>
-        <neteasemusic-outchain :playlist="Number(playlist)" :options="options"></neteasemusic-outchain>
+        <neteasemusic-outchain
+            v-if="init"
+            :playlist="Number(playlist)"
+            :redirect="redirect"
+            :lazy-load="lazyLoad"
+            :autoplay="autoplay"
+            :hide-git="hideGit"
+            :max-width="maxWidth"
+            :max-height="maxHeight"
+        />
     </div>
     <script>
         new Vue({
@@ -51,21 +61,27 @@
                 neteasemusicOutchain: VueNeteaseMusicOutchain
             },
             data: {
-                options: {
-                    lazyLoad: false,
-                    autoplay: false,
-                    redirect: {
-                        method: "GET"
-                    },
-                    hideGit: false
+                init: true,
+                lazyLoad: false,
+                autoplay: false,
+                hideGit: false,
+                redirect: {
+                    method: "GET"
                 },
-                lazyLoad: true,
-                playlist: 614245400,
-                playlistInput: 614245400
+                playlist: 2242933755,
+                playlistInput: 614245400,
+                maxHeight: window.innerHeight / 2,
+                maxWidth: 1000,
+            },
+            mounted(){
+                window.addEventListener("resize", this.windowResize);
             },
             methods: {
                 setPlaylist: function() {
                     this.playlist = this.playlistInput;
+                },
+                windowResize() {
+                    this.maxHeight = window.innerHeight / 2;
                 }
             }
         });

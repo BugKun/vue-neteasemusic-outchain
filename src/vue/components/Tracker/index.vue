@@ -30,6 +30,11 @@
                 currentTime: 0
             }
         },
+        computed:{
+            bufferedStyle(){
+                return `transform: translate3d(-${( 1 - this.audioBuffered / this.duration ) * 100}%, 0, 0)`
+            }
+        },
         mounted(){
             this.audio.addEventListener("loadstart", this.onloadstart);
             this.audio.addEventListener("progress", this.onprogress);
@@ -53,14 +58,15 @@
                 this.setProcess();
             },
             setProcess() {
-                if (!this.isDrag) this.barPlayed = `width:${this.audio.currentTime / this.duration * 100}%`;
+                if (!this.isDrag) this.barPlayed = `transform: translate3d(-${( 1 - this.audio.currentTime / this.duration ) * 100}%, 0, 0)`;
             },
             progressPointerDown(e) {
                 if (!this.audio) return;
-                const barContainer = this.$refs.barContainer;
+                const barContainer = this.$refs.barContainer,
+                    barContainerWidth = barContainer.offsetWidth;
                 this.isDrag = true;
                 if (this.audio && this.audio.src !== "")
-                    this.barPlayed = `width: ${e.clientX - getOffset(barContainer).left}px`;
+                    this.barPlayed = `transform: translate3d(${e.clientX - getOffset(barContainer).left - barContainerWidth}px, 0, 0)`;
             },
             progressPointerTouchDown(e){
                 this.progressPointerDown(e.changedTouches[0]);
@@ -69,27 +75,33 @@
                 if (!this.isDrag) return;
                 const barContainer = this.$refs.barContainer,
                     barContainerWidth = barContainer.offsetWidth;
-                let position = e.clientX - getOffset(barContainer).left;
-                if (position < 0) {
-                    position = 0;
-                } else if (position > barContainerWidth) {
-                    position = barContainerWidth;
+
+                let translate = e.clientX - getOffset(barContainer).left  - barContainerWidth;
+
+                if (translate > 0) {
+                    translate = 0;
+                } else if (translate < -barContainerWidth) {
+                    translate = -barContainerWidth;
                 }
+
                 if (this.audio && this.audio.src !== "" && this.isDrag)
-                    this.barPlayed = `width: ${ position }px`;
+                    this.barPlayed = `transform: translate3d(${translate}px, 0, 0)`;
             },
             progressPointerUp(e) {
                 if (!this.isDrag) return;
                 const barContainer = this.$refs.barContainer,
-                    barContainerWidth = barContainer.offsetWidth;
-                let position = e.clientX - getOffset(barContainer).left;
-                if (position < 0) {
-                    position = 0;
-                } else if (position > barContainerWidth) {
-                    position = barContainerWidth;
+                    barContainerWidth = barContainer.offsetWidth,
+                    position = e.clientX - getOffset(barContainer).left;
+
+                let translate = position  - barContainerWidth;
+
+                if (translate > 0) {
+                    translate = 0;
+                } else if (translate < -barContainerWidth) {
+                    translate = -barContainerWidth;
                 }
                 if (this.audio && this.audio.src !== "" && this.isDrag)
-                    this.barPlayed = `width: ${ position }px`;
+                    this.barPlayed = `transform: translate3d(${translate}px, 0, 0)`;
                 this.isDrag = false;
                 if (this.audio && this.audio.src !== ""){
                     const currentTime = position / barContainerWidth * this.duration;

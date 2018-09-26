@@ -1,0 +1,52 @@
+<div class="f-cb">
+    <Cover
+        v-if="cover"
+        :src="cover"
+        :songID="songID"
+        :playListID="playlist"
+    />
+    <div class="ctrlBox">
+        <State
+            v-if="audio"
+            :audio="audio"
+            :playList="playlist"
+            :loading="musicLoading"
+            :playListName="musicInfo.name"
+            :trackName="(typeof playingIndex === 'number'? musicInfo.tracks[playingIndex].name : '无')"
+        />
+        <Tracker
+            v-if="audio"
+            ref="Tracker"
+            :audio="audio"
+            :duration="currentTrackDuration"
+        />
+        <div class="oprBox">
+            <RemainingTime
+                v-if="audio"
+                :audio="audio"
+                :duration="currentTrackDuration"
+            />
+            <div class="btnGroup">
+                <div class="bg prev" @click="prev"></div>
+                <div class="bg mid pause f-hide" v-if="!paused" @click="audio.pause();isPaused()"></div>
+                <div class="bg mid play" v-if="paused" @click="play();isPaused()"></div>
+                <div class="bg next" @click="next"></div>
+            </div>
+            <div class="btnGroupRight" :style="`width:${btnGroupRightWidth}`">
+                <a href="//github.com/bugkun/vue-neteasemusic-outchain"
+                   target="_blank"
+                   class="icon git"
+                   v-if="!hideGit" v-html="icons.github"
+                   :style="isIOS? 'display:block !important' : null"></a>
+                <VolumeControl
+                    v-if="!isIOS && audio"
+                    ref="VolumeControl"
+                    :audio="audio"
+                />
+                <div class="showLyrics" @click="showLyrics = !showLyrics" :style="showLyrics? 'color: #fff;background: #999;' : null">词</div>
+                <div class="bg open" @click="isListClosed = !isListClosed"></div>
+            </div>
+        </div>
+        <span class="quality" v-if="isNumber(playingIndex)" title="当前音质">{{ musicInfo.tracks[playingIndex].quality / 1000 }}K</span>
+    </div>
+</div>

@@ -1,11 +1,10 @@
-import "libs/polyfill"
 import { getParameterByName } from "libs/utils"
 
-import NeteaseMusicOutchain from "./vue/vue-neteasemusic-outchain.vue"
+import NeteaseMusicOutchain from "./vue/index.vue"
 
 NeteaseMusicOutchain.install = Vue => {
-    Vue.component(NeteaseMusicOutchain.name, NeteaseMusicOutchain)
-}
+    Vue.component(NeteaseMusicOutchain.name, NeteaseMusicOutchain);
+};
 
 const isHot = JSON.parse(getParameterByName("hot", __resourceQuery));
 

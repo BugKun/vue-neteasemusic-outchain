@@ -5,7 +5,6 @@ export default function() {
     };
     this.audio.ontimeupdate = () => {
         if (!this.audio || !this.audio.currentTime) return;
-        //this.setProcess();
         this.currentTime = this.audio.currentTime;
     };
     this.audio.onerror = () => {
@@ -21,10 +20,8 @@ export default function() {
     this.audio.onseeked = () => {
         this.musicLoading = false
     };
-    this.audio.volume = this.volume;
-    if (!this.options.lazyLoad) {
+    if (!this.lazyLoad) {
         this.isLoaded = true;
         this.init();
     }
-    window.addEventListener("resize", this.windowResize);
 }

@@ -1,43 +1,48 @@
-.volumeBarContainer {
-    display: flex;
-    position: absolute;
+.icon{
     width: 16px;
-    height: 70px;
-    left: 0;
-    bottom: 18px;
-    z-index: 5;
-    align-items: center;
-    border-radius: 2px;
-    background: #fff;
-    box-shadow: 0 0 10px #ccc;
-    overflow: hidden;
-    .volumeBar {
-        position: relative;
-        width: 4px;
-        height: 60px;
-        border-radius: 4px;
-        margin: 0 auto;
-        background: #cdcdcd;
-        .volumeBarProcess {
-            position: absolute;
-            left: 0;
-            bottom: 0;
+    height: 16px;
+    .volumeController {
+        display: flex;
+        position: absolute;
+        width: 16px;
+        height: 70px;
+        left: 0;
+        bottom: 18px;
+        z-index: 5;
+        align-items: center;
+        border-radius: 2px;
+        background: #fff;
+        box-shadow: 0 0 10px #ccc;
+        .volumeBar {
+            position: relative;
             width: 4px;
-            height: 100%;
+            height: 60px;
             border-radius: 4px;
-            background: #e12828;
-        }
-        .volumeBarProcess::after {
-            content: "";
-            position: absolute;
-            left: -2px;
-            top: -5px;
-            width: 8px;
-            height: 8px;
-            border-radius: 4px;
-            background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
-            background-position: -92px -14px;
-            cursor: pointer;
+            margin: 0 auto;
+            background: #cdcdcd;
+            .volumeBarProcess {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 4px;
+                height: 0;
+                border-radius: 4px;
+                background: #e12828;
+                transform: translateZ(0);
+            }
+            .volumeBarProcess::after {
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: -5px;
+                transform: translateX(-50%);
+                width: 8px;
+                height: 8px;
+                border-radius: 8px;
+                background: #fff;
+                border: 0.05em solid #e0e0e0;
+                cursor: pointer;
+            }
         }
     }
 }

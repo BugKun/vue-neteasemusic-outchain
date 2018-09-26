@@ -1,3 +1,5 @@
+import { isNumber } from "libs/utils"
+
 export default {
     openArea() {
         if (!this.listBox) return null;
@@ -11,8 +13,8 @@ export default {
         } else {
             if (this.musicInfo.tracks) {
                 let listBoxHeight = 94 + this.listBoxHeight;
-                if (listBoxHeight > (this.windowHeight / 2)) {
-                    listBoxHeight = this.windowHeight / 2;
+                if (listBoxHeight > this.maxHeight) {
+                    listBoxHeight = this.maxHeight;
                 }
                 if (this.showLyrics) {
                     adapt = `min-height: 92px;height: calc(${ listBoxHeight }px + 3em);`;
@@ -21,23 +23,23 @@ export default {
                 }
             }
         }
-        adapt += `max-height: ${ this.windowHeight / 2 }px;`;
+        adapt += `max-height: ${ this.maxHeight }px;`;
         if (this.isIE || this.progressIsDrag) adapt += "user-select: none;-ms-user-select: none;";
         return adapt;
     },
     songID() {
         let ID = 0;
-        if (Number.isInteger(this.playingIndex) && this.musicInfo && this.musicInfo.tracks && this.musicInfo.tracks[this.playingIndex]) {
+        if (isNumber(this.playingIndex) && this.musicInfo && this.musicInfo.tracks && this.musicInfo.tracks[this.playingIndex]) {
             ID = this.musicInfo.tracks[this.playingIndex].id;
         }
         return ID;
     },
     btnGroupRightWidth() {
         let count = 2;
-        if(!this.options.hideGit) {
+        if(!this.hideGit) {
             if(this.isIOS){
                 count++;
-            }else if(this.windowWidth > 350){
+            }else if(this.maxWidth > 350){
                 count++;
             }
         }

@@ -87,19 +87,18 @@ http.get(`http://localhost:3000/music/url?id=${postData.id}`, function (_res) {
 http://localhost:3000/lyric 保持数据与官方一致
 
 ### 安装
-> npm i -s vue-neteasemusic-outchain
+> npm i -D vue-neteasemusic-outchain
 
 ### 相关参数
 > playlist ID (Type:Number)：必须填入<br>
-> options (Type:Object)：相关设置<br>
->> hideGit (Type:Boolean): 是否隐藏播放器内github的链接标志<br>
->> lazyLoad (Type:Boolean)：懒加载（初始传入变量参数为false，当需要马上加载时传入变量改为true。注意：此设置会造成autoplay功能无法按预期执行）<br>
->> autoplay (Type:Boolean)：自动播放（true即为自动播放）<br>
->> redirect (Type:Object)：修改获取参数的链接<br>
->>> method (Type:String): 请求方式，只能是"POST"或"GET"<br>
->>> playListUrl (Type:String)：修改获取播放列表的链接<br>
->>> musicUrl (Type:String)：修改获取歌曲文件的链接<br>
->>> musicLyricUrl (Type:String)：修改获取歌词的链接<br>
+> hideGit (Type:Boolean): 是否隐藏播放器内github的链接标志<br>
+> lazyLoad (Type:Boolean)：懒加载（初始传入变量参数为false，当需要马上加载时传入变量改为true。注意：此设置会造成autoplay功能无法按预期执行）<br>
+> autoplay (Type:Boolean)：自动播放（true即为自动播放）<br>
+> redirect (Type:Object)：修改获取参数的链接<br>
+>> method (Type:String): 请求方式，只能是"POST"或"GET"<br>
+>> playListUrl (Type:String)：修改获取播放列表的链接<br>
+>> musicUrl (Type:String)：修改获取歌曲文件的链接<br>
+>> musicLyricUrl (Type:String)：修改获取歌词的链接<br>
 
 
 ### 使用演示

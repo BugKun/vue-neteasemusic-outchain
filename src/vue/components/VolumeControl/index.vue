@@ -8,9 +8,15 @@
     export default {
         name: 'VolumeControl',
         props: {
-            value:{
+            audio:{
+                validator(value) {
+                    return value instanceof Audio
+                },
+                required: true
+            },
+            defaultVolume:{
                 type: Number,
-                default: .5
+                default: 0.5
             }
         },
         data() {
@@ -21,19 +27,16 @@
                     mute: require('libs/icons/mute.svg')
                 },
                 active: false,
-                volumeStatus: {
-                    value: .5,
-                },
-                isIOS: /iPhone|iPad|iPod/.test(navigator.userAgent),
-                $volume: .5
+                volume: 0
             }
         },
         mounted(){
-            if(this.volume !== this.$volume) this.$volume = this.volume;
+            this.changeVolume(this.defaultVolume);
         },
         methods:{
             changeVolume(val){
-                this.$emit('input', val);
+                this.volume = val;
+                this.audio.volume = val;
             },
             volumePointerDown(e) {
                 this.isDrag = true;
