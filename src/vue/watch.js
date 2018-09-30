@@ -12,16 +12,11 @@ export default {
         deep: true
     },
     playlist() {
-        if (this.audio) {
-            this.audio.pause();
-            if(this.audio.currentTime !== 0) this.audio.currentTime = 0;
-        }
+        this.audio.pause();
+        if(this.audio.currentTime !== 0) this.audio.currentTime = 0;
         this.playingIndex = null;
-        this.process = {
-            barPlayed: "",
-            time: "- 00:00"
-        };
         this.paused = true;
+        this.lyricID = 0;
         this.getPlayList();
     }
 }

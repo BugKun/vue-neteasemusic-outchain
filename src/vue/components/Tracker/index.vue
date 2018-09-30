@@ -26,6 +26,8 @@
             return {
                 isDrag: false,
                 barPlayed: "",
+                pointerStyle: "",
+                pointerIcon: require('libs/icons/pointer.svg'),
                 audioBuffered: 0,
                 currentTime: 0
             }
@@ -33,6 +35,9 @@
         computed:{
             bufferedStyle(){
                 return `transform: translate3d(-${( 1 - this.audioBuffered / this.duration ) * 100}%, 0, 0)`
+            },
+            dragClass(){
+                return (this.isDrag)? "drag" : null;
             }
         },
         mounted(){
@@ -58,53 +63,56 @@
                 this.setProcess();
             },
             setProcess() {
-                if (!this.isDrag) this.barPlayed = `transform: translate3d(-${( 1 - this.audio.currentTime / this.duration ) * 100}%, 0, 0)`;
+                if (!this.isDrag) {
+                    const bar = this.$refs.bar,
+                        barWidth = bar.offsetWidth;
+                    this.barPlayed = `transform: translate3d(-${( 1 - this.audio.currentTime / this.duration ) * 100}%, 0, 0)`;
+                    this.pointerStyle = `transform: translate3d(${this.audio.currentTime / this.duration * barWidth}px, -50%, 0)`;
+                }
             },
             progressPointerDown(e) {
                 if (!this.audio) return;
-                const barContainer = this.$refs.barContainer,
-                    barContainerWidth = barContainer.offsetWidth;
+                const bar = this.$refs.bar,
+                    barWidth = bar.offsetWidth;
                 this.isDrag = true;
-                if (this.audio && this.audio.src !== "")
-                    this.barPlayed = `transform: translate3d(${e.clientX - getOffset(barContainer).left - barContainerWidth}px, 0, 0)`;
+                if (this.audio && this.audio.src !== ""){
+                    this.barPlayed = `transform: translate3d(${e.clientX - getOffset(bar).left - barWidth}px, 0, 0)`;
+                    this.pointerStyle = `transform: translate3d(${e.clientX - getOffset(bar).left}px, -50%, 0)`;
+                }
+
             },
             progressPointerTouchDown(e){
                 this.progressPointerDown(e.changedTouches[0]);
             },
-            progressPointerMove(e) {
-                if (!this.isDrag) return;
-                const barContainer = this.$refs.barContainer,
-                    barContainerWidth = barContainer.offsetWidth;
+            changePointerPosition(e){
+                const bar = this.$refs.bar,
+                    barWidth = bar.offsetWidth;
 
-                let translate = e.clientX - getOffset(barContainer).left  - barContainerWidth;
+                let position = e.clientX - getOffset(bar).left;
 
-                if (translate > 0) {
-                    translate = 0;
-                } else if (translate < -barContainerWidth) {
-                    translate = -barContainerWidth;
+                if (position < 0) {
+                    position = 0;
+                } else if (position > barWidth) {
+                    position = barWidth;
                 }
 
-                if (this.audio && this.audio.src !== "" && this.isDrag)
-                    this.barPlayed = `transform: translate3d(${translate}px, 0, 0)`;
+                if (this.audio.src !== "" && this.isDrag){
+                    this.barPlayed = `transform: translate3d(${position  - barWidth}px, 0, 0)`;
+                    this.pointerStyle = `transform: translate3d(${position}px, -50%, 0)`;
+                }
+
+                return { position, barWidth};
+            },
+            progressPointerMove(e) {
+                if (!this.isDrag) return;
+                this.changePointerPosition(e);
             },
             progressPointerUp(e) {
                 if (!this.isDrag) return;
-                const barContainer = this.$refs.barContainer,
-                    barContainerWidth = barContainer.offsetWidth,
-                    position = e.clientX - getOffset(barContainer).left;
-
-                let translate = position  - barContainerWidth;
-
-                if (translate > 0) {
-                    translate = 0;
-                } else if (translate < -barContainerWidth) {
-                    translate = -barContainerWidth;
-                }
-                if (this.audio && this.audio.src !== "" && this.isDrag)
-                    this.barPlayed = `transform: translate3d(${translate}px, 0, 0)`;
+                const { position, barWidth } = this.changePointerPosition(e);
                 this.isDrag = false;
                 if (this.audio && this.audio.src !== ""){
-                    const currentTime = position / barContainerWidth * this.duration;
+                    const currentTime = position / barWidth * this.duration;
                     this.audio.currentTime = currentTime;
                 }
             }

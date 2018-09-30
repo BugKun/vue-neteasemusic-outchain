@@ -9,7 +9,7 @@
                 type: String,
                 default: ""
             },
-            songID:{
+            trackID:{
                 type:Number,
                 default: 0
             },
@@ -20,14 +20,14 @@
         },
         computed:{
             href(){
-                if(this.songID === 0){
+                if(this.trackID === 0){
                     return `//music.163.com/playlist?id=${this.playListID}`
                 }else{
-                    return `//music.163.com/song?id=${this.songID}`;
+                    return `//music.163.com/song?id=${this.trackID}`;
                 }
             },
             title(){
-                return `查看歌${(this.songID === 0)? "单" : "曲"}详细信息`;
+                return `查看歌${(this.trackID === 0)? "单" : "曲"}详细信息`;
             }
         }
     }

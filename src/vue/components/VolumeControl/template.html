@@ -13,9 +13,10 @@
              ref="volumeBarContainer"
              @mousedown="volumePointerDown"
              @touchstart="volumePointerTouchDown">
-            <div class="volumeBar">
+            <div class="volumeBar" ref="volumeBar">
                 <div class="volumeBarProcess" :style="`height: ${volume * 100}%`"></div>
             </div>
+            <div class="pointer" :style="pointer" v-html="icons.pointer"></div>
         </div>
     </transition>
 </div>

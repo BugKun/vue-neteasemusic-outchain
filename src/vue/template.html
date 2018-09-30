@@ -12,7 +12,7 @@
         <Cover
             v-if="cover"
             :src="cover"
-            :songID="songID"
+            :trackID="trackID"
             :playListID="playlist"
         />
         <div class="ctrlBox">
@@ -37,10 +37,9 @@
                     :duration="currentTrackDuration"
                 />
                 <div class="btnGroup">
-                    <div class="bg prev" @click="prev"></div>
-                    <div class="bg mid pause f-hide" v-if="!paused" @click="audio.pause();isPaused()"></div>
-                    <div class="bg mid play" v-if="paused" @click="play();isPaused()"></div>
-                    <div class="bg next" @click="next"></div>
+                    <div class="icon prev" @click="prev" v-html="icons.prev"></div>
+                    <div class="icon play" @click="togglePlayPause" v-html="(paused)? icons.play : icons.pause"></div>
+                    <div class="icon next" @click="next" v-html="icons.next"></div>
                 </div>
                 <div class="btnGroupRight" :style="`width:${btnGroupRightWidth}`">
                     <a href="//github.com/bugkun/vue-neteasemusic-outchain"
@@ -54,7 +53,7 @@
                         :audio="audio"
                     />
                     <div class="showLyrics" @click="showLyrics = !showLyrics" :style="showLyrics? 'color: #fff;background: #999;' : null">词</div>
-                    <div class="bg open" @click="isListClosed = !isListClosed"></div>
+                    <div class="icon list" @click="toggleList" v-html="icons.list"></div>
                 </div>
             </div>
             <span class="quality" v-if="isNumber(playingIndex)" title="当前音质">{{ musicInfo.tracks[playingIndex].quality / 1000 }}K</span>
@@ -67,9 +66,10 @@
         :redirect="MyRedirect"
     />
     <PlayList
+        ref="playList"
         :musicInfoTracks="musicInfo.tracks? musicInfo.tracks : []"
         :playingIndex="playingIndex"
         @loadMusic="loadMusic"
-        @getListBox="getListBox"
-        :style="isListClosed? 'opacity: 0;' : null" />
+        :maxHeight="`calc(${maxHeight - 92}px${showLyrics? ' - 3em' : ''})`"
+    />
 </div>

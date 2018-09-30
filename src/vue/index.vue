@@ -19,7 +19,7 @@
             Tracker,
             Cover,
             RemainingTime,
-            State
+            State,
         },
         props: {
             playlist: {

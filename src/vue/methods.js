@@ -12,12 +12,8 @@ export default {
             }
         });
     },
-   /* windowResize() {
-        this.windowHeight = window.innerHeight;
-        this.windowWidth = window.innerWidth;
-    },*/
-    getListBox(dom) {
-        this.listBox = dom;
+    toggleList(){
+        this.$refs.playList.toggleList();
     },
     getPlayList(cb) {
         $ajax(this.MyRedirect.method, this.MyRedirect.playListUrl)
@@ -30,9 +26,6 @@ export default {
                 this.musicLoading = false;
                 this.musicInfo = res;
                 this.changeCover();
-                this.$nextTick(function() {
-                    this.listBoxHeight = this.listBox.offsetHeight
-                });
                 if (cb) cb();
             })
             .catch(error => {
@@ -76,38 +69,28 @@ export default {
     },
     playMusic(i, errorTime) {
         if (this.musicInfo.tracks[i].disabled) return this.next(i);
-        let $musicUrl = this.musicInfo.tracks[i].playUrl;
-        this.audio.src = ($musicUrl) ? $musicUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : $musicUrl;
+        this.audio.src = this.musicInfo.tracks[i].playUrl;
         this.audio.load();
         this.audio.play();
         if (errorTime) this.audio.currentTime = errorTime;
-        this.isPaused();
+        this.paused = false;
         this.playingIndex = isNumber(i) ? i : null;
         this.changeCover(i);
     },
-    isPaused() {
-        let status = true;
-        if (!this.audio) {
-            status = true;
-        } else if (this.audio.paused) {
-            // 暂停中
-            status = true;
-        } else {
-            // 播放中
-            status = false;
-        }
-        this.paused = status;
-    },
-    playingStatus(i) {
-        let style = (i === this.playingIndex) ? 'background: #e9e9e9;' : '';
-        if (this.musicInfo.tracks && this.musicInfo.tracks[i].disabled) style += "color: #bbb !important;";
-        return style;
-    },
     play() {
-        if (!this.audio || this.audio.currentTime === 0) {
+        if (this.audio.currentTime === 0) {
             this.loadMusic(0);
         } else {
             this.audio.play();
+        }
+    },
+    togglePlayPause(){
+        if(this.audio.paused){
+            this.play();
+            this.paused = false;
+        }else {
+            this.audio.pause();
+            this.paused = true;
         }
     },
     next(i) {
@@ -135,8 +118,7 @@ export default {
         this.process.time = `- ${ fixLength(minute, 2) }:${ fixLength(Math.floor(second), 2) }`;
     },
     changeCover(i) {
-        let url = (isNumber(i)) ? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
-        this.cover = (url) ? url.replace(/(http:\/\/)|(https:\/\/)/, "//") : url;
+        this.cover = (isNumber(i)) ? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
     },
     mouseMove(e) {
         if(this.$refs.VolumeControl) this.$refs.VolumeControl.volumePointerMove(e);

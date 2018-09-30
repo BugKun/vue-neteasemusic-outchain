@@ -1,6 +1,6 @@
-<div class="list">
+<div class="listContainer" :class="listStyle" :style="listOpened? heightLimit : null">
     <CurrentPointer :playingIndex="playingIndex"/>
-    <ul class="box" ref="box">
+    <ul class="box" :style="heightLimit">
         <ListItem
             v-if="musicInfoTracks"
             v-for="(li,i) in musicInfoTracks"

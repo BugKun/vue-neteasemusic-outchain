@@ -38,7 +38,8 @@
                 tlyric: {
                     func: null,
                 },
-                lyricsCache: {}
+                lyricsCache: {},
+                lyricsCurrentTime: 0,
             }
         },
         mounted() {
@@ -49,29 +50,29 @@
                 this.isLoad = false;
                 this.init(curVal);
             },
-            currentTime(curVal, oldVal){
+            currentTime(curVal){
                 if(!this.showLyrics || !this.isLoad) return;
 
-                //console.log(curVal, oldVal);
+                const oldVal = this.lyricsCurrentTime;
+
                 if(curVal < oldVal){
                     this.isReverse = true;
                     this.isUpdate = true;
                 }else{
                     this.isUpdate = false;
                 }
+                this.lyricsCurrentTime = curVal;
                 this.loadLyric(curVal);
             },
             showLyrics(curVal) {
-                if (curVal) {
-                    this.init(this.id);
-                }
+                if (curVal) this.init(this.id);
             }
         },
         methods:{
             init(val){
                 if(!this.showLyrics || this.isLoad) return;
+                this.removeAllLyric();
                 if(val > 0) {
-                    this.removeAllLyric();
                     this.setLyric(val);
                     this.isLoad = true;
                 }
@@ -127,8 +128,10 @@
             },
             removeAllLyric() {
                 this.lrc.func = this.tlyric.func = null;
+                this.isUpdate = this.isReverse = false;
                 this.lrc.text = [];
                 this.lrc.active = -1;
+                this.lyricsCurrentTime = 0;
             },
             loadLyric(time) {
                 if (!this.isLoad) return;

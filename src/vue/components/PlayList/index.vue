@@ -20,15 +20,27 @@
             playingIndex: {
                 type:Number,
                 default: 0
-            }
+            },
+            maxHeight: {
+                type: String,
+                default: "0"
+            },
         },
         mounted() {
-            this.$emit('getListBox', this.$refs.box);
         },
         data() {
             return {
                 popIconSource: require('libs/icons/pop.svg'),
-                popIcons: []
+                popIcons: [],
+                listOpened: false,
+            }
+        },
+        computed:{
+            heightLimit(){
+                return (this.maxHeight === "0") ? null : `height: ${this.maxHeight}`
+            },
+            listStyle(){
+                return (this.listOpened)? `opened` : null;
             }
         },
         watch:{
@@ -42,6 +54,9 @@
             }
         },
         methods: {
+            toggleList(){
+                this.listOpened = !this.listOpened;
+            },
             loadMusic(i){
                 this.$emit('loadMusic', i);
             },

@@ -21,22 +21,40 @@
         },
         data() {
             return {
+                loaded: false,
                 isDrag: false,
                 icons: {
+                    pointer: require('libs/icons/pointer.svg'),
                     volume: require('libs/icons/volume.svg'),
                     mute: require('libs/icons/mute.svg')
                 },
                 active: false,
-                volume: 0
+                volume: 0,
+                pointer: ""
+            }
+        },
+        watch:{
+            active(curVal){
+                if(!this.loaded && curVal){
+                    this.$nextTick(this.init);
+                }
             }
         },
         mounted(){
-            this.changeVolume(this.defaultVolume);
+            this.audio.volume = this.volume = this.defaultVolume;
+            if(this.active) this.init();
         },
         methods:{
+            init(){
+                this.changeVolume(this.defaultVolume);
+                this.loaded = true;
+            },
             changeVolume(val){
                 this.volume = val;
                 this.audio.volume = val;
+                const volumeBar = this.$refs.volumeBar,
+                    volumeBarHeight = volumeBar.offsetHeight;
+                this.pointer =  `transform: translate3d(-50%, -${volumeBarHeight * this.volume}px, 0)`;
             },
             volumePointerDown(e) {
                 this.isDrag = true;

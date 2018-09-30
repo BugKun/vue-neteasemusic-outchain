@@ -2,32 +2,38 @@ import { isNumber } from "libs/utils"
 
 export default {
     openArea() {
-        if (!this.listBox) return null;
-        let adapt = "";
-        if (this.isListClosed) {
+       /* let adapt = "";
+        if (this.showLyrics){
+            adapt = "height: calc(92px + 3em);";
+        }
+        if (this.listOpened){
+            adapt = `height: ${this.maxHeight}px;`;
+        }
+        /!*    if (this.isListClosed) {
             if (this.showLyrics) {
-                adapt = "height: calc(92px + 3em);min-height: calc(92px + 3em);";
+                adapt = "height: calc(92px + 3em);";
             } else {
-                adapt = "height: 92px; min-height: 92px;";
+                adapt = "height: 92px;";
             }
         } else {
             if (this.musicInfo.tracks) {
-                let listBoxHeight = 94 + this.listBoxHeight;
+                let listBoxHeight = 94 + 30;
                 if (listBoxHeight > this.maxHeight) {
                     listBoxHeight = this.maxHeight;
                 }
                 if (this.showLyrics) {
-                    adapt = `min-height: 92px;height: calc(${ listBoxHeight }px + 3em);`;
+                    adapt = `height: ${this.maxHeight};`;
                 } else {
-                    adapt = `min-height: 92px;height: ${ listBoxHeight }px;`;
+                    adapt = `height: calc(${ listBoxHeight }px - 3em);height: ${ listBoxHeight }px;`;
                 }
             }
-        }
-        adapt += `max-height: ${ this.maxHeight }px;`;
+        }*!/
         if (this.isIE || this.progressIsDrag) adapt += "user-select: none;-ms-user-select: none;";
-        return adapt;
+        return adapt;*/
+
+       return null
     },
-    songID() {
+    trackID() {
         let ID = 0;
         if (isNumber(this.playingIndex) && this.musicInfo && this.musicInfo.tracks && this.musicInfo.tracks[this.playingIndex]) {
             ID = this.musicInfo.tracks[this.playingIndex].id;

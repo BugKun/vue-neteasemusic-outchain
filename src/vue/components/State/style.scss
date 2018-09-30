@@ -18,12 +18,28 @@
             height: 18px;
             margin-right: 6px;
         }
-        .bg.logo{
-            background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
-            background-position: 0 -132px;
-        }
-        .loading{
+        .loading {
             flex: 0 0 18px;
+            img {
+                width: 18px;
+                height: 18px;
+            }
+        }
+        .loading.withSVG {
+            width: 15px;
+            height: 15px;
+            flex: 0 0 15px;
+            /deep/ svg {
+                animation: NMO-rotateAround 1.4s linear infinite;
+                circle {
+                    animation: NMO-progress-circular-dash 1.4s ease-in-out infinite;
+                    stroke-dasharray: 80px, 200px;
+                    stroke-dashoffset: 0;
+                    stroke: #898989;
+                    fill: none;
+                    stroke-width: 3.6px;
+                }
+            }
         }
     }
 }

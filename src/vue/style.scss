@@ -32,12 +32,8 @@
                     width: 72px;
                     .prev,
                     .next {
-                        width: 9px;
-                        height: 10px;
+                        transform: scale3d(1.1, 1.1, 1.1);
                         cursor: pointer;
-                    }
-                    .prev {
-                        background-position: -33px 0;
                     }
                     .pause,
                     .play {
@@ -46,27 +42,15 @@
                         cursor: pointer;
                         margin: 0 auto;
                     }
-                    .pause {
-                        background-position: -36px -63px;
-                    }
+                    .pause,
                     .play {
-                        background-position: 0 0;
-                    }
-                    .next {
-                        background-position: -58px 0;
+                        transform: scale3d(2.1, 2.1, 2.1);
                     }
                 }
                 .btnGroupRight {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    .icon {
-                        display: block;
-                        position: relative;
-                        width: 16px;
-                        height: 16px;
-                        cursor: pointer;
-                    }
                     @media screen and (max-width: 350px) {
                         .git {
                             display: none;
@@ -82,14 +66,6 @@
                         user-select: none;
                         -ms-user-select: none;
                         transition: .5s all ease;
-                    }
-                    .open {
-                        width: 13px;
-                        height: 10px;
-                        background-position: -58px -14px;
-                        cursor: pointer;
-                        opacity: 0.8;
-                        filter: alpha(opacity=80);
                     }
                 }
                 @media screen and (max-width: 350px) {
@@ -115,8 +91,12 @@
     }
 }
 
-.bg {
-    background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
+.icon {
+    display: block;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 
 .f-thide {

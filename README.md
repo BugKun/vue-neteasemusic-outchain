@@ -6,7 +6,12 @@ A outchain player for NeteaseCloudMusic on Vue. ( Vue上的网易云音乐外链
 ![preview2](https://raw.githubusercontent.com/BugKun/vue-neteasemusic-outchain/master/preview2.png)
 
 ## 演示
-<a href="http://router.189club.xyz:22333" target="_blank">Demo</a><br>
+<a href="http://router.189club.xyz:22333" target="_blank">Demo</a>
+
+## 更新日志
+<strong color="#ff0000">请注意2.0版本的接口参数发生改变，请注意修改！</strong>
+<br/> 
+<a href="/BugKun/vue-neteasemusic-outchain/blob/dev-0/UPDATE.md" target="_blank">点击查看更新日志</a>
 
 ## 注意
 * 正式版已发布(要求：Vue 2.1.8+)，组件已基本稳定。以后不再做功能更新，仅进行功能维护。
@@ -18,71 +23,69 @@ A outchain player for NeteaseCloudMusic on Vue. ( Vue上的网易云音乐外链
 默认请求地址为：（默认POST请求，支持修改成GET请求）
 ```JavaScript
 {
-      method: "POST",
-      playListUrl: "/api/musicPlayList",
-      musicUrl: "/api/musicUrl",
-      musicLyricUrl: "/api/musicLyric"
+    method: "POST",
+    playListUrl: "/api/musicPlayList",
+    musicUrl: "/api/musicUrl",
+    musicLyricUrl: "/api/musicLyric"
 }
 ```
 你需要修改获取到的官方返回的数据：
 ```JavaScript
 http.get(`http://localhost:3000/playlist/detail?id=${postData.id}`, function (_res) {
-            var _data = "";
-            _res.setEncoding('utf8');
-            _res.on('data', function (chunk) {
-                _data += chunk;
-            });
-            _res.on("end", function(){
-                if (!_data) {
-                    console.log("服务器异常！");
-                }
-                let cbData = {};
-                cbData.code = data.code;
-                cbData.coverImgUrl = data.playlist.coverImgUrl;
-                cbData.name = data.playlist.name;
-                cbData.tracks = [];
-                data.playlist.tracks.forEach(track => {
-                    cbData.tracks.push({
-                        name: track.name,
-                        id: track.id,
-                        duration: track.dt,
-                        artists: track.ar.map(item => item.name).join(" / "),
-                        picUrl: track.al.picUrl,
-                        pop: track.pop
-                    });
-                });
-                console.log(cbData);
-                res.json(cbData);
-            });
-        }).on("error", function (err) {
-            console.log("服务器异常！", err.stack);
-        });
+    let _data = "";
+    _res.setEncoding('utf8');
+    _res.on('data', function (chunk) {
+        _data += chunk;
+    });
+    _res.on("end", function(){
+        if (!_data) {
+            console.log("服务器异常！");
+        }
+        const cbData = {
+            code: data.code,
+            coverImgUrl: data.playlist.coverImgUrl,
+            name: data.playlist.name,
+            tracks: data.playlist.tracks.map(track => {
+                const picUrl = track.al.picUrl;
+                return {
+                    name: track.name,
+                    id: track.id,
+                    duration: track.dt,
+                    artists: track.ar.map(item => item.name).join(" / "),
+                    picUrl: (picUrl)? picUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : picUrl,
+                    pop: track.pop
+                };
+            })
+        };
+        console.log(cbData);
+        res.json(cbData);
+    });
+}).on("error", function (err) {
+    console.log("服务器异常！", err.stack);
+});
 ```
 ```JavaScript
 http.get(`http://localhost:3000/music/url?id=${postData.id}`, function (_res) {
-            var _data = "";
-            _res.on('data', function (chunk) {
-                _data += chunk;
-            });
-            _res.on("end", function(){
-                if (!_data) {
-                    console.log("服务器异常！");
-                }
-                let data = JSON.parse(_data);
-                let cbData = {};
-                cbData.code = data.code;
-                cbData.id = data.data[0].id;
-                cbData.url = data.data[0].url;
-                cbData.br = data.data[0].br;
-                cbData.size = data.data[0].size;
-                cbData.md5 = data.data[0].md5;
-                cbData.type = data.data[0].type;
-                console.log(cbData);
-                res.json(cbData);
-            });
-        }).on("error", function (err) {
-            console.log("服务器异常！", err.stack);
-        });
+    let _data = "";
+    _res.on('data', function (chunk) {
+        _data += chunk;
+    });
+    _res.on("end", function(){
+        if (!_data) {
+            console.log("服务器异常！");
+        }
+        const musicUrl = data.data[0].url;
+        const cbData = {
+            code: data.code,
+            ...data.data[0],
+            url: (musicUrl)? musicUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : musicUrl
+        };
+        console.log(cbData);
+        res.json(cbData);
+    });
+}).on("error", function (err) {
+    console.log("服务器异常！", err.stack);
+});
 ```
 http://localhost:3000/lyric 保持数据与官方一致
 
@@ -107,42 +110,6 @@ http://localhost:3000/lyric 保持数据与官方一致
 import neteaseOutchain from 'vue-netease-outchain'
 Vue.use(neteaseOutchain);    
 ```
+* 其余部分与组件使用方式类似。
 #### 组件使用方式
-```JavaScript
-import neteaseOutchain from 'vue-netease-outchain'
- export default {
-        name: 'app',
-        components: {
-            neteaseOutchain
-        },
-        data(){
-            return {
-                playlist: 614245400,
-                showMusicPanel: false,
-                options: {
-                    lazyLoad: true,
-                    autoplay: false,
-                    redirect: {
-                        method: "POST",
-                        playListUrl: "/api/musicPlayList",
-                        musicUrl: "/api/musicUrl",
-                        musicLyricUrl: "/api/musicLyric"
-                    }
-                }
-            }
-        },
-        methods:{
-            isShowMusicPanel(){
-                this.showMusicPanel = !this.showMusicPanel;
-                this.options.lazyLoad = false;
-            }
-        }
-    }
-    
-```
-```HTML
-<div class="player-box" v-show="showMusicPanel">
-    <netease-outchain :playlist="playlist" :options="options" />
-</div>
-<button @click="isShowMusicPanel">加载播放器</button>
-```
+<a href="/BugKun/vue-neteasemusic-outchain/blob/dev-0/example/index.html" target="_blank">点击查看实例</a>

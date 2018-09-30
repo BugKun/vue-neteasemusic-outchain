@@ -46,8 +46,8 @@ module.exports = {
                 test: /\.svg$/,
                 use: ['happypack/loader?id=svg']
             },
-            {   
-                test: /\.(png|jpg|gif)$/, 
+            {
+                test: /\.(png|jpg|gif)$/,
                 use: ['happypack/loader?id=url']
             }
         ]
@@ -82,7 +82,15 @@ module.exports = {
         new HappyPack({
             id: 'css',
             threadPool: happyThreadPool,
-            loaders: ['style-loader', { loader: 'css-loader', options: { minimize: true } }]
+            loaders: [
+                'style-loader',
+                {
+                    loader: 'css-loader',
+                    options: {
+                        minimize: true
+                    }
+                }
+            ]
         }),
         new HappyPack({
             id: 'svg',

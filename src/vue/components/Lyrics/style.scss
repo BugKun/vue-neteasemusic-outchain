@@ -1,7 +1,8 @@
 .lyricsContainer {
     position: relative;
-    flex: 0;
+    height: 0;
     overflow: hidden;
+    transform: translateZ(0);
     transition: all .6s ease-in-out;
     .lyricsGroup {
         display: flex;
@@ -15,6 +16,10 @@
         justify-content: center;
         text-align: center;
     }
+}
+.show{
+    height: 3em;
+    border-top: 1px solid #e6e6e6;
 }
 
 .slideToLeft-enter-active,

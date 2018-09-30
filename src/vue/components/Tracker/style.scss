@@ -1,12 +1,14 @@
 .barContainer {
-    padding: 10px 4px;
-    overflow: hidden;
+    position: relative;
+    padding: 10px 5px;
     cursor: pointer;
+    user-select: none;
     .bar {
         position: relative;
         left: 0;
         top: 0;
         height: 2px;
+        overflow: hidden;
         background: #e5e9ef;
         .process{
             position: absolute;
@@ -15,37 +17,33 @@
             height: 2px;
             width: 100%;
             transform: translate3d(-100%, 0, 0);
+            transition: transform .25s linear;
         }
         .buffered{
             z-index: 2;
             background: #cdcdcd;
-            transition: transform .2s ease-in;
+            transition: transform .25s ease-in;
         }
         .played {
             z-index: 3;
             background: #e12828;
-            .thumb {
-                position: absolute;
-                right: -4px;
-                left: auto;
-                top: -3px;
-                width: 8px;
-                height: 8px;
-                background-position: -92px -14px;
-                cursor: pointer;
-            }
-        }
-        .played.j-flag::after {
-            content: "";
-            position: absolute;
-            right: -4px;
-            left: auto;
-            top: -3px;
-            width: 8px;
-            height: 8px;
-            background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
-            background-position: -92px -14px;
-            cursor: pointer;
         }
     }
+    .pointer{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate3d(0, -50%, 0);
+        z-index: 3;
+        width: 8px;
+        height: 8px;
+        cursor: pointer;
+        transition: transform .25s linear;
+        /deep/ svg {
+            float: left;
+        }
+    }
+}
+.drag {
+    transition: none !important;
 }

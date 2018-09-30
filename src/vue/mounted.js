@@ -1,5 +1,6 @@
 export default function() {
     this.audio = new Audio();
+    this.audio.volume = 0.5;
     this.audio.onended = () => {
         this.next();
     };

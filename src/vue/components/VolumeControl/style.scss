@@ -13,6 +13,7 @@
         border-radius: 2px;
         background: #fff;
         box-shadow: 0 0 10px #ccc;
+        user-select: none;
         .volumeBar {
             position: relative;
             width: 4px;
@@ -30,18 +31,17 @@
                 background: #e12828;
                 transform: translateZ(0);
             }
-            .volumeBarProcess::after {
-                content: "";
-                position: absolute;
-                left: 50%;
-                top: -5px;
-                transform: translateX(-50%);
-                width: 8px;
-                height: 8px;
-                border-radius: 8px;
-                background: #fff;
-                border: 0.05em solid #e0e0e0;
-                cursor: pointer;
+        }
+        .pointer{
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translate3d(0, -50%, 0);
+            width: 8px;
+            height: 8px;
+            cursor: pointer;
+            /deep/ svg {
+                float: left;
             }
         }
     }

@@ -7,7 +7,12 @@ export default function() {
             musicLyricUrl: "/api/musicLyric"
         },
         icons: {
-            github: require('libs/icons/github.svg')
+            github: require('libs/icons/github.svg'),
+            list: require('libs/icons/list.svg'),
+            play: require('libs/icons/play.svg'),
+            pause: require('libs/icons/pause.svg'),
+            next: require('libs/icons/skip-next.svg'),
+            prev: require('libs/icons/skip-previous.svg')
         },
         isLoaded: false,
         musicLoading: false,
