@@ -76,18 +76,20 @@
                 },
                 playlist: 614245400,
                 playlistInput: 614245400,
-                maxHeight: window.innerHeight / 2,
-                maxWidth: 1000
+                maxHeight: 0,
+                maxWidth: 0
             },
             mounted: function() {
-                window.addEventListener("resize", this.windowResize);
+                this.playerResize();
+                window.addEventListener("resize", this.playerResize);
             },
             methods: {
                 setPlaylist: function() {
                     this.playlist = this.playlistInput;
                 },
-                windowResize: function() {
+                playerResize: function() {
                     this.maxHeight = window.innerHeight / 2;
+                    this.maxWidth = (window.innerWidth < 1000)? window.innerWidth : 1000;
                 }
             }
         });

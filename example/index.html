@@ -29,7 +29,7 @@
             }
         }
     </style>
-<script type="text/javascript" src="/VueNeteaseMusicOutchain.js?f501208a766be1288884"></script></head>
+<script type="text/javascript" src="/VueNeteaseMusicOutchain.js?1c4951efe1353182a183"></script></head>
 <body>
     <div id="app">
         <h1 style="margin: 0">在启动此实例前请先启动
@@ -76,18 +76,20 @@
                 },
                 playlist: 614245400,
                 playlistInput: 614245400,
-                maxHeight: window.innerHeight / 2,
-                maxWidth: 1000
+                maxHeight: 0,
+                maxWidth: 0
             },
             mounted: function() {
-                window.addEventListener("resize", this.windowResize);
+                this.playerResize();
+                window.addEventListener("resize", this.playerResize);
             },
             methods: {
                 setPlaylist: function() {
                     this.playlist = this.playlistInput;
                 },
-                windowResize: function() {
+                playerResize: function() {
                     this.maxHeight = window.innerHeight / 2;
+                    this.maxWidth = (window.innerWidth < 1000)? window.innerWidth : 1000;
                 }
             }
         });

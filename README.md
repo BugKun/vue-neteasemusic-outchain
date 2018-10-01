@@ -93,10 +93,12 @@ http://localhost:3000/lyric 保持数据与官方一致
 > npm i -D vue-neteasemusic-outchain
 
 ### 相关参数
-> playlist ID (Type:Number)：必须填入<br>
+> playlist (Type:Number)：歌单ID, 必须填入<br>
+> maxWidth (Type:Number)：组件的最大宽度，必须填入<br>
+> maxHeight (Type:Number)：组件的最大高度，必须填入<br>
 > hideGit (Type:Boolean): 是否隐藏播放器内github的链接标志<br>
 > lazyLoad (Type:Boolean)：懒加载（初始传入变量参数为false，当需要马上加载时传入变量改为true。注意：此设置会造成autoplay功能无法按预期执行）<br>
-> autoplay (Type:Boolean)：自动播放（true即为自动播放）<br>
+> autoPlay (Type:Boolean)：自动播放（true即为自动播放）<br>
 > redirect (Type:Object)：修改获取参数的链接<br>
 >> method (Type:String): 请求方式，只能是"POST"或"GET"<br>
 >> playListUrl (Type:String)：修改获取播放列表的链接<br>

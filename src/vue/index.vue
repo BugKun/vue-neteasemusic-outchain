@@ -27,6 +27,14 @@
                 type: Number,
                 required: true
             },
+            maxWidth:{
+                type: Number,
+                required: true
+            },
+            maxHeight:{
+                type: Number,
+                required: true
+            },
             redirect:{
                 type: Object,
                 default: () => {}
@@ -42,14 +50,6 @@
             hideGit:{
                 type: Boolean,
                 default: false
-            },
-            maxWidth:{
-                type: Number,
-                default: window.innerWidth
-            },
-            maxHeight:{
-                type: Number,
-                default: window.innerHeight / 2
             }
         },
         mounted: require("./mounted"),
