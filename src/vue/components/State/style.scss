@@ -29,15 +29,18 @@
             width: 15px;
             height: 15px;
             flex: 0 0 15px;
-            /deep/ svg {
-                animation: NMO-rotateAround 1.4s linear infinite;
-                circle {
-                    animation: NMO-progress-circular-dash 1.4s ease-in-out infinite;
-                    stroke-dasharray: 80px, 200px;
-                    stroke-dashoffset: 0;
-                    stroke: #898989;
-                    fill: none;
-                    stroke-width: 3.6px;
+            margin-right: 8px;
+            /deep/ {
+                svg {
+                    animation: NMO-rotateAround 1.4s linear infinite;
+                    circle {
+                        animation: NMO-progress-circular-dash 1.4s ease-in-out infinite;
+                        stroke-dasharray: 80px, 200px;
+                        stroke-dashoffset: 0;
+                        stroke: #898989;
+                        fill: none;
+                        stroke-width: 3.6px;
+                    }
                 }
             }
         }

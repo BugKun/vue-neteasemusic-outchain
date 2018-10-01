@@ -17,6 +17,9 @@
                 const playingIndex = this.playingIndex;
                 const style = `transform: translate3d(0, ${ isNumber(playingIndex)? 30 * playingIndex : -30 }px, 0)`;
                 return style;
+            },
+            isShow(){
+                return (isNumber(this.playingIndex) && this.playingIndex > -1)? 'show' : null;
             }
         }
     }

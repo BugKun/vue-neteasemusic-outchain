@@ -1,5 +1,6 @@
-<template src="./template.html"></template>
-<style lang="scss" scoped src="./style.scss"></style>
+<template src="./template.html" />
+<style lang="scss" scoped src="./global.scss" />
+<style lang="scss" scoped src="./style.scss" />
 
 <script>
     import PlayList from './components/PlayList/index.vue';
@@ -11,7 +12,7 @@
     import State from './components/State/index.vue';
 
     export default {
-        name: 'neteasemusic-outchain',
+        name: 'NeteaseMusicOutchain',
         components:{
             VolumeControl,
             PlayList,
@@ -34,7 +35,7 @@
                 type: Boolean,
                 default: false
             },
-            autoplay:{
+            autoPlay:{
                 type: Boolean,
                 default: false
             },

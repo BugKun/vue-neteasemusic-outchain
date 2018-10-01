@@ -1,5 +1,4 @@
 ﻿<div class="player-container"
-     :style="openArea"
      ref="playerContainer"
      @mousemove="mouseMove"
      @mouseup="mouseUp"
@@ -70,6 +69,6 @@
         :musicInfoTracks="musicInfo.tracks? musicInfo.tracks : []"
         :playingIndex="playingIndex"
         @loadMusic="loadMusic"
-        :maxHeight="`calc(${maxHeight - 92}px${showLyrics? ' - 3em' : ''})`"
+        :maxHeight="playListMaxHeight"
     />
 </div>

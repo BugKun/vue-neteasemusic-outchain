@@ -30,7 +30,6 @@
         }
     </style>
 </head>
-
 <body>
     <div id="app">
         <h1 style="margin: 0">在启动此实例前请先启动
@@ -52,11 +51,11 @@
                 </label>
             </p>
         </div>
-        <neteasemusic-outchain
+        <netease-music-outchain
             :playlist="Number(playlist)"
             :redirect="redirect"
             :lazy-load="lazyLoad"
-            :autoplay="autoplay"
+            :auto-play="autoPlay"
             :hide-git="hideGit"
             :max-width="maxWidth"
             :max-height="maxHeight"
@@ -66,19 +65,19 @@
         new Vue({
             el: '#app',
             components: {
-                neteasemusicOutchain: VueNeteaseMusicOutchain
+                NeteaseMusicOutchain: VueNeteaseMusicOutchain
             },
             data: {
                 lazyLoad: false,
-                autoplay: false,
+                autoPlay: false,
                 hideGit: false,
                 redirect: {
                     method: "GET"
                 },
                 playlist: 2242933755,
-                playlistInput: 2242933755,
+                playlistInput: 2439005127,
                 maxHeight: window.innerHeight / 2,
-                maxWidth: 1000,
+                maxWidth: 1000
             },
             mounted: function() {
                 window.addEventListener("resize", this.windowResize);

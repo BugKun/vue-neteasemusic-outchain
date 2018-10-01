@@ -3,6 +3,7 @@
     express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
+    compress = require("compression"), //Gzip
     musicPlayList = require("./musicPlayList"),
     musicUrl = require("./musicUrl"),
     loadLyrics = require("./loadLyrics"),
@@ -26,6 +27,9 @@ if (isDev) {
         hotMiddleware = webpackHotMiddleWare(compiler);
     app.use(devMiddleware);
     app.use(hotMiddleware);
+}else {
+    /* 开启GZIP */
+    app.use(compress());
 }
 
 // 处理 application/json
@@ -71,7 +75,11 @@ app.post("/api/musicLyric", (req, res) => {
 });
 
 /* 挂载静态页面 */
-app.use(express.static(path.join(__dirname, "../example")));
+if(isDev){
+    app.use("/js", express.static(path.join(__dirname, "../example/js")));
+}else{
+    app.use(express.static(path.join(__dirname, "../example")));
+}
 
 console.log("在启动此实例前请先启动NeteaseCloudMusicApi ！");
 

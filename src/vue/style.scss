@@ -6,7 +6,6 @@
     box-shadow: 0 0 10px #ccc;
     background: #fff;
     transition: all .6s ease;
-    transform: translateZ(0);
     font-family: 'Microsoft Yahei';
     .f-cb {
         flex: 0 0 92px;
@@ -23,8 +22,6 @@
                 line-height: 20px;
                 margin-bottom: 2px;
                 user-select: none;
-                -ms-user-select: none;
-                -moz-user-select: none;
                 .btnGroup {
                     display: flex;
                     align-items: center;
@@ -32,7 +29,7 @@
                     width: 72px;
                     .prev,
                     .next {
-                        transform: scale3d(1.1, 1.1, 1.1);
+                        transform: scale(1.1);
                         cursor: pointer;
                     }
                     .pause,
@@ -44,7 +41,7 @@
                     }
                     .pause,
                     .play {
-                        transform: scale3d(2.1, 2.1, 2.1);
+                        transform: scale(2.1);
                     }
                 }
                 .btnGroupRight {
@@ -89,21 +86,6 @@
         height: 0;
         visibility: hidden;
     }
-}
-
-.icon {
-    display: block;
-    position: relative;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
-.f-thide {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-wrap: normal;
 }
 
 .fade-enter-active,

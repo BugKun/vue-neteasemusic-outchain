@@ -22,8 +22,8 @@
                 default: 0
             },
             maxHeight: {
-                type: String,
-                default: "0"
+                type: Object,
+                default: () => {}
             },
         },
         mounted() {
@@ -37,7 +37,11 @@
         },
         computed:{
             heightLimit(){
-                return (this.maxHeight === "0") ? null : `height: ${this.maxHeight}`
+                const { limit, lyrics } = this.maxHeight;
+                let height = this.musicInfoTracks.length * 30;
+                if(height > limit) height = limit;
+                const maxHeight = (lyrics)? `calc(${ limit }px - ${ lyrics })` : `${ limit }px`;
+                return `height: ${ height }px; max-height: ${ maxHeight }`
             },
             listStyle(){
                 return (this.listOpened)? `opened` : null;
@@ -45,7 +49,7 @@
         },
         watch:{
             musicInfoTracks:{
-                handler(curVal){
+                handler(){
                     for(let i in this.popIcons){
                         if(this.popIcons[i] instanceof Object) this.popIcons[i].url = null;
                     }

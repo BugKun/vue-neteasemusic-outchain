@@ -1,6 +1,5 @@
-import { getParameterByName } from "libs/utils"
-
-import NeteaseMusicOutchain from "./vue/index.vue"
+import { getParameterByName } from "libs/utils";
+import NeteaseMusicOutchain from "./vue/index.vue";
 
 NeteaseMusicOutchain.install = Vue => {
     Vue.component(NeteaseMusicOutchain.name, NeteaseMusicOutchain);
@@ -12,4 +11,4 @@ if (isHot && window) {
     window.VueNeteaseMusicOutchain = NeteaseMusicOutchain;
 }
 
-export default NeteaseMusicOutchain
+export default NeteaseMusicOutchain;

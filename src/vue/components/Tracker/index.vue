@@ -101,7 +101,7 @@
                     this.pointerStyle = `transform: translate3d(${position}px, -50%, 0)`;
                 }
 
-                return { position, barWidth};
+                return { position, barWidth };
             },
             progressPointerMove(e) {
                 if (!this.isDrag) return;

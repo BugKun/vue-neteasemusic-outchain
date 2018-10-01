@@ -7,7 +7,7 @@ export default {
     init() {
         if (this.redirect.length > 1) this.MyRedirect = {...this.MyRedirect, ...this.redirect };
         this.getPlayList(() => {
-            if (this.autoplay) {
+            if (this.autoPlay) {
                 this.play();
             }
         });
@@ -73,7 +73,7 @@ export default {
         this.audio.load();
         this.audio.play();
         if (errorTime) this.audio.currentTime = errorTime;
-        this.paused = false;
+        this.paused = this.audio.paused;
         this.playingIndex = isNumber(i) ? i : null;
         this.changeCover(i);
     },
