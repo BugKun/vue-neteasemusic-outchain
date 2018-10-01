@@ -1,6 +1,6 @@
 {
     "name": "vue-neteasemusic-outchain",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "A outchain player for NeteaseCloudMusic( 网易云音乐外链播放器 ).",
     "repository": {
         "type": "git",
