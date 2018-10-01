@@ -12,18 +12,16 @@ module.exports = (id, cb) => {
                     return;
                 }
             } catch (e) {
-                console.log("服务器异常！");
+                console.log("服务器异常：", e);
                 cb({ code: 500 });
                 return;
             }
-            let cbData = {};
-            cbData.code = data.code;
-            cbData.id = data.data[0].id;
-            cbData.url = data.data[0].url;
-            cbData.br = data.data[0].br;
-            cbData.size = data.data[0].size;
-            cbData.md5 = data.data[0].md5;
-            cbData.type = data.data[0].type;
+            const musicUrl = data.data[0].url;
+            const cbData = {
+                code: data.code,
+                ...data.data[0],
+                url: (musicUrl)? musicUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : musicUrl
+            };
             console.log(cbData);
             cb(cbData);
         })

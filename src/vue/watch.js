@@ -1,34 +1,22 @@
 export default {
-    options: {
+    lazyLoad(curVal){
+        if (!curVal && !this.isLoaded) {
+            this.isLoaded = true;
+            this.init();
+        }
+    },
+    redirect:{
         handler(curVal) {
-            if (curVal.redirect) this.redirect = {...this.redirect, ...curVal.redirect };
-            if (!curVal.lazyLoad && !this.isLoaded) {
-                this.isLoaded = true;
-                this.init();
-            }
+            this.MyRedirect = {...this.MyRedirect, ...curVal };
         },
         deep: true
     },
-    "volumeStatus.value" (curVal) {
-        if (this.audio && !isNaN(curVal)) this.audio.volume = curVal;
-    },
     playlist() {
-        if (this.audio) {
-            this.audio.pause();
-            if(this.audio.currentTime !== 0) this.audio.currentTime = 0;
-        }
+        this.audio.pause();
+        if(this.audio.currentTime !== 0) this.audio.currentTime = 0;
         this.playingIndex = null;
-        this.process = {
-            barPlayed: "",
-            time: "- 00:00"
-        };
         this.paused = true;
-        this.removeAllLyric();
+        this.lyricID = 0;
         this.getPlayList();
-    },
-    showLyrics(curVal) {
-        if (curVal) {
-            this.setLyric(this.playingIndex);
-        }
     }
 }

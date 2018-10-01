@@ -10,101 +10,11 @@
     .f-cb {
         flex: 0 0 92px;
         display: flex;
-        .cover {
-            display: block;
-            border-bottom-left-radius: 1px;
-            border-top-left-radius: 1px;
-            flex: 0 0 92px;
-            background: #c3c3c3;
-            img {
-                border-bottom-left-radius: 1px;
-                width: 100%;
-                height: 100%;
-                border-top-left-radius: 2px;
-                border: none;
-            }
-        }
         .ctrlBox {
             padding: 0 1vw 0 1vw;
             position: relative;
             flex-grow: 1;
             width: calc(100% - 92px - 2vw);
-            .f-pr {
-                position: relative;
-                left: 0;
-                top: 0;
-                height: 36px;
-                line-height: 36px;
-                margin-bottom: 0;
-                font-size: 14px;
-                font-weight: normal;
-                zoom: 1;
-                .title {
-                    display: flex;
-                    align-items: center;
-                    line-height: 18px;
-                    .logo, .loading {
-                        display: inline-block;
-                        width: 18px;
-                        height: 18px;
-                        margin-right: 6px;
-                    }
-                    .logo{
-                        background-position: 0 -132px;
-                    }
-                    .loading{
-                        flex: 0 0 18px;
-                    }
-                }
-            }
-            .barContainer {
-                padding: 10px 0;
-                cursor: pointer;
-                .bar {
-                    position: relative;
-                    left: 0;
-                    top: 0;
-                    height: 2px;
-                    background: #e5e9ef;
-                    .process{
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        height: 2px;
-                        width: 0;
-                    }
-                    .buffered{
-                        z-index: 2;
-                        background: #cdcdcd;
-                    }  
-                    .played {
-                        z-index: 3;
-                        background: #e12828;
-                        .thumb {
-                            position: absolute;
-                            right: -4px;
-                            left: auto;
-                            top: -3px;
-                            width: 8px;
-                            height: 8px;
-                            background-position: -92px -14px;
-                            cursor: pointer;
-                        }
-                    }
-                    .played.j-flag::after {
-                        content: "";
-                        position: absolute;
-                        right: -4px;
-                        left: auto;
-                        top: -3px;
-                        width: 8px;
-                        height: 8px;
-                        background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
-                        background-position: -92px -14px;
-                        cursor: pointer;
-                    }
-                }
-            }
             .oprBox {
                 display: flex;
                 align-items: center;
@@ -112,12 +22,6 @@
                 line-height: 20px;
                 margin-bottom: 2px;
                 user-select: none;
-                -ms-user-select: none;
-                -moz-user-select: none;
-                .time {
-                    font-size: 11px;
-                    color: #999;
-                }
                 .btnGroup {
                     display: flex;
                     align-items: center;
@@ -125,12 +29,8 @@
                     width: 72px;
                     .prev,
                     .next {
-                        width: 9px;
-                        height: 10px;
+                        transform: scale(1.1);
                         cursor: pointer;
-                    }
-                    .prev {
-                        background-position: -33px 0;
                     }
                     .pause,
                     .play {
@@ -139,68 +39,15 @@
                         cursor: pointer;
                         margin: 0 auto;
                     }
-                    .pause {
-                        background-position: -36px -63px;
-                    }
+                    .pause,
                     .play {
-                        background-position: 0 0;
-                    }
-                    .next {
-                        background-position: -58px 0;
+                        transform: scale(2.1);
                     }
                 }
                 .btnGroupRight {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    .icon {
-                        display: block;
-                        position: relative;
-                        width: 16px;
-                        height: 16px;
-                        cursor: pointer;
-                    }
-                    .volumeBarContainer {
-                        display: flex;
-                        position: absolute;
-                        width: 16px;
-                        height: 70px;
-                        left: 0;
-                        bottom: 18px;
-                        z-index: 5;
-                        align-items: center;
-                        border-radius: 2px;
-                        background: #fff;
-                        box-shadow: 0 0 10px #ccc;
-                        .volumeBar {
-                            position: relative;
-                            width: 4px;
-                            height: 60px;
-                            border-radius: 4px;
-                            margin: 0 auto;
-                            background: #cdcdcd;
-                            .volumeBarProcess {
-                                position: absolute;
-                                left: 0;
-                                bottom: 0;
-                                width: 4px;
-                                border-radius: 4px;
-                                background: #e12828;
-                            }
-                            .volumeBarProcess::after {
-                                content: "";
-                                position: absolute;
-                                left: -2px;
-                                top: -5px;
-                                width: 8px;
-                                height: 8px;
-                                border-radius: 4px;
-                                background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
-                                background-position: -92px -14px;
-                                cursor: pointer;
-                            }
-                        }
-                    }
                     @media screen and (max-width: 350px) {
                         .git {
                             display: none;
@@ -216,14 +63,6 @@
                         user-select: none;
                         -ms-user-select: none;
                         transition: .5s all ease;
-                    }
-                    .open {
-                        width: 13px;
-                        height: 10px;
-                        background-position: -58px -14px;
-                        cursor: pointer;
-                        opacity: 0.8;
-                        filter: alpha(opacity=80);
                     }
                 }
                 @media screen and (max-width: 350px) {
@@ -247,35 +86,6 @@
         height: 0;
         visibility: hidden;
     }
-    .lyricsContainer {
-        position: relative;
-        flex: 0;
-        overflow: hidden;
-        transition: all .6s ease-in-out;
-        .lyricsGroup {
-            display: flex;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            flex: 0;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-        }
-    }
-}
-
-.bg {
-    background: url(//music.163.com/style/web2/img/outchain/audio_sprite.png) no-repeat 0 9999px;
-}
-
-.f-thide {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-wrap: normal;
 }
 
 .fade-enter-active,
@@ -286,19 +96,4 @@
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
-}
-
-.slideToLeft-enter-active,
-.slideToLeft-leave-active,
-.slideToRight-enter-active,
-.slideToRight-leave-active {
-    transition: transform .3s;
-}
-
-.slideToLeft-enter, .slideToRight-leave-to {
-    transform: translateX(100%)
-}
-
-.slideToLeft-leave-to, .slideToRight-enter {
-    transform: translateX(-100%)
 }

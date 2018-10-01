@@ -1,0 +1,19 @@
+<h2 class="f-pr">
+    <div class="title">
+        <a class="bg logo"
+           :style="logoStyle"
+           :href="playListHref"
+           target="_blank"
+           title="查看歌单详细信息"
+           v-html="neteaseMusicIcon"
+        ></a>
+        {{ playListName }}
+    </div>
+    <div class="title f-thide">
+        <div v-if="isIE" class="loading">
+            <img v-if="loading" :src="loadingGifIcon"/>
+        </div>
+        <div v-else class="loading withSVG" v-html="loading? loadingSVGIcon : null"></div>
+        正在播放：{{ trackName }}
+    </div>
+</h2>

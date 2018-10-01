@@ -1,49 +1,50 @@
-<template>
-    <div class="list">
-        <div class="cur" :style="Number.isInteger(playingIndex)? `transform: translateY(${30 * playingIndex}px)` : `transform: translateY(-30px)`"></div>
-        <ul class="box" ref="box">
-            <li v-for="(li,i) in musicInfoTracks"
-                @click="loadMusic(i)"
-                :style="playingStatus(i)"
-                :title="li.disabled? copyright : null"
-                :key="i">
-                <div class="index">{{ i + 1 }}</div>
-                <div class="name f-thide" :title="li.disabled? copyright : li.name">{{ li.name }}{{ li.disabled? `(${copyright})` : "" }}</div>
-                <div class="pop"
-                     v-if="typeof li.pop === 'number'"
-                     :title="`热度：${li.pop}`">
-                    <svg width="20" height="20">
-                        <image :xlink:href="pop(li.pop)" width="20" height="20"/>
-                    </svg>
-                </div>
-                <div class="by f-thide"
-                     :title="li.disabled? copyright : li.artists"
-                     :style="li.disabled? 'color: #bbb' : null">{{ li.artists }}</div>
-            </li>
-        </ul>
-    </div>
-</template>
+<template src="./template.html"/>
+<style lang="scss" scoped src="./style.scss" />
+
 
 <script>
+    import ListItem from "./ListItem/index.vue";
+    import CurrentPointer from "./CurrentPointer/index.vue";
+
     export default {
-        name: 'nc-list',
+        name: 'PlayList',
+        components:{
+            ListItem,
+            CurrentPointer
+        },
         props: {
             musicInfoTracks: {
                 type: Array,
                 default: () => []
             },
             playingIndex: {
-                required: true
-            }
+                type:Number,
+                default: 0
+            },
+            maxHeight: {
+                type: Object,
+                default: () => {}
+            },
         },
         mounted() {
-            this.$emit('getListBox', this.$refs.box);
         },
         data() {
             return {
-                copyright: "由于版权保护，您所在的地区暂时无法使用。",
                 popIconSource: require('libs/icons/pop.svg'),
-                popIcons: []
+                popIcons: [],
+                listOpened: false,
+            }
+        },
+        computed:{
+            heightLimit(){
+                const { limit, lyrics } = this.maxHeight;
+                let height = this.musicInfoTracks.length * 30;
+                if(height > limit) height = limit;
+                const maxHeight = (lyrics)? `calc(${ limit }px - ${ lyrics })` : `${ limit }px`;
+                return `height: ${ height }px; max-height: ${ maxHeight }`
+            },
+            listStyle(){
+                return (this.listOpened)? `opened` : null;
             }
         },
         watch:{
@@ -57,10 +58,8 @@
             }
         },
         methods: {
-            playingStatus(i){
-                let style = i === this.playingIndex? 'background: #e9e9e9;' : '';
-                if(this.musicInfoTracks && this.musicInfoTracks[i].disabled) style += "color: #bbb !important;";
-                return style;
+            toggleList(){
+                this.listOpened = !this.listOpened;
             },
             loadMusic(i){
                 this.$emit('loadMusic', i);
@@ -89,7 +88,7 @@
                     }
                     const svgBlob = new Blob([popIconContianer.innerHTML], {type: "image/svg+xml"});
                     const svgUrl = URL.createObjectURL(svgBlob);
-                    this.popIcons[steps] = { 
+                    this.popIcons[steps] = {
                         blob: svgBlob,
                         url: svgUrl
                     };
@@ -99,5 +98,3 @@
         }
     }
 </script>
-
-<style lang="scss" src="./nc-list.scss" scoped></style>

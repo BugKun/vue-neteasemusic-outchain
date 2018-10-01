@@ -1,24 +1,22 @@
-import { fixLength, getOffset } from 'libs/utils';
+import { fixLength, getOffset, isNumber } from 'libs/utils';
 import { $ajax, Lyrics } from 'libs/services';
 
+
 export default {
+    isNumber,
     init() {
-        if (this.options.redirect) this.redirect = this.redirect = {...this.redirect, ...this.options.redirect };
+        if (this.redirect.length > 1) this.MyRedirect = {...this.MyRedirect, ...this.redirect };
         this.getPlayList(() => {
-            if (this.options.autoplay) {
+            if (this.autoPlay) {
                 this.play();
             }
         });
     },
-    windowResize() {
-        this.windowHeight = window.innerHeight;
-        this.windowWidth = window.innerWidth;
-    },
-    getListBox(dom) {
-        this.listBox = dom;
+    toggleList(){
+        this.$refs.playList.toggleList();
     },
     getPlayList(cb) {
-        $ajax(this.redirect.method, this.redirect.playListUrl)
+        $ajax(this.MyRedirect.method, this.MyRedirect.playListUrl)
             .send({ id: this.playlist })
             .end(res => {
                 if (res.code !== 200) {
@@ -28,9 +26,6 @@ export default {
                 this.musicLoading = false;
                 this.musicInfo = res;
                 this.changeCover();
-                this.$nextTick(function() {
-                    this.listBoxHeight = this.listBox.offsetHeight
-                });
                 if (cb) cb();
             })
             .catch(error => {
@@ -38,7 +33,7 @@ export default {
             })
     },
     getMusic(id, cb) {
-        $ajax(this.redirect.method, this.redirect.musicUrl)
+        $ajax(this.MyRedirect.method, this.MyRedirect.musicUrl)
             .send({ id })
             .end(res => {
                 if (res.code !== 200) {
@@ -46,20 +41,6 @@ export default {
                     return;
                 }
                 this.musicLoading = false;
-                cb(res);
-            })
-            .catch(error => {
-                console.log("Oops, error", error);
-            })
-    },
-    getLyric(id, cb) {
-        $ajax(this.redirect.method, this.redirect.musicLyricUrl)
-            .send({ id })
-            .end(res => {
-                if (res.code !== 200) {
-                    console.log(res);
-                    return;
-                }
                 cb(res);
             })
             .catch(error => {
@@ -84,70 +65,50 @@ export default {
                 this.playMusic(i, errorTime);
             });
         }
-        this.lyrics.isLoad = false;
-        this.removeAllLyric();
-        if (this.showLyrics) this.setLyric(i);
+        this.lyricID = this.musicInfo.tracks[i].id;
     },
     playMusic(i, errorTime) {
         if (this.musicInfo.tracks[i].disabled) return this.next(i);
-        let $musicUrl = this.musicInfo.tracks[i].playUrl;
-        this.audio.src = ($musicUrl) ? $musicUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : $musicUrl;
+        this.audio.src = this.musicInfo.tracks[i].playUrl;
         this.audio.load();
         this.audio.play();
         if (errorTime) this.audio.currentTime = errorTime;
-        this.isPaused();
-        this.playingIndex = (Number.isInteger(i)) ? i : null;
+        this.paused = this.audio.paused;
+        this.playingIndex = isNumber(i) ? i : null;
         this.changeCover(i);
     },
-    isPaused() {
-        let status = true;
-        if (!this.audio) {
-            status = true;
-        } else if (this.audio.paused) {
-            // 暂停中
-            status = true;
-        } else {
-            // 播放中
-            status = false;
-        }
-        this.paused = status;
-    },
-    playingStatus(i) {
-        let style = (i === this.playingIndex) ? 'background: #e9e9e9;' : '';
-        if (this.musicInfo.tracks && this.musicInfo.tracks[i].disabled) style += "color: #bbb !important;";
-        return style;
-    },
     play() {
-        if (!this.audio || this.audio.currentTime === 0) {
+        if (this.audio.currentTime === 0) {
             this.loadMusic(0);
         } else {
             this.audio.play();
         }
     },
+    togglePlayPause(){
+        if(this.audio.paused){
+            this.play();
+            this.paused = false;
+        }else {
+            this.audio.pause();
+            this.paused = true;
+        }
+    },
     next(i) {
-        if (Number.isInteger(i)) this.playingIndex = i;
+        if (isNumber(i)) this.playingIndex = i;
         if (this.playingIndex === null) return;
         let next = this.playingIndex + 1;
         if ((next + 1) > this.musicInfo.tracks.length) next = 0;
         this.loadMusic(next);
-        this.process.barPlayed = "";
-        this.process.time = "- 00:00";
-        this.process.isReverse = false;
-        this.process.isUpdate = false;
     },
     prev() {
         if (this.playingIndex === null) return;
         let prev = this.playingIndex - 1;
         if (prev < 0) prev = this.musicInfo.tracks.length - 1;
         this.loadMusic(prev);
-        this.process.barPlayed = "";
-        this.process.time = "- 00:00";
-        this.process.isReverse = false;
-        this.process.isUpdate = false;
     },
     setProcess() {
         let index = this.playingIndex;
-        if (!Number.isInteger(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
+        if (!isNumber(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
         let duration = this.musicInfo.tracks[index].duration / 1000;
         this.process.duration = duration;
         let range = duration - this.audio.currentTime;
@@ -157,187 +118,20 @@ export default {
         this.process.time = `- ${ fixLength(minute, 2) }:${ fixLength(Math.floor(second), 2) }`;
     },
     changeCover(i) {
-        let url = (Number.isInteger(i)) ? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
-        this.cover = (url) ? url.replace(/(http:\/\/)|(https:\/\/)/, "//") : url;
-    },
-    progressPointerDown(e) {
-        if (!this.audio) return;
-        const barContainer = this.$refs.barContainer;
-        this.progressIsDrag = true;
-        this.setProcess("paused");
-        if (this.audio && this.audio.src !== "")
-            this.process.barPlayed = `width: ${e.clientX - getOffset(barContainer).left}px`;
-    },
-    progressPointerMove(e) {
-        if (!this.progressIsDrag) return;
-        const barContainer = this.$refs.barContainer,
-            barContainerWidth = barContainer.offsetWidth;
-        let position = e.clientX - getOffset(barContainer).left;
-        if (position < 0) {
-            position = 0;
-        } else if (position > barContainerWidth) {
-            position = barContainerWidth;
-        }
-        if (this.audio && this.audio.src !== "" && this.progressIsDrag)
-            this.process.barPlayed = `width: ${ position }px`;
-    },
-    progressPointerUp(e) {
-        if (!this.progressIsDrag) return;
-        const barContainer = this.$refs.barContainer,
-            barContainerWidth = barContainer.offsetWidth;
-        let position = e.clientX - getOffset(barContainer).left;
-        if (position < 0) {
-            position = 0;
-        } else if (position > barContainerWidth) {
-            position = barContainerWidth;
-        }
-        if (this.audio && this.audio.src !== "" && this.progressIsDrag)
-            this.process.barPlayed = `width: ${ position }px`;
-        this.progressIsDrag = false;
-        if (this.audio && this.audio.src !== ""){
-            const currentTime = position / barContainerWidth * this.process.duration;
-            if(currentTime < this.audio.currentTime){
-                this.process.isReverse = true;
-                this.process.isUpdate = true;
-            }else {
-                this.process.isUpdate = false;
-            }
-            this.audio.currentTime = currentTime;
-        }
-        this.setProcess("init");
-    },
-    volumePointerDown(e) {
-        if (!this.audio) return;
-        this.volumeIsDrag = true;
-        const volumeBarContainer = this.$refs.volumeBarContainer,
-            volumeBarContainerHeight = volumeBarContainer.offsetHeight,
-            volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
-        if (volume > 1) {
-            this.volumeStatus.value = 1;
-        } else if (volume < 0) {
-            this.volumeStatus.value = 0;
-        } else {
-            this.volumeStatus.value = volume;
-        }
-    },
-    volumePointerMove(e) {
-        if (!this.volumeIsDrag) return;
-        const volumeBarContainer = this.$refs.volumeBarContainer;
-        if(!volumeBarContainer) return;
-        const volumeBarContainerHeight = volumeBarContainer.offsetHeight,
-            volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
-        if (volume > 1) {
-            this.volumeStatus.value = 1;
-        } else if (volume < 0) {
-            this.volumeStatus.value = 0;
-        } else {
-            this.volumeStatus.value = volume;
-        }
-    },
-    volumePointerUp(e) {
-        if (!this.volumeIsDrag) return;
-        this.volumeIsDrag = false;
-        const volumeBarContainer = this.$refs.volumeBarContainer;
-        if(!volumeBarContainer) return;
-        const volumeBarContainerHeight = volumeBarContainer.offsetHeight,
-            volume = (getOffset(volumeBarContainer).top - e.clientY + volumeBarContainerHeight) / volumeBarContainerHeight;
-        if (volume > 1) {
-            this.volumeStatus.value = 1;
-        } else if (volume < 0) {
-            this.volumeStatus.value = 0;
-        } else {
-            this.volumeStatus.value = volume;
-        }
-    },
-    progressPointerTouchDown(e) {
-        this.progressPointerDown(e.changedTouches[0]);
-    },
-    progressPointerTouchMove(e) {
-        this.progressPointerMove(e.changedTouches[0]);
-    },
-    progressPointerTouchEnd(e) {
-        this.progressPointerUp(e.changedTouches[0]);
-    },
-    volumePointerTouchDown(e) {
-        this.volumePointerDown(e.changedTouches[0]);
-    },
-    volumePointerTouchMove(e) {
-        this.volumePointerMove(e.changedTouches[0]);
-    },
-    volumePointerTouchEnd(e) {
-        this.volumePointerUp(e.changedTouches[0]);
+        this.cover = (isNumber(i)) ? this.musicInfo.tracks[i].picUrl : this.musicInfo.coverImgUrl;
     },
     mouseMove(e) {
-        this.progressPointerMove(e);
-        this.volumePointerMove(e);
+        if(this.$refs.VolumeControl) this.$refs.VolumeControl.volumePointerMove(e);
+        if(this.$refs.Tracker) this.$refs.Tracker.progressPointerMove(e);
     },
     mouseUp(e) {
-        this.progressPointerUp(e);
-        this.volumePointerUp(e);
+        if(this.$refs.VolumeControl) this.$refs.VolumeControl.volumePointerUp(e);
+        if(this.$refs.Tracker) this.$refs.Tracker.progressPointerUp(e);
     },
     touchMove(e) {
-        this.progressPointerTouchMove(e);
-        this.volumePointerTouchMove(e);
+        this.mouseMove(e.changedTouches[0]);
     },
     touchEnd(e) {
-        this.progressPointerTouchEnd(e);
-        this.volumePointerTouchEnd(e);
-    },
-    setLyric(index) {
-        if (!Number.isInteger(index) || !this.musicInfo || !this.musicInfo.tracks[index]) return;
-        if (this.musicInfo.tracks[index].lyricData) {
-            let data = this.musicInfo.tracks[index].lyricData;
-            this.initLyric(data);
-        } else {
-            let id = this.musicInfo.tracks[index].id;
-            this.getLyric(id, (data) => {
-                this.lyrics.id = id;
-                if (!data.lrc) {
-                    // 没歌词
-                    data.lrc = {};
-                    if (data.sgc) {
-                        data.lrc.lyric = "[00:00.00]还没有歌词哦~";
-                    } else if (data.nolyric) {
-                        // 纯音乐
-                        data.lrc.lyric = "[00:00.00]纯音乐，请您欣赏";
-                    }
-                } else {
-                    data.lrc.lyric += "[offset:300]";
-                }
-                this.musicInfo.tracks[index].lyricData = data;
-                this.initLyric(data);
-            });
-        }
-    },
-    initLyric(data) {
-        if (data.lrc && data.lrc.lyric) {
-            this.lyrics.lrc.func = new Lyrics(data.lrc.lyric);
-            if (data.tlyric && data.tlyric.lyric) {
-                this.lyrics.tlyric.func = new Lyrics(data.tlyric.lyric);
-                this.lyrics.lrc.func.lrcMerge(this.lyrics.tlyric.func.getLyrics(), 2); // 合并翻译歌词
-            }
-            const lyricsArr = this.lyrics.lrc.func.getLyrics();
-            if(lyricsArr) this.lyrics.lrc.text = lyricsArr.map(item => item.text);
-        }
-        this.lyrics.isLoad = true;
-    },
-    removeAllLyric() {
-        this.lyrics.lrc.func = this.lyrics.tlyric.func = null;
-        this.lyrics.lrc.text = [];
-        this.lyrics.lrc.active = -1;
-    },
-    loadLyric(time) {
-        if (!this.lyrics.isLoad) return;
-        if (this.lyrics.lrc.text.length > 0) {
-            const isActive = this.lyrics.lrc.func.select(time);
-            if (isActive !== this.lyrics.lrc.active){
-                this.lyrics.lrc.active = isActive;
-                if(this.process.isUpdate){
-                    this.process.isUpdate = false;
-                }else {
-                    if(this.process.isReverse) this.process.isReverse = false;
-                }
-            }
-        }
+        this.mouseUp(e.changedTouches[0]);
     }
 }

@@ -19,7 +19,13 @@ module.exports = {
             },
             onEnd: {
                 copy: [
-                    { source: path.resolve(__dirname, '../dist'), destination: path.resolve(__dirname, '../example/dist') }
+                    { source: path.resolve(__dirname, '../dist/*.js'), destination: path.resolve(__dirname, '../example/dist') }
+                ],
+                move: [
+                    { source: path.resolve(__dirname, '../dist/*.html'), destination: path.resolve(__dirname, '../example') }
+                ],
+                delete: [
+                    path.resolve(__dirname, '../dist/*.html')
                 ]
             }
         })

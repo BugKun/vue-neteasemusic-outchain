@@ -1,0 +1,9 @@
+<div class="barContainer"
+     @mousedown="progressPointerDown"
+     @touchstart="progressPointerTouchDown">
+    <div class="bar" ref="bar">
+        <div class="process buffered" :style="bufferedStyle"></div>
+        <div class="process played j-flag" :class="dragClass" :style="barPlayed"></div>
+    </div>
+    <div class="pointer" :class="dragClass" :style="pointerStyle" v-html="pointerIcon"></div>
+</div>

@@ -1,0 +1,35 @@
+.volumeController {
+    display: flex;
+    position: absolute;
+    width: 16px;
+    height: 70px;
+    left: 0;
+    bottom: 18px;
+    z-index: 5;
+    align-items: center;
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: 0 0 10px #ccc;
+    user-select: none;
+    .volumeBar {
+        position: relative;
+        width: 4px;
+        height: 60px;
+        border-radius: 4px;
+        margin: 0 auto;
+        background: #cdcdcd;
+        .volumeBarProcess {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            height: 0;
+            border-radius: 4px;
+            background: #e12828;
+        }
+    }
+    .pointer{
+        left: 50%;
+        bottom: 0;
+    }
+}

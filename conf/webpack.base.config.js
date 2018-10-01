@@ -1,5 +1,6 @@
 ﻿const webpack = require('webpack'),
     path = require('path'),
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
     HappyPack = require('happypack'),
     os = require("os"),
     threads = os.cpus().length,
@@ -12,8 +13,8 @@ module.exports = {
         "VueNeteaseMusicOutchain": [path.resolve(__dirname, '../src/index.js')]
     },
     output: {
-        path: path.resolve(__dirname, "../"),
-        filename: 'dist/[name].js',
+        path: path.resolve(__dirname, "../dist"),
+        filename: '[name].js',
         publicPath: '/',
         libraryTarget: 'umd',
         library: '[name]'
@@ -25,7 +26,8 @@ module.exports = {
         }
     },
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.vue$/,
                 use: ['happypack/loader?id=vue']
             },
@@ -45,8 +47,8 @@ module.exports = {
                 test: /\.svg$/,
                 use: ['happypack/loader?id=svg']
             },
-            {   
-                test: /\.(png|jpg|gif)$/, 
+            {
+                test: /\.(png|jpg|gif)$/,
                 use: ['happypack/loader?id=url']
             }
         ]
@@ -81,7 +83,15 @@ module.exports = {
         new HappyPack({
             id: 'css',
             threadPool: happyThreadPool,
-            loaders: ['style-loader', { loader: 'css-loader', options: { minimize: true } }]
+            loaders: [
+                'style-loader',
+                {
+                    loader: 'css-loader',
+                    options: {
+                        minimize: true
+                    }
+                }
+            ]
         }),
         new HappyPack({
             id: 'svg',
@@ -92,6 +102,11 @@ module.exports = {
             id: 'url',
             threadPool: happyThreadPool,
             loaders: ['url-loader?limit=99999']
+        }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, "../src/dev-pages/template.html"),
+            hash: true,
+            inject: "head"
         }),
     ]
 };

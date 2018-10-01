@@ -11,24 +11,25 @@ module.exports = (id, cb) => {
                     return { code: 500 };
                 }
             } catch (e) {
-                console.log("服务器异常！");
+                console.log("服务器异常：", e);
                 return { code: 500 };
             }
-            let cbData = {};
-            cbData.code = data.code;
-            cbData.coverImgUrl = data.playlist.coverImgUrl;
-            cbData.name = data.playlist.name;
-            cbData.tracks = [];
-            data.playlist.tracks.forEach(track => {
-                cbData.tracks.push({
-                    name: track.name,
-                    id: track.id,
-                    duration: track.dt,
-                    artists: track.ar.map(item => item.name).join(" / "),
-                    picUrl: track.al.picUrl,
-                    pop: track.pop
-                });
-            });
+            const cbData = {
+                code: data.code,
+                coverImgUrl: data.playlist.coverImgUrl,
+                name: data.playlist.name,
+                tracks: data.playlist.tracks.map(track => {
+                    const picUrl = track.al.picUrl;
+                    return {
+                        name: track.name,
+                        id: track.id,
+                        duration: track.dt,
+                        artists: track.ar.map(item => item.name).join(" / "),
+                        picUrl: (picUrl)? picUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : picUrl,
+                        pop: track.pop
+                    };
+                })
+            };
             console.log(cbData);
             cb(cbData);
         })

@@ -1,0 +1,7 @@
+<div class="lyricsContainer" :class="showLyrics? 'show' : null">
+    <transition :name="isReverse? 'slideToRight' : 'slideToLeft'">
+        <div class="lyricsGroup" v-for="(li, i) in lrc.text" :key="i" v-if="i === lrc.active">
+            <div class="f-thide" v-html="li"></div>
+        </div>
+    </transition>
+</div>

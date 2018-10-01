@@ -1,0 +1,27 @@
+.player-container{
+    /deep/ {
+        .f-thide {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+        }
+        .icon {
+            display: block;
+            position: relative;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .pointer{
+            position: absolute;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            cursor: pointer;
+            svg {
+                float: left;
+            }
+        }
+    }
+}

@@ -1,43 +1,19 @@
+import { isNumber } from "libs/utils"
+
 export default {
-    openArea() {
-        if (!this.listBox) return null;
-        let adapt = "";
-        if (this.isListClosed) {
-            if (this.showLyrics) {
-                adapt = "height: calc(92px + 3em);min-height: calc(92px + 3em);";
-            } else {
-                adapt = "height: 92px; min-height: 92px;";
-            }
-        } else {
-            if (this.musicInfo.tracks) {
-                let listBoxHeight = 94 + this.listBoxHeight;
-                if (listBoxHeight > (this.windowHeight / 2)) {
-                    listBoxHeight = this.windowHeight / 2;
-                }
-                if (this.showLyrics) {
-                    adapt = `min-height: 92px;height: calc(${ listBoxHeight }px + 3em);`;
-                } else {
-                    adapt = `min-height: 92px;height: ${ listBoxHeight }px;`;
-                }
-            }
+    trackID() {
+        let ID = 0;
+        if (isNumber(this.playingIndex) && this.musicInfo && this.musicInfo.tracks && this.musicInfo.tracks[this.playingIndex]) {
+            ID = this.musicInfo.tracks[this.playingIndex].id;
         }
-        adapt += `max-height: ${ this.windowHeight / 2 }px;`;
-        if (this.isIE || this.progressIsDrag) adapt += "user-select: none;-ms-user-select: none;";
-        return adapt;
-    },
-    musicLink() {
-        let link = null;
-        if (Number.isInteger(this.playingIndex) && this.musicInfo && this.musicInfo.tracks && this.musicInfo.tracks[this.playingIndex]) {
-            link = "//music.163.com/song?id=" + this.musicInfo.tracks[this.playingIndex].id;
-        }
-        return link;
+        return ID;
     },
     btnGroupRightWidth() {
         let count = 2;
-        if(!this.options.hideGit) {
+        if(!this.hideGit) {
             if(this.isIOS){
                 count++;
-            }else if(this.windowWidth > 350){
+            }else if(this.maxWidth > 350){
                 count++;
             }
         }
@@ -45,5 +21,14 @@ export default {
             count++;
         }
         return `${ 1.5 * count }em`;
+    },
+    currentTrackDuration(){
+        if(!this.musicInfo.tracks) return 0;
+        const playingIndex = this.playingIndex || 0,
+            duration = this.musicInfo.tracks[playingIndex].duration / 1000;
+        return duration || 0;
+    },
+    playListMaxHeight(){
+        return { limit: this.maxHeight - 92, lyrics: (this.showLyrics)? '3em' : null };
     }
 }

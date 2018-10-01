@@ -1,0 +1,22 @@
+<div class="icon"
+     @mouseenter="active = true"
+     @touchenter="active = true"
+     @mouseleave="active = false"
+     @touchleave="active = false">
+    <div class="icon"
+         v-html="volume > 0? icons.volume: icons.mute"
+         @click="active = !active"
+         :title="`音量${Math.floor(volume * 100)}%`"></div>
+    <transition name="fade">
+        <div class="volumeController"
+             v-if="active"
+             ref="volumeBarContainer"
+             @mousedown="volumePointerDown"
+             @touchstart="volumePointerTouchDown">
+            <div class="volumeBar" ref="volumeBar">
+                <div class="volumeBarProcess" :style="`height: ${volume * 100}%`"></div>
+            </div>
+            <div class="pointer" :style="pointer" v-html="icons.pointer"></div>
+        </div>
+    </transition>
+</div>
