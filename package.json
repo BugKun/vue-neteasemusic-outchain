@@ -46,7 +46,7 @@
         "eslint-plugin-html": "^4.0.5",
         "eslint-plugin-import": "^2.12.0",
         "express": "^4.16.3",
-        "filemanager-webpack-plugin": "^1.0.26",
+        "filemanager-webpack-plugin": "^2.0.5",
         "happypack": "^5.0.0",
         "html-webpack-plugin": "^3.2.0",
         "node-sass": "^4.7.2",

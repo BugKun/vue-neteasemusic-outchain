@@ -14,7 +14,7 @@ module.exports = {
         new FileManagerPlugin({
             onStart: {
                 delete: [
-                    path.resolve(__dirname, '../dist'),
+                    path.resolve(__dirname, '../dist/*'),
                 ]
             },
             onEnd: {
@@ -22,10 +22,7 @@ module.exports = {
                     { source: path.resolve(__dirname, '../dist/*.js'), destination: path.resolve(__dirname, '../example/dist') }
                 ],
                 move: [
-                    { source: path.resolve(__dirname, '../dist/*.html'), destination: path.resolve(__dirname, '../example') }
-                ],
-                delete: [
-                    path.resolve(__dirname, '../dist/*.html')
+                    { source: path.resolve(__dirname, '../dist/index.html'), destination: path.resolve(__dirname, '../example/index.html') }
                 ]
             }
         })
