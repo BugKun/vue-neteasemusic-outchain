@@ -5,12 +5,36 @@ import { $ajax, Lyrics } from 'libs/services';
 export default {
     isNumber,
     init() {
-        if (this.redirect.length > 1) this.MyRedirect = {...this.MyRedirect, ...this.redirect };
+        this.MyRedirect = { ...this.MyRedirect, ...this.redirect };
         this.getPlayList(() => {
             if (this.autoPlay) {
                 this.play();
             }
         });
+    },
+    aduioInit(){
+        this.audio = new Audio();
+        this.audio.volume = 0.5;
+        this.audio.onended = () => {
+            this.next();
+        };
+        this.audio.ontimeupdate = () => {
+            if (!this.audio || !this.audio.currentTime) return;
+            this.currentTime = this.audio.currentTime;
+        };
+        this.audio.onerror = () => {
+            if (this.musicInfo.tracks[this.playingIndex]) this.musicInfo.tracks[this.playingIndex].playUrl = null;
+            this.loadMusic(this.playingIndex, this.audio.currentTime);
+        };
+        this.audio.oncanplaythrough = () => {
+            this.musicLoading = false;
+        };
+        this.audio.onwaiting = () => {
+            this.musicLoading = true;
+        };
+        this.audio.onseeked = () => {
+            this.musicLoading = false;
+        };
     },
     toggleList(){
         this.$refs.playList.toggleList();
