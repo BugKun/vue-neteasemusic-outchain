@@ -93,7 +93,7 @@ http://localhost:3000/lyric 保持数据与官方一致
 > npm i -D vue-neteasemusic-outchain
 
 ### 相关参数
-> playlist (Type:Number)：歌单ID, 必须填入<br>
+> playlist (Type:Number)：歌单ID，必须填入<br>
 > maxWidth (Type:Number)：组件的最大宽度，必须填入<br>
 > maxHeight (Type:Number)：组件的最大高度，必须填入<br>
 > hideGit (Type:Boolean): 是否隐藏播放器内github的链接标志<br>
