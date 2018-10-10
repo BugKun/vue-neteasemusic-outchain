@@ -8,34 +8,37 @@
     <script src="./js/vue.js"></script>
     <style>
         html,
-        body,
-        #app {
+        body{
             height: 100%;
             margin: 0;
         }
 
-        #app {
+        body {
             margin: 0 auto;
             max-width: 1000px;
         }
 
-        #app> h1{
+        h1{
             word-break:break-all;
         }
 
+        #app{
+            display: none;
+        }
+
         @media screen and (max-width: 1000px) {
-            #app {
+            body {
                 max-width: 95%;
             }
         }
     </style>
-<script type="text/javascript" src="/dist/VueNeteaseMusicOutchain.js?1cc2230bedceeb78b529"></script></head>
+<script type="text/javascript" src="/dist/VueNeteaseMusicOutchain.js?2e633fd4a0815f8130cd"></script></head>
 <body>
+    <h1 style="margin: 0">在启动此实例前请先启动
+        <a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi ！</a>
+    </h1>
+    <h4 style="color:#ff0000">请注意2.0版本的接口参数发生改变，请注意修改！</h4>
     <div id="app">
-        <h1 style="margin: 0">在启动此实例前请先启动
-            <a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi ！</a>
-        </h1>
-        <h4 style="color:#ff0000">请注意2.0版本的接口参数发生改变，请注意修改！</h4>
         <div style="margin: 2em 0">
             <label>歌单编号：
                 <input type="number" v-model="playlistInput"/>
@@ -62,10 +65,15 @@
         />
     </div>
     <script>
+        var App = document.getElementById("app");
+
         new Vue({
-            el: '#app',
+            el: App,
             components: {
                 NeteaseMusicOutchain: VueNeteaseMusicOutchain
+            },
+            beforeCreate: function(){
+                App.style.display = "block";
             },
             data: {
                 lazyLoad: false,
@@ -79,17 +87,17 @@
                 maxHeight: 0,
                 maxWidth: 0
             },
-            mounted: function() {
+            mounted: function () {
                 this.playerResize();
                 window.addEventListener("resize", this.playerResize);
             },
             methods: {
-                setPlaylist: function() {
+                setPlaylist: function () {
                     this.playlist = this.playlistInput;
                 },
-                playerResize: function() {
+                playerResize: function () {
                     this.maxHeight = window.innerHeight / 2;
-                    this.maxWidth = (window.innerWidth < 1000)? window.innerWidth : 1000;
+                    this.maxWidth = (window.innerWidth < 1000) ? window.innerWidth : 1000;
                 }
             }
         });

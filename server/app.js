@@ -25,6 +25,7 @@ if (isDev) {
             lazy: false
         }),
         hotMiddleware = webpackHotMiddleWare(compiler);
+    console.log(compiler.outputPath ,66666);
     app.use(devMiddleware);
     app.use(hotMiddleware);
 }else {
@@ -74,6 +75,7 @@ app.post("/api/musicLyric", (req, res) => {
     loadLyrics(postData.id, data => res.set("Content-Type", "application/json").end(data));
 });
 
+
 /* 挂载静态页面 */
 if(isDev){
     app.use("/js", express.static(path.join(__dirname, "../example/js")));
@@ -84,6 +86,6 @@ if(isDev){
 console.log("在启动此实例前请先启动NeteaseCloudMusicApi ！");
 
 app.listen(port, () => {
-    console.log(`Server is now running in localhost: ${ port }`);
+    console.log(`Server is now running in localhost: ${ port } in ${ (isDev)? 'dev' : 'product'} mode`);
     child_process.exec(`start http://localhost:${ port }`);
 });
