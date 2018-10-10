@@ -6,7 +6,10 @@
 module.exports = {
     mode: "production",
     entry: webpackBaseConfig.entry,
-    output: webpackBaseConfig.output,
+    output: {
+        ...webpackBaseConfig.output,
+        publicPath: '/dist'
+    },
     resolve: webpackBaseConfig.resolve,
     module: webpackBaseConfig.module,
     plugins: [
@@ -14,7 +17,7 @@ module.exports = {
         new FileManagerPlugin({
             onStart: {
                 delete: [
-                    path.resolve(__dirname, '../dist/*'),
+                    path.resolve(__dirname, '../dist/*')
                 ]
             },
             onEnd: {

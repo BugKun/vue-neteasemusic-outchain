@@ -15,7 +15,6 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "../dist"),
         filename: '[name].js',
-        publicPath: '/dist',
         libraryTarget: 'umd',
         library: '[name]'
     },
@@ -107,6 +106,6 @@ module.exports = {
             template: path.resolve(__dirname, "../src/dev-pages/template.html"),
             hash: true,
             inject: "head"
-        }),
+        })
     ]
 };
