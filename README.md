@@ -6,7 +6,7 @@ A outchain player for NeteaseCloudMusic on Vue. ( Vue上的网易云音乐外链
 ![preview2](https://raw.githubusercontent.com/BugKun/vue-neteasemusic-outchain/master/preview2.png)
 
 ## 演示
-<a href="http://router.189club.xyz:22333" target="_blank">Demo</a>
+<a href="http://player.nopast.cn" target="_blank">Demo</a>
 
 ## 更新日志
 **请注意2.0版本的接口参数发生改变，请注意修改！**
