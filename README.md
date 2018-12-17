@@ -114,4 +114,4 @@ Vue.use(neteaseOutchain);
 ```
 * 其余部分与组件使用方式类似。
 #### 组件使用方式
-<a href="//github.com/BugKun/vue-neteasemusic-outchain/blob/master/src/index.js" target="_blank">点击查看实例</a>
+<a href="//github.com/BugKun/vue-neteasemusic-outchain/blob/master/src/pages/index.vue" target="_blank">点击查看实例</a>
