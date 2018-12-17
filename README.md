@@ -11,7 +11,7 @@ A outchain player for NeteaseCloudMusic on Vue. ( Vue上的网易云音乐外链
 ## 更新日志
 **请注意2.0版本的接口参数发生改变，请注意修改！**
 <br/> 
-<a href="//github.com/BugKun/vue-neteasemusic-outchain/blob/dev-0/UPDATE.md" target="_blank">点击查看更新日志</a>
+<a href="//github.com/BugKun/vue-neteasemusic-outchain/blob/master/UPDATE.md" target="_blank">点击查看更新日志</a>
 
 ## 注意
 * 正式版已发布(要求：Vue 2.1.8+)，组件已基本稳定。以后不再做功能更新，仅进行功能维护。
