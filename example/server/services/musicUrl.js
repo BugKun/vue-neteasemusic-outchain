@@ -1,9 +1,10 @@
-﻿const httpGet = require("./httpGet");
+﻿const httpGet = require("../utils/httpGet");
 
 module.exports = (id, cb) => {
     httpGet(`http://localhost:3000/music/url?id=${ id }`)
         .then(_data => {
             let data = null;
+
             try {
                 data = JSON.parse(_data);
                 if (data === null || typeof data !== "object") {

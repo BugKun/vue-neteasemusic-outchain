@@ -1,0 +1,30 @@
+<div>
+    <h1 style="margin: 0">在启动此实例前请确保已启动
+        <a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi ！</a>
+    </h1>
+    <h4 style="color:#ff0000">请注意2.0版本的接口参数发生改变，请注意修改！</h4>
+    <div style="margin: 2em 0">
+        <label>歌单编号：
+            <input type="number" v-model="playlistInput"/>
+        </label>
+        <button @click="setPlaylist" style="margin-left: 2px">确定</button>
+        <p>
+            请求方式：
+            <label>
+                <input type="radio" name="method" value="POST" v-model="redirect.method"/>POST
+            </label>
+            <label>
+                <input type="radio" name="method" value="GET" v-model="redirect.method"/>GET
+            </label>
+        </p>
+    </div>
+    <netease-music-outchain
+        :playlist="Number(playlist)"
+        :redirect="redirect"
+        :lazy-load="lazyLoad"
+        :auto-play="autoPlay"
+        :hide-git="hideGit"
+        :max-width="maxWidth"
+        :max-height="maxHeight"
+    />
+</div>

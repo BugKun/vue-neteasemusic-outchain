@@ -1,4 +1,4 @@
-﻿const httpGet = require("./httpGet");
+﻿const httpGet = require("../utils/httpGet");
 
 module.exports = (id, cb) => {
     httpGet(`http://localhost:3000/lyric?id=${ id }`)

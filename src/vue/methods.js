@@ -60,10 +60,6 @@ export default {
         $ajax(this.MyRedirect.method, this.MyRedirect.musicUrl)
             .send({ id })
             .end(res => {
-                if (res.code !== 200) {
-                    console.log(res);
-                    return;
-                }
                 this.musicLoading = false;
                 cb(res);
             })
