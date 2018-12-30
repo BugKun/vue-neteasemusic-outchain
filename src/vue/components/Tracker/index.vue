@@ -4,6 +4,7 @@
 <script>
     import { getOffset, fixLength } from 'libs/utils';
 
+
     export default {
         name: "Tracker",
         props:{
@@ -26,7 +27,6 @@
             return {
                 isDrag: false,
                 barPlayed: "",
-                pointerStyle: "",
                 pointerIcon: require('libs/icons/pointer.svg'),
                 audioBuffered: 0,
                 currentTime: 0
@@ -34,7 +34,7 @@
         },
         computed:{
             bufferedStyle(){
-                return `transform: translate3d(-${( 1 - this.audioBuffered / this.duration ) * 100}%, 0, 0)`
+                return `width: ${(this.audioBuffered / this.duration) * 100}%`
             },
             dragClass(){
                 return (this.isDrag)? "drag" : null;
@@ -66,8 +66,7 @@
                 if (!this.isDrag) {
                     const bar = this.$refs.bar,
                         barWidth = bar.offsetWidth;
-                    this.barPlayed = `transform: translate3d(-${( 1 - this.audio.currentTime / this.duration ) * 100}%, 0, 0)`;
-                    this.pointerStyle = `transform: translate3d(${this.audio.currentTime / this.duration * barWidth}px, -50%, 0)`;
+                    this.barPlayed = `width: ${(this.audio.currentTime / this.duration) * 100}%`;
                 }
             },
             progressPointerDown(e) {
@@ -76,8 +75,7 @@
                     barWidth = bar.offsetWidth;
                 this.isDrag = true;
                 if (this.audio && this.audio.src !== ""){
-                    this.barPlayed = `transform: translate3d(${e.clientX - getOffset(bar).left - barWidth}px, 0, 0)`;
-                    this.pointerStyle = `transform: translate3d(${e.clientX - getOffset(bar).left}px, -50%, 0)`;
+                    this.barPlayed = `width: ${(e.clientX - getOffset(bar).left - barWidth) / barWidth * 100}%`;
                 }
 
             },
@@ -97,8 +95,7 @@
                 }
 
                 if (this.audio.src !== "" && this.isDrag){
-                    this.barPlayed = `transform: translate3d(${position  - barWidth}px, 0, 0)`;
-                    this.pointerStyle = `transform: translate3d(${position}px, -50%, 0)`;
+                    this.barPlayed = `width: ${position / barWidth * 100}%`;
                 }
 
                 return { position, barWidth };

@@ -30,6 +30,7 @@ A outchain player for NeteaseCloudMusic on Vue. ( Vue上的网易云音乐外链
 }
 ```
 你需要修改获取到的官方返回的数据：
+获取歌单信息：
 ```JavaScript
 http.get(`http://localhost:3000/playlist/detail?id=${postData.id}`, function (_res) {
     let _data = "";
@@ -64,8 +65,10 @@ http.get(`http://localhost:3000/playlist/detail?id=${postData.id}`, function (_r
     console.log("服务器异常！", err.stack);
 });
 ```
+获取歌曲URL：
+（注意：NeteaseCloudMusicApi 3.0 版本前，接口是：/music/url）
 ```JavaScript
-http.get(`http://localhost:3000/music/url?id=${postData.id}`, function (_res) {
+http.get(`http://localhost:3000/song/url?id=${postData.id}`, function (_res) {
     let _data = "";
     _res.on('data', function (chunk) {
         _data += chunk;
@@ -87,6 +90,7 @@ http.get(`http://localhost:3000/music/url?id=${postData.id}`, function (_res) {
     console.log("服务器异常！", err.stack);
 });
 ```
+获取歌词：
 http://localhost:3000/lyric 保持数据与官方一致
 
 ### 安装
@@ -107,6 +111,10 @@ http://localhost:3000/lyric 保持数据与官方一致
 
 
 ### 使用演示
+#### 浏览器直接引用
+```JavaScript
+Vue.use(window.VueNeteaseMusicOutchain);    
+```
 #### 全局使用
 ```JavaScript
 import neteaseOutchain from 'vue-netease-outchain'

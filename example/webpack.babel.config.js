@@ -121,10 +121,7 @@ module.exports = {
                 use: [
                     "thread-loader",
                     {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 99999
-                        }
+                        loader: 'url-loader'
                     }
                 ]
             }

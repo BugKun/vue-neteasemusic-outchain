@@ -8,15 +8,13 @@
         left: 0;
         top: 0;
         height: 2px;
-        overflow: hidden;
         background: #e5e9ef;
         .process{
             position: absolute;
             left: 0;
             top: 0;
             height: 2px;
-            width: 100%;
-            transform: translateX(-100%);
+            width: 0;
             transition: transform .25s linear;
         }
         .buffered{
@@ -27,13 +25,15 @@
         .played {
             z-index: 3;
             background: #e12828;
+            /deep/ svg {
+                position: absolute;
+                right: -4px;
+                top: -3px;
+                height: 8px;
+                width: 8px;
+                background-size: 8px;
+            }
         }
-    }
-    .pointer{
-        left: 0;
-        top: 50%;
-        z-index: 3;
-        transition: transform .25s linear;
     }
 }
 .drag {

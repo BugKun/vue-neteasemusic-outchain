@@ -7,11 +7,11 @@ module.exports = (id, cb) => {
             try {
                 data = JSON.parse(_data);
                 if (data === null || typeof data !== "object") {
-                    console.log("服务器异常！");
+                    console.log("服务器异常：", _data);
                     return { code: 500 };
                 }
             } catch (e) {
-                console.log("服务器异常：", e);
+                console.log("服务器异常：", _data);
                 return { code: 500 };
             }
             const cbData = {

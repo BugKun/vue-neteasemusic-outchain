@@ -1,19 +1,18 @@
 ﻿const httpGet = require("../utils/httpGet");
 
 module.exports = (id, cb) => {
-    httpGet(`http://localhost:3000/music/url?id=${ id }`)
+    httpGet(`http://localhost:3000/song/url?id=${ id }`)
         .then(_data => {
             let data = null;
-
             try {
                 data = JSON.parse(_data);
                 if (data === null || typeof data !== "object") {
-                    console.log("服务器异常！");
+                    console.log("服务器异常: ", _data);
                     cb({ code: 500 });
                     return;
                 }
             } catch (e) {
-                console.log("服务器异常：", e);
+                console.log("服务器异常：", _data);
                 cb({ code: 500 });
                 return;
             }
