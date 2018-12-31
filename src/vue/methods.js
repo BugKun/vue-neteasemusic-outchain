@@ -1,5 +1,5 @@
-import { fixLength, getOffset, isNumber } from 'libs/utils';
-import { $ajax, Lyrics } from 'libs/services';
+import { fixLength, getOffset, isNumber } from 'Utils';
+import { $ajax, Lyrics } from 'Services';
 
 
 export default {

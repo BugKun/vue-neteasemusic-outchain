@@ -34,9 +34,9 @@
         },
         data(){
             return {
-                neteaseMusicIcon: require('libs/icons/netease-cloud-music.svg'),
-                loadingGifIcon: require('!url-loader?limit=999999!libs/icons/loading.gif'),
-                loadingSVGIcon: require('libs/icons/loading.svg'),
+                neteaseMusicIcon: require('Icons/netease-cloud-music.svg'),
+                loadingGifIcon: require('Icons/loading.gif'),
+                loadingSVGIcon: require('Icons/loading.svg'),
                 isIE: /(msie)|(rv:11.0)/i.test(UA) && !/opera/i.test(UA),
                 played: false
             }

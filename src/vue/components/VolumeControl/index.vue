@@ -3,7 +3,7 @@
 
 
 <script>
-    import { getOffset } from 'libs/utils';
+    import { getOffset } from 'Utils';
 
     export default {
         name: 'VolumeControl',
@@ -24,9 +24,9 @@
                 loaded: false,
                 isDrag: false,
                 icons: {
-                    pointer: require('libs/icons/pointer.svg'),
-                    volume: require('libs/icons/volume.svg'),
-                    mute: require('libs/icons/mute.svg')
+                    pointer: require('Icons/pointer.svg'),
+                    volume: require('Icons/volume.svg'),
+                    mute: require('Icons/mute.svg')
                 },
                 active: false,
                 volume: 0,

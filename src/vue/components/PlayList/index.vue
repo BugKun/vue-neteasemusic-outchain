@@ -30,7 +30,7 @@
         },
         data() {
             return {
-                popIconSource: require('libs/icons/pop.svg'),
+                popIconSource: require('Icons/pop.svg'),
                 popIcons: [],
                 listOpened: false,
             }

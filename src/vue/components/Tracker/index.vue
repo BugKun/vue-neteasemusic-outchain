@@ -2,7 +2,7 @@
 <style lang="scss" scoped src="./style.scss" />
 
 <script>
-    import { getOffset, fixLength } from 'libs/utils';
+    import { getOffset, fixLength } from 'Utils';
 
 
     export default {
@@ -27,7 +27,7 @@
             return {
                 isDrag: false,
                 barPlayed: "",
-                pointerIcon: require('libs/icons/pointer.svg'),
+                pointerIcon: require('Icons/pointer.svg'),
                 audioBuffered: 0,
                 currentTime: 0
             }

@@ -7,12 +7,12 @@ export default () => {
             musicLyricUrl: "/api/musicLyric"
         },
         icons: {
-            github: require('libs/icons/github.svg'),
-            list: require('libs/icons/list.svg'),
-            play: require('libs/icons/play.svg'),
-            pause: require('libs/icons/pause.svg'),
-            next: require('libs/icons/skip-next.svg'),
-            prev: require('libs/icons/skip-previous.svg')
+            github: require('Icons/github.svg'),
+            list: require('Icons/list.svg'),
+            play: require('Icons/play.svg'),
+            pause: require('Icons/pause.svg'),
+            next: require('Icons/skip-next.svg'),
+            prev: require('Icons/skip-previous.svg')
         },
         isLoaded: false,
         musicLoading: false,

@@ -2,7 +2,7 @@
 <style lang="scss" scoped src="./style.scss" />
 
 <script>
-    import { fixLength } from 'libs/utils';
+    import { fixLength } from 'Utils';
 
     export default {
         name: "RemainingTime",

@@ -1,42 +1,44 @@
 ﻿const webpack = require('webpack'),
     path = require('path'),
     threadLoader = require('thread-loader'),
+    VueLoaderPlugin = require('vue-loader/lib/plugin'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
+    webpackConfig = require('../webpack.config'),
     pkg = require('../package.json');
 
 
 threadLoader.warmup({}, [
     'vue-loader',
     'babel-loader',
-    'style-loader',
+    'vue-style-loader',
+    'svg-inline-loader',
     'sass-loader',
     'css-loader',
-    'svg-inline-loader',
     'url-loader'
 ]);
 
 
 module.exports = {
-    mode: "development",
+    mode: 'development',
     entry: {
         [pkg.name]: [
             path.resolve(__dirname, './src/index.js'),
-            "webpack-hot-middleware/client?reload=true"
+            'webpack-hot-middleware/client?reload=true'
         ]
     },
     output: {
-        path: path.resolve(__dirname, "./build"),
+        path: path.resolve(__dirname, './build'),
         filename: '[name].js',
         publicPath: '/'
     },
-    devtool: "source-map",
+    devtool: 'source-map',
     resolve: {
         modules: [
             path.resolve(__dirname, './src'),
             'node_modules'
         ],
         alias: {
-            libs: path.resolve(__dirname, "../src/libs"),
+            ...webpackConfig.resolve.alias,
             [pkg.name]: path.join(__dirname, '../src/index.js?hot=true'),
             [`${pkg.name}/src`]: path.join(__dirname, '../src')
         },
@@ -50,7 +52,7 @@ module.exports = {
             {
                 test: /\.vue$/,
                 use: [
-                    "thread-loader",
+                    'thread-loader',
                     {
                         loader: 'vue-loader',
                         options: {
@@ -61,11 +63,14 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: file => (
+                    /node_modules/.test(file) &&
+                    !/\.vue\.js/.test(file)
+                ),
                 use: [
-                    "thread-loader",
+                    'thread-loader',
                     {
-                        loader: "babel-loader",
+                        loader: 'babel-loader',
                         options: {
                             cacheDirectory: true
                         }
@@ -75,33 +80,18 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    "thread-loader",
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            minimize: true
-                        }
-                    }
+                    'thread-loader',
+                    'vue-style-loader',
+                    'css-loader'
                 ]
             },
             {
                 test: /\.scss$/,
                 use: [
-                    "thread-loader",
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            minimize: true
-                        }
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            outputStyle: "compressed"
-                        }
-                    }
+                    'thread-loader',
+                    'vue-style-loader',
+                    'css-loader',
+                    'sass-loader'
                 ]
             },
             {
@@ -119,20 +109,19 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif)$/,
                 use: [
-                    "thread-loader",
-                    {
-                        loader: 'url-loader'
-                    }
+                    'thread-loader',
+                    'url-loader'
                 ]
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "./src/index.html"),
+            template: path.resolve(__dirname, './src/index.html'),
             title: `${pkg.name} demo`,
             hash: true
         }),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new VueLoaderPlugin()
     ]
 };

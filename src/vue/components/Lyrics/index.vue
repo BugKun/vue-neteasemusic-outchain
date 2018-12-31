@@ -3,7 +3,7 @@
 
 
 <script>
-    import { Lyrics, $ajax } from 'libs/services';
+    import { Lyrics, $ajax } from 'Services';
 
     export default {
         name: 'Lyrics',

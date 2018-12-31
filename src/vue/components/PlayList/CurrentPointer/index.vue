@@ -2,7 +2,7 @@
 <style lang="scss" scoped src="./style.scss" />
 
 <script>
-    import { isNumber } from 'libs/utils';
+    import { isNumber } from 'Utils';
 
     export default {
         name: "CurrentPointer",
