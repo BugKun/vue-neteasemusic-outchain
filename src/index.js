@@ -1,3 +1,11 @@
-import index from "./vue/index.vue";
+import NeteaseMusicOutchain from "./vue/index.vue";
 
-export default index;
+NeteaseMusicOutchain.install = Vue => {
+    Vue.component(NeteaseMusicOutchain.name, NeteaseMusicOutchain);
+};
+
+if (window) {
+    window.VueNeteaseMusicOutchain = NeteaseMusicOutchain;
+}
+
+export default NeteaseMusicOutchain;
