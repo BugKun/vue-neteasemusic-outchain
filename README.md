@@ -1,4 +1,4 @@
-﻿﻿# Vue-Netease-outchain
+﻿# Vue-Netease-outchain
 A outchain player for NeteaseCloudMusic on Vue. ( Vue上的网易云音乐外链播放器 )
 
 ## 预览
