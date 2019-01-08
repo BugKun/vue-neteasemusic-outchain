@@ -1,4 +1,4 @@
-<template src="./template.html"/>
+<template src="./template.html" />
 <style lang="scss" scoped src="./style.scss" />
 
 

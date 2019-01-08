@@ -1,29 +1,27 @@
 {
-    "parser": "babel-eslint",
+    "root": true,
     "env": {
         "browser": true,
         "node": true,
         "es6": true
     },
-    "plugins": [
-       "html"
-    ],
     "parserOptions": {
-        "ecmaVersion": 2018,
+        "parser": "babel-eslint",
         "sourceType": "module"
     },
-    "settings": {
-        "import/ignore": [
-            "node_modules"
-        ]
-    },
+    "extends": [
+        "plugin:vue/recommended", 
+        "eslint:recommended"
+    ],
     "rules": {
+        "vue/order-in-components": "off",
         "comma-dangle": "off",
         "global-require": "off",
         "import/no-extraneous-dependencies": "off",
         "import/no-unresolved": "off",
         "import/extensions": "off",
         "no-alert": "off",
+        "no-console": "off",
         "no-bitwise": "off"
     },
     "globals": {
