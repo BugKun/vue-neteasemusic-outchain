@@ -1,7 +1,3 @@
-<template src="./template.html" />
-<style lang="scss" scoped src="./style.scss" />
-
-
 <script>
     export default {
         name: 'ListItem',
@@ -45,3 +41,6 @@
         }
     }
 </script>
+
+<template src="./template.html" />
+<style lang="less" scoped src="./style.less" />

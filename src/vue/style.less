@@ -1,0 +1,99 @@
+﻿.player-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 2px;
+    box-shadow: 0 0 10px #ccc;
+    background: #fff;
+    transition: all .6s ease;
+    font-family: 'Microsoft Yahei';
+    .f-cb {
+        flex: 0 0 92px;
+        display: flex;
+        .ctrlBox {
+            padding: 0 1vw 0 1vw;
+            position: relative;
+            flex-grow: 1;
+            width: calc(100% - 92px - 2vw);
+            .oprBox {
+                display: flex;
+                align-items: center;
+                height: 20px;
+                line-height: 20px;
+                margin-bottom: 2px;
+                user-select: none;
+                .btnGroup {
+                    display: flex;
+                    align-items: center;
+                    margin: 0 auto;
+                    width: 72px;
+                    .prev,
+                    .next {
+                        transform: scale(1.1);
+                        cursor: pointer;
+                    }
+                    .pause,
+                    .play {
+                        width: 14px;
+                        height: 18px;
+                        cursor: pointer;
+                        margin: 0 auto;
+                    }
+                    .pause,
+                    .play {
+                        transform: scale(2.1);
+                    }
+                }
+                .btnGroupRight {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    @media screen and (max-width: 350px) {
+                        .git {
+                            display: none;
+                        }
+                    }
+                    .showLyrics {
+                        font-size: 11px;
+                        color: #999;
+                        border: 1px #999 solid;
+                        padding: 2px;
+                        cursor: pointer;
+                        line-height: 11px;
+                        user-select: none;
+                        -ms-user-select: none;
+                        transition: .5s all ease;
+                    }
+                }
+                @media screen and (max-width: 350px) {
+                    .btnGroupRight {
+                        width: 4em;
+                    }
+                }
+            }
+            .quality {
+                position: absolute;
+                top: .2vw;
+                right: 1vw;
+                color: #999;
+            }
+        }
+    }
+    .f-cb::after {
+        clear: both;
+        content: '.';
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}

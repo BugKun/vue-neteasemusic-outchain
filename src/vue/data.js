@@ -1,11 +1,5 @@
 export default () => {
     return {
-        MyRedirect: {
-            method: "POST",
-            playListUrl: "/api/musicPlayList",
-            musicUrl: "/api/musicUrl",
-            musicLyricUrl: "/api/musicLyric"
-        },
         icons: {
             github: require('Icons/github.svg'),
             list: require('Icons/list.svg'),

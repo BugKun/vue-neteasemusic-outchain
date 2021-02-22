@@ -1,6 +1,3 @@
-<template src="./template.html" />
-<style lang="scss" scoped src="./style.scss" />
-
 <script>
     import { fixLength } from 'Utils';
 
@@ -41,3 +38,6 @@
         }
     }
 </script>
+
+<template src="./template.html" />
+<style lang="less" scoped src="./style.less" />

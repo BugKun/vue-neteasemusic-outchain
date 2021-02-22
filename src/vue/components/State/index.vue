@@ -1,8 +1,3 @@
-<template src="./template.html"/>
-<style src="./global.css" />
-<style lang="scss" scoped src="./style.scss" />
-
-
 <script>
     const UA = navigator.userAgent;
 
@@ -67,3 +62,7 @@
         }
     }
 </script>
+
+<template src="./template.html"/>
+<style src="./global.css" />
+<style lang="less" scoped src="./style.less" />

@@ -1,0 +1,34 @@
+.listContainer {
+    position: relative;
+    border-top: 1px solid #e6e6e6;
+    opacity: 0;
+    height: 0;
+    transition: all .6s ease;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    ul.box {
+        display: flex;
+        min-height: 30px;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        li.list-item:nth-child(odd) {
+            background: #f7f7f7;
+        }
+    }
+}
+.listContainer::-webkit-scrollbar-button {
+    display: none;
+}
+.listContainer::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+}
+.listContainer::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #757575;
+}
+.listContainer.opened {
+    opacity: 1;
+}

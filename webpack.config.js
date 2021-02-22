@@ -12,8 +12,9 @@
 threadLoader.warmup({}, [
     'vue-loader',
     'babel-loader',
-    'sass-loader',
+    'less-loader',
     'css-loader',
+    'postcss-loader',
     'svg-inline-loader',
     'url-loader'
 ]);
@@ -90,16 +91,23 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     'thread-loader',
-                    'css-loader'
+                    'css-loader',
+                    'postcss-loader',
                 ]
             },
             {
-                test: /\.scss$/,
+                test: /\.less$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     'thread-loader',
                     'css-loader',
-                    'sass-loader'
+                    'postcss-loader',
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            paths: [] // 黑魔法，保证thread-loader能正常运行
+                        }
+                    }
                 ]
             },
             {

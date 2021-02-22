@@ -5,12 +5,6 @@ export default {
             this.init();
         }
     },
-    redirect:{
-        handler(curVal) {
-            this.MyRedirect = {...this.MyRedirect, ...curVal };
-        },
-        deep: true
-    },
     playlist() {
         this.audio.pause();
         if(this.audio.currentTime !== 0) this.audio.currentTime = 0;

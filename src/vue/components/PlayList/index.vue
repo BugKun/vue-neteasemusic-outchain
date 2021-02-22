@@ -1,7 +1,3 @@
-<template src="./template.html" />
-<style lang="scss" scoped src="./style.scss" />
-
-
 <script>
     import ListItem from "./ListItem/index.vue";
     import CurrentPointer from "./CurrentPointer/index.vue";
@@ -98,3 +94,6 @@
         }
     }
 </script>
+
+<template src="./template.html" />
+<style lang="less" scoped src="./style.less" />

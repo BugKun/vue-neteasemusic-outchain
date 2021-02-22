@@ -1,7 +1,3 @@
-<template src="./template.html" />
-<style lang="scss" scoped src="./global.scss" />
-<style lang="scss" scoped src="./style.scss" />
-
 <script>
     import PlayList from './components/PlayList/index.vue';
     import Lyrics from './components/Lyrics/index.vue';
@@ -35,9 +31,20 @@
                 type: Number,
                 required: true
             },
-            redirect:{
+            API:{
                 type: Object,
-                default: () => {}
+                validator(obj) {
+                    for(var key in obj) {
+                        if(['getPlayList', 'getMusicURL', 'getLyric'].indexOf(key) == -1) {
+                            return false
+                        }
+                        if(typeof obj[key] != 'function') {
+                            return false
+                        }
+                    }
+                    return true
+                },
+                required: true
             },
             lazyLoad:{
                 type: Boolean,
@@ -60,3 +67,7 @@
         methods: require("./methods")
     };
 </script>
+
+<template src="./template.html" />
+<style lang="less" scoped src="./global.less" />
+<style lang="less" scoped src="./style.less" />

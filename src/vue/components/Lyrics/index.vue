@@ -1,9 +1,5 @@
-<template src="./template.html" />
-<style lang="scss" scoped src="./style.scss" />
-
-
 <script>
-    import { Lyrics, $ajax } from 'Services';
+    import { Lyrics } from 'Services';
 
     export default {
         name: 'Lyrics',
@@ -20,7 +16,7 @@
                 type: Number,
                 default: 0
             },
-            redirect:{
+            API:{
                 type: Object,
                 required: true
             }
@@ -77,41 +73,29 @@
                     this.isLoad = true;
                 }
             },
-            getLyric(id, cb) {
-                $ajax(this.redirect.method, this.redirect.musicLyricUrl)
-                    .send({ id })
-                    .end(res => {
-                        if (res.code !== 200) {
-                            console.log(res);
-                            return;
-                        }
-                        cb(res);
-                    })
-                    .catch(error => {
-                        console.log("Oops, error", error);
-                    })
-            },
             setLyric(id) {
                 if (this.lyricsCache[id]) {
                     let data = this.lyricsCache[id];
                     this.initLyric(data);
                 } else {
-                    this.getLyric(id, (data) => {
-                        if (!data.lrc) {
-                            // 没歌词
-                            data.lrc = {};
-                            if (data.sgc) {
-                                data.lrc.lyric = "[00:00.00]还没有歌词哦~";
-                            } else if (data.nolyric) {
-                                // 纯音乐
-                                data.lrc.lyric = "[00:00.00]纯音乐，请您欣赏";
+                    this.API.getLyric({id}, (error, data) => {
+                        if(!error) {
+                            if (!data.lrc) {
+                                // 没歌词
+                                data.lrc = {};
+                                if (data.sgc) {
+                                    data.lrc.lyric = "[00:00.00]还没有歌词哦~";
+                                } else if (data.nolyric) {
+                                    // 纯音乐
+                                    data.lrc.lyric = "[00:00.00]纯音乐，请您欣赏";
+                                }
+                            } else {
+                                data.lrc.lyric += "[offset:300]";
                             }
-                        } else {
-                            data.lrc.lyric += "[offset:300]";
+                            this.lyricsCache[id] = data;
+                            this.initLyric(data);
                         }
-                        this.lyricsCache[id] = data;
-                        this.initLyric(data);
-                    });
+                    })
                 }
             },
             initLyric(data) {
@@ -150,3 +134,6 @@
         }
     }
 </script>
+
+<template src="./template.html" />
+<style lang="less" scoped src="./style.less" />

@@ -1,0 +1,41 @@
+.barContainer {
+    position: relative;
+    padding: 10px 5px;
+    cursor: pointer;
+    user-select: none;
+    .bar {
+        position: relative;
+        left: 0;
+        top: 0;
+        height: 2px;
+        background: #e5e9ef;
+        .process{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 2px;
+            width: 0;
+            transition: transform .25s linear;
+        }
+        .buffered{
+            z-index: 2;
+            background: #cdcdcd;
+            transition: transform .25s ease-in;
+        }
+        .played {
+            z-index: 3;
+            background: #e12828;
+            /deep/ svg {
+                position: absolute;
+                right: -4px;
+                top: -3px;
+                height: 8px;
+                width: 8px;
+                background-size: 8px;
+            }
+        }
+    }
+}
+.drag {
+    transition: none !important;
+}

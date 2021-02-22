@@ -1,0 +1,46 @@
+.f-pr {
+    position: relative;
+    left: 0;
+    top: 0;
+    height: 36px;
+    line-height: 36px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    zoom: 1;
+    .title {
+        display: flex;
+        align-items: center;
+        line-height: 18px;
+        .logo, .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-right: 6px;
+        }
+        .loading {
+            flex: 0 0 18px;
+            img {
+                width: 18px;
+                height: 18px;
+            }
+        }
+        .loading.withSVG {
+            width: 15px;
+            height: 15px;
+            flex: 0 0 15px;
+            margin-right: 8px;
+            /deep/ svg {
+                animation: NMO-rotateAround 1.4s linear infinite;
+                circle {
+                    animation: NMO-progress-circular-dash 1.4s ease-in-out infinite;
+                    stroke-dasharray: 80px, 200px;
+                    stroke-dashoffset: 0;
+                    stroke: #898989;
+                    fill: none;
+                    stroke-width: 3.6px;
+                }
+            }
+        }
+    }
+}

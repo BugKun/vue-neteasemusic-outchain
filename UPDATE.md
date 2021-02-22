@@ -1,5 +1,9 @@
 # Vue-Netease-outchain 版本更新日志
 
+## 3.0
+* 修改获取数据的方式，改为直接获取结果
+* 优化项目结构
+
 ## 2.1
 * 更新实例中的服务器接口（适配 <a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a> 3.0+）
 * 优化体验。

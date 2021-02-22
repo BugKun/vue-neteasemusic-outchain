@@ -1,0 +1,39 @@
+li.list-item {
+    display: flex;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    height: 30px;
+    min-height: 30px;
+    align-items: center;
+    line-height: 30px;
+    list-style: none;
+    cursor: default;
+    .index {
+        width: 40px;
+        text-align: center;
+        color: #999;
+    }
+    .name {
+        margin-right: .5em;
+    }
+    .pop {
+        display: flex;
+        margin-right: .5em;
+        cursor: pointer;
+    }
+    .by {
+        flex: 1;
+        color: #666;
+        text-align: right;
+    }
+}
+li.list-item.playing{
+    background: #e9e9e9 !important;
+}
+li.list-item.disabled{
+    color: #bbb;
+    .by {
+        color: #bbb;
+    }
+}

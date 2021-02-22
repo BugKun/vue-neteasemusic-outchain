@@ -1,11 +1,9 @@
 import { fixLength, getOffset, isNumber } from 'Utils';
-import { $ajax, Lyrics } from 'Services';
 
 
 export default {
     isNumber,
     init() {
-        this.MyRedirect = { ...this.MyRedirect, ...this.redirect };
         this.getPlayList(() => {
             if (this.autoPlay) {
                 this.play();
@@ -40,32 +38,14 @@ export default {
         this.$refs.playList.toggleList();
     },
     getPlayList(cb) {
-        $ajax(this.MyRedirect.method, this.MyRedirect.playListUrl)
-            .send({ id: this.playlist })
-            .end(res => {
-                if (res.code !== 200) {
-                    console.log(res);
-                    return;
-                }
+        this.API.getPlayList({ id: this.playlist }, (error, data) => {
+            if(!error) {
                 this.musicLoading = false;
-                this.musicInfo = res;
+                this.musicInfo = data;
                 this.changeCover();
-                if (cb) cb();
-            })
-            .catch(error => {
-                console.log("Oops, error", error);
-            })
-    },
-    getMusic(id, cb) {
-        $ajax(this.MyRedirect.method, this.MyRedirect.musicUrl)
-            .send({ id })
-            .end(res => {
-                this.musicLoading = false;
-                cb(res);
-            })
-            .catch(error => {
-                console.log("Oops, error", error);
-            })
+                if (cb) cb(data);
+            }
+        })
     },
     loadMusic(i, errorTime = null) {
         if (!this.musicInfo.tracks) return this.init();
@@ -73,17 +53,20 @@ export default {
         if (this.musicInfo.tracks[i].playUrl) {
             this.playMusic(i, errorTime);
         } else {
-            this.getMusic(this.musicInfo.tracks[i].id, (data) => {
-                this.musicUrl = data;
-                if (this.musicUrl.url) {
-                    this.musicInfo.tracks[i].playUrl = this.musicUrl.url;
-                } else {
-                    this.musicInfo.tracks[i].playUrl = "";
-                    this.musicInfo.tracks[i].disabled = true;
+            this.API.getMusicURL({ id: this.musicInfo.tracks[i].id }, (error, data) => {
+                if(!error) {
+                    this.musicLoading = false;
+                    this.musicUrl = data;
+                    if (this.musicUrl.url) {
+                        this.musicInfo.tracks[i].playUrl = this.musicUrl.url;
+                    } else {
+                        this.musicInfo.tracks[i].playUrl = "";
+                        this.musicInfo.tracks[i].disabled = true;
+                    }
+                    if (this.musicUrl.br) this.musicInfo.tracks[i].quality = this.musicUrl.br;
+                    this.playMusic(i, errorTime);
                 }
-                if (this.musicUrl.br) this.musicInfo.tracks[i].quality = this.musicUrl.br;
-                this.playMusic(i, errorTime);
-            });
+            })
         }
         this.lyricID = this.musicInfo.tracks[i].id;
     },

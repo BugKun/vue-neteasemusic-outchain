@@ -1,6 +1,3 @@
-<template src="./template.html"/>
-<style lang="scss" scoped src="./style.scss" />
-
 <script>
     import { getOffset, fixLength } from 'Utils';
 
@@ -64,8 +61,6 @@
             },
             setProcess() {
                 if (!this.isDrag) {
-                    const bar = this.$refs.bar,
-                        barWidth = bar.offsetWidth;
                     this.barPlayed = `width: ${(this.audio.currentTime / this.duration) * 100}%`;
                 }
             },
@@ -77,7 +72,6 @@
                 if (this.audio && this.audio.src !== ""){
                     this.barPlayed = `width: ${(e.clientX - getOffset(bar).left - barWidth) / barWidth * 100}%`;
                 }
-
             },
             progressPointerTouchDown(e){
                 this.progressPointerDown(e.changedTouches[0]);
@@ -116,3 +110,6 @@
         }
     }
 </script>
+
+<template src="./template.html"/>
+<style lang="less" scoped src="./style.less" />
