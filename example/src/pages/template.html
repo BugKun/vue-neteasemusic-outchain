@@ -2,13 +2,21 @@
     <h1 style="margin: 0">在启动此实例前请确保已启动
         <a href="https://github.com/Binaryify/NeteaseCloudMusicApi" target="_blank">NeteaseCloudMusicApi</a>
     </h1>
-    <h3>
-        当前服务状态：<em :style="'color:' + serverStatus.color">{{serverStatus.text}}</em>
-    </h3>
     <div style="margin: 2em 0">
         <p>
             <label>歌单编号：
                 <input type="number" v-model="playlistInput" />
+            </label>
+        </p>
+        <p>
+            数据来源：
+            <label>
+                <input type="radio" v-model="dataSourceInput" value="0"/>
+                仿真数据
+            </label>
+            <label>
+                <input type="radio" v-model="dataSourceInput" value="1" />
+                本地NeteaseCloudMusicApi服务
             </label>
         </p>
         <p>
@@ -20,6 +28,14 @@
             <button @click="setConfig" style="margin-left: 2px">确定</button>
         </p>
     </div>
-    <netease-music-outchain :playlist="Number(playlist)" :API="API" :lazy-load="lazyLoad"
-        :auto-play="autoPlay" :hide-git="hideGit" :max-width="maxWidth" :max-height="maxHeight" />
+    <netease-music-outchain
+        :key="compKey"
+        :playlist="Number(playlist)"
+        :API="API"
+        :lazy-load="lazyLoad"
+        :auto-play="autoPlay"
+        :hide-git="hideGit"
+        :max-width="maxWidth"
+        :max-height="maxHeight"
+    />
 </div>

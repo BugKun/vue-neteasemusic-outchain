@@ -5,10 +5,7 @@
     app = express(),
     bodyParser = require("body-parser"),
     compress = require("compression"),
-    isWin32 = require('os').platform() === 'win32',
-    musicPlayList = require("./services/musicPlayList"),
-    musicUrl = require("./services/musicUrl"),
-    loadLyrics = require("./services/loadLyrics");
+    isWin32 = require('os').platform() === 'win32';
 
 
 console.log("在启动此实例前请确保已启动NeteaseCloudMusicApi ！");
@@ -18,7 +15,7 @@ console.log("在启动此实例前请确保已启动NeteaseCloudMusicApi ！");
 const webpack = require("webpack"),
     webpackDevMiddleware = require("webpack-dev-middleware"),
     webpackHotMiddleWare = require("webpack-hot-middleware"),
-    webpackDevConfig = require("../webpack.babel.config"),
+    webpackDevConfig = require("../webpack.example-dev.config"),
     compiler = webpack(webpackDevConfig),
     devMiddleware = webpackDevMiddleware(compiler, {
         publicPath: webpackDevConfig.output.publicPath,
@@ -39,32 +36,6 @@ app.use(bodyParser.json());
 app.use(compress());
 
 
-
-/* 播放器获取列表 */
-app.use("/api/musicPlayList", (req, res) => {
-    console.log("接口被调用了");
-    const listID = req.query.id || req.body.id;
-    console.log(`listID: ${listID}`);
-    musicPlayList(listID, data => res.json(data));
-});
-
-/* 播放器获取播放链接 */
-app.use("/api/musicUrl", (req, res) => {
-    console.log("接口被调用了");
-    const musicID = req.query.id || req.body.id;
-    console.log(`musicID: ${musicID}`);
-    musicUrl(musicID, data => res.json(data));
-});
-
-/* 播放器获取歌词 */
-app.use("/api/musicLyric", (req, res) => {
-    console.log("接口被调用了");
-    const lyricID = req.query.id || req.body.id;
-    console.log(`lyricID: ${lyricID}`);
-    loadLyrics(lyricID, data => res.set("Content-Type", "application/json").end(data));
-});
-
-
 /* 开启history模式 */
 app.use((req, res) => {
     const filename = path.join(compiler.outputPath, 'index.html');
@@ -79,7 +50,7 @@ app.use((req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is now running in localhost:${port}`);
+    console.log(`Server is now running in http://localhost:${port}`);
     if(isWin32) {
         child_process.exec(`start http://localhost:${port}`);
     }

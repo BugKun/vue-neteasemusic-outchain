@@ -2,11 +2,13 @@ html,
 body {
     height: 100%;
     margin: 0;
+    min-width: 305px;
+    overflow: auto;
 }
 
 body {
     margin: 0 auto;
-    width: 95%;
+    padding: 0 5%;
 }
 
 @media screen and (min-width: 1000px) {

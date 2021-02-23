@@ -25,7 +25,7 @@ A outchain player for NeteaseCloudMusic on Vue. ( Vue上的网易云音乐外链
 ```json
 {
     "code": 200,
-    "coverImgUrl": "http://p2.music.126.net/zEnklGFAPEW_YXWaD_3MlQ==/18778559092618066.jpg",
+    "coverImgUrl": "//p2.music.126.net/zEnklGFAPEW_YXWaD_3MlQ==/18778559092618066.jpg",
     "name": "粤语流行",
     "tracks": [
         {

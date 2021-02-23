@@ -5,10 +5,6 @@
 
     const defaultPlaylist = 614245400
     const defaultNeteaseCloudMusicApi = 'http://127.0.0.1:3000'
-    const initServerStatus = {
-        color: 'inherit',
-        text: '待检查'
-    }
 
 
     export default {
@@ -21,110 +17,95 @@
                 lazyLoad: false,
                 autoPlay: false,
                 hideGit: false,
-                serverStatus: {
-                    ...initServerStatus
-                },
+                compKey: Date.now(),
                 API: {
                     getPlayList: (params, cb) => {
-                        request({
-                            url: `${this.NeteaseCloudMusicApi}/playlist/detail?id=${params.id}`,
-                            method: 'get',
-                            crossOrigin: true,
-                            error: (err) => {
-                                this.setServer(err)
-                                require.ensure([], function(require) {
-                                    var mockData = require('./mockData');
-                                    cb(null, mockData.playlist)
-                                });
-                            },
-                            success: (data) => {
-                                this.setServer()
-                                console.log({
-                                    code: data.code,
-                                    coverImgUrl: data.playlist.coverImgUrl,
-                                    name: data.playlist.name,
-                                    tracks: data.playlist.tracks.map(track => {
-                                        const picUrl = track.al.picUrl;
-                                        return {
-                                            name: track.name,
-                                            id: track.id,
-                                            duration: track.dt,
-                                            artists: track.ar.map(item => item.name).join(" / "),
-                                            picUrl: (picUrl)? picUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : picUrl,
-                                            pop: track.pop
-                                        };
+                        if(this.dataSource == '0') {
+                            require.ensure([], function(require) {
+                                var mockData = require('./mockData');
+                                cb(null, mockData.playlist)
+                            });
+                        } else {
+                            request({
+                                url: `${this.NeteaseCloudMusicApi}/playlist/detail?id=${params.id}`,
+                                method: 'get',
+                                crossOrigin: true,
+                                error: (err) => {
+                                    this.showAlert('playlist', err)
+                                },
+                                success: (data) => {
+                                    cb(null, {
+                                        code: data.code,
+                                        coverImgUrl: this.fixURL(data.playlist.coverImgUrl),
+                                        name: data.playlist.name,
+                                        tracks: data.playlist.tracks.map(track => {
+                                            const picUrl = track.al.picUrl;
+                                            return {
+                                                name: track.name,
+                                                id: track.id,
+                                                duration: track.dt,
+                                                artists: track.ar.map(item => item.name).join(" / "),
+                                                picUrl: this.fixURL(picUrl),
+                                                pop: track.pop
+                                            };
+                                        })
                                     })
-                                })
-                                cb(null, {
-                                    code: data.code,
-                                    coverImgUrl: data.playlist.coverImgUrl,
-                                    name: data.playlist.name,
-                                    tracks: data.playlist.tracks.map(track => {
-                                        const picUrl = track.al.picUrl;
-                                        return {
-                                            name: track.name,
-                                            id: track.id,
-                                            duration: track.dt,
-                                            artists: track.ar.map(item => item.name).join(" / "),
-                                            picUrl: (picUrl)? picUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : picUrl,
-                                            pop: track.pop
-                                        };
-                                    })
-                                })
-                            }
-                        })
+                                }
+                            });
+                        }
                     },
                     getMusicURL: (params, cb) => {
-                        request({
-                            url: `${this.NeteaseCloudMusicApi}/song/url?id=${params.id}`,
-                            method: 'get',
-                            crossOrigin: true,
-                            error: (err) => {
-                                this.setServer(err)
-                                require.ensure([], function(require) {
-                                    var mockData = require('./mockData');
-                                    cb(null, mockData.musicURL.find(item => item.id == params.id))
-                                });
-                            },
-                            success: (data) => {
-                                this.setServer()
-                                const musicUrl = data.data[0].url;
-                                console.log({
-                                    code: data.code,
-                                    ...data.data[0],
-                                    url: (musicUrl)? musicUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : musicUrl
-                                })
-                                cb(null, {
-                                    code: data.code,
-                                    ...data.data[0],
-                                    url: (musicUrl)? musicUrl.replace(/(http:\/\/)|(https:\/\/)/, "//") : musicUrl
-                                })
-                            }
-                        })
+                        if(this.dataSource == '0') {
+                            require.ensure([], function(require) {
+                                var mockData = require('./mockData');
+                                cb(null, mockData.musicURL.find(item => item.id == params.id))
+                            });
+                        } else {
+                            request({
+                                url: `${this.NeteaseCloudMusicApi}/song/url?id=${params.id}`,
+                                method: 'get',
+                                crossOrigin: true,
+                                error: (err) => {
+                                    this.showAlert('music url', err)
+                                },
+                                success: (data) => {
+                                    const musicUrl = data.data[0].url;
+                                    cb(null, {
+                                        code: data.code,
+                                        ...data.data[0],
+                                        url: this.fixURL(musicUrl)
+                                    });
+                                }
+                            });
+                        }
                     },
                     getLyric: (params, cb) => {
-                        request({
-                            url: `${this.NeteaseCloudMusicApi}/Lyric/url?id=${params.id}`,
-                            method: 'get',
-                            crossOrigin: true,
-                            error: (err) => {
-                                this.setServer(err)
-                                require.ensure([], function(require) {
-                                    var mockData = require('./mockData');
-                                    cb(null, mockData.lyric.find(item => item.id == params.id))
-                                });
-                            },
-                            success: (data) => {
-                                this.setServer()
-                                cb(null, {
-                                    ...data
-                                })
-                            }
-                        })
+                        if(this.dataSource == '0') {
+                            require.ensure([], function(require) {
+                                var mockData = require('./mockData');
+                                cb(null, mockData.lyric.find(item => item.id == params.id))
+                            });
+                        } else {
+                            request({
+                                url: `${this.NeteaseCloudMusicApi}/lyric/url?id=${params.id}`,
+                                method: 'get',
+                                crossOrigin: true,
+                                error: (err) => {
+                                    this.showAlert('lyric', err)
+                                },
+                                success: (data) => {
+                                    cb(null, {
+                                        ...data
+                                    });
+                                }
+                            })
+                        }
                     }
                 },
-                playlist: defaultPlaylist,
                 playlistInput: defaultPlaylist,
+                playlist: defaultPlaylist,
+                dataSourceInput: '0',
+                dataSource: '0',
                 NeteaseCloudMusicApiInput: defaultNeteaseCloudMusicApi,
                 NeteaseCloudMusicApi: defaultNeteaseCloudMusicApi,
                 maxHeight: 0,
@@ -142,23 +123,19 @@
             setConfig() {
                 this.playlist = this.playlistInput;
                 this.NeteaseCloudMusicApi = this.NeteaseCloudMusicApiInput;
-                this.serverStatus = {
-                    ...initServerStatus
-                }
+                this.dataSource = this.dataSourceInput;
+                this.compKey = Date.now();
             },
             playerResize() {
                 this.maxHeight = window.innerHeight / 2;
                 this.maxWidth = (window.innerWidth < 1000) ? window.innerWidth : 1000;
             },
-            setServer(err) {
-                if(err) {
-                    console.log(err)
-                    this.serverStatus.color = 'red'
-                    this.serverStatus.text = '链接失败，使用MOCK数据'
-                } else {
-                    this.serverStatus.color = 'green'
-                    this.serverStatus.text = '链接成功'
-                }
+            showAlert(target, err) {
+                console.log(err)
+                alert(`请求${target}失败，请检查本地是否启动NeteaseCloudMusicApi或服务地址配置是否正确！`)
+            },
+            fixURL(url) {
+                return (url)? url.replace(/(http|https):\/\//, "//") : url
             }
         }
     }

@@ -1,8 +1,8 @@
 export default {
     playlist: {
         "code": 200,
-        "coverImgUrl": "http://p2.music.126.net/zEnklGFAPEW_YXWaD_3MlQ==/18778559092618066.jpg",
-        "name": "MOCK数据",
+        "coverImgUrl": "//p2.music.126.net/zEnklGFAPEW_YXWaD_3MlQ==/18778559092618066.jpg",
+        "name": "仿真数据",
         "tracks": [
             {
                 "name": "天空之城",
@@ -26,7 +26,7 @@ export default {
         {
             "code": 200,
             "id": 461519950,
-            "url": "https://music.163.com/song/media/outer/url?id=461519950.mp3",
+            "url": "//music.163.com/song/media/outer/url?id=461519950.mp3",
             "br": 128000,
             "type": "mp3",
             "gain": 0,
@@ -43,7 +43,7 @@ export default {
         {
             "code": 200,
             "id": 28561109,
-            "url": "https://music.163.com/song/media/outer/url?id=28561109.mp3",
+            "url": "//music.163.com/song/media/outer/url?id=28561109.mp3",
             "br": 128000,
             "size": 14252452,
             "md5": "9ebd367f60e756a503108b5497f0b605",

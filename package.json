@@ -16,6 +16,7 @@
     "scripts": {
         "start": "cross-env NODE_ENV=development port=8081 node ./example/server/",
         "build": "cross-env NODE_ENV=production webpack --config ./webpack.config",
+        "public": "cross-env NODE_ENV=production webpack --config ./example/webpack.example-prod.config",
         "lint": "cross-env NODE_ENV=development eslint --ext .js,.vue ./src"
     },
     "keywords": [

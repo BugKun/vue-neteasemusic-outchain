@@ -1,50 +1,52 @@
 ﻿const path = require('path'),
     threadLoader = require('thread-loader'),
-    VueLoaderPlugin = require('vue-loader/lib/plugin'),
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin"),
     UglifyJsPlugin = require("uglifyjs-webpack-plugin"),
     CleanWebpackPlugin = require('clean-webpack-plugin'),
-    pkg = require('./package.json');
-
+    VueLoaderPlugin = require('vue-loader/lib/plugin'),
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    webpackConfig = require('../webpack.config'),
+    pkg = require('../package.json');
 
 
 threadLoader.warmup({}, [
     'vue-loader',
     'babel-loader',
-    'less-loader',
-    'css-loader',
-    'postcss-loader',
+    'vue-style-loader',
     'svg-inline-loader',
+    'less-loader',
+    'postcss-loader',
+    'css-loader',
     'url-loader'
 ]);
+
 
 module.exports = {
     mode: 'production',
     entry: {
-        [pkg.name]: [path.resolve(__dirname, './src/index.js')]
+        example: path.resolve(__dirname, './src/index.js')
     },
     output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: '[name].js',
-        libraryTarget: 'umd',
-        library: '[name]'
+        path: path.resolve('./public/'),
+        publicPath: '/demo-page/neteasemusic-player/',
+        filename: '[name].js'
     },
-    externals: {
-        'vue': {
-            root: 'Vue',
-            commonjs: 'vue',
-            commonjs2: 'vue',
-            amd: 'vue'
-        }
-    },
+    devtool: 'source-map',
     resolve: {
-        modules: [path.resolve(__dirname, './src'), 'node_modules'],
+        modules: [
+            path.resolve(__dirname, './src'),
+            'node_modules'
+        ],
         alias: {
-            Utils: path.resolve(__dirname, './src/utils'),
-            Services: path.resolve(__dirname, './src/services'),
-            Icons: path.resolve(__dirname, './src/icons'),
-        }
+            ...webpackConfig.resolve.alias,
+            [pkg.name]: path.join(__dirname, '../src/index.js?hot=true'),
+            [`${pkg.name}/src`]: path.join(__dirname, '../src')
+        },
+        extensions: [
+            '.vue',
+            '.js'
+        ]
     },
     optimization: {
         minimizer: [
@@ -88,17 +90,17 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
                     'thread-loader',
+                    'vue-style-loader',
                     'css-loader',
-                    'postcss-loader',
+                    'postcss-loader'
                 ]
             },
             {
                 test: /\.less$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
                     'thread-loader',
+                    'vue-style-loader',
                     'css-loader',
                     'postcss-loader',
                     {
@@ -131,13 +133,16 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: "[name].css"
+        new MiniCssExtractPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, './src/index.html'),
+            title: `${pkg.name} demo`,
+            hash: true
         }),
         new CleanWebpackPlugin(
-            ["dist"],
+            ["public"],
             {
-                root: __dirname,
+                root: path.resolve('./'),
                 verbose: true,
                 dry: false
             }
